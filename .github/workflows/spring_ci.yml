@@ -28,6 +28,7 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
       with:
+        repository: DayByQuest/backend
         token: ${{ secrets.PRIVATE_KEY }}
     
     - name: Set up JDK 17
