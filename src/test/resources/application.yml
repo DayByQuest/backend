@@ -1,0 +1,16 @@
+server:
+  port: 8081
+
+logging:
+  level:
+    root: debug
+
+spring:
+  jpa:
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        format_sql: true
+        default_batch_fetch_size: 1000
