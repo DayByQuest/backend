@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OwnerId implements Serializable {
+public class OwningId implements Serializable {
 
     private Long badge;
 
