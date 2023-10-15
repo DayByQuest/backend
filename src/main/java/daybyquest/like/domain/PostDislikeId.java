@@ -1,13 +1,13 @@
-package daybyquest.post.domain;
+package daybyquest.like.domain;
 
 import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostLikeId implements Serializable {
+public class PostDislikeId implements Serializable {
 
-    private Long post;
+    private Long postId;
 
     private Long userId;
 
