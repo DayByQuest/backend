@@ -1,9 +1,9 @@
 package daybyquest.post.domain;
 
-public enum PostLinkState {
+public enum PostState {
 
     SUCCESS,
-    CHECK_NEED,
+    NEED_CHECK,
     FAIL,
     NOT_DECIDED;
 }

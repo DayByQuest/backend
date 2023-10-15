@@ -3,5 +3,6 @@ package daybyquest.quest.domain;
 public enum QuestState {
     ACTIVE,
     DELETED,
-    LOCKED;
+    LOCKED,
+    NEED_LABEL
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -18,7 +19,6 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -35,8 +35,14 @@ public class Post {
     @Column(nullable = false)
     private Long userId;
 
+    private Long questId;
+
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @Column(nullable = false, length = 10)
+    @Enumerated(EnumType.STRING)
+    private PostState state;
 
     private String content;
 
@@ -47,14 +53,13 @@ public class Post {
 
     private boolean deleted;
 
-    @Enumerated
-    private PostLink link;
 
     public Post(Long userId, Long questId, String content, List<Image> images, boolean deleted) {
         this.userId = userId;
+        this.questId = questId;
         this.content = content;
         this.images = images;
         this.deleted = deleted;
-        this.link = new PostLink(questId);
+        this.state = PostState.NOT_DECIDED;
     }
 }
