@@ -17,10 +17,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
-@IdClass(OwnerId.class)
+@IdClass(OwningId.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class Owner {
+public class Owning {
 
     @Id
     @ManyToOne(fetch = LAZY)
@@ -32,7 +32,7 @@ public class Owner {
     @CreatedDate
     private LocalDateTime acquiredAt;
 
-    public Owner(Badge badge, Long userId) {
+    public Owning(Badge badge, Long userId) {
         this.badge = badge;
         this.userId = userId;
     }

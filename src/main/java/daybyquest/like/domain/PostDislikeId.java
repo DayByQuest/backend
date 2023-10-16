@@ -1,14 +1,13 @@
-package daybyquest.owner.domain;
-
+package daybyquest.like.domain;
 
 import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OwnerId implements Serializable {
+public class PostDislikeId implements Serializable {
 
-    private Long badge;
+    private Long postId;
 
     private Long userId;
 
