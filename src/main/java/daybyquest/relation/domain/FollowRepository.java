@@ -1,4 +1,4 @@
-package daybyquest.follow.domain;
+package daybyquest.relation.domain;
 
 import org.springframework.data.repository.Repository;
 
