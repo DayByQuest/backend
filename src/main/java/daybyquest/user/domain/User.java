@@ -81,4 +81,14 @@ public class User {
             throw new InvalidDomainException();
         }
     }
+
+    public void updateUsername(final String username) {
+        this.username = username;
+        validateUsername();
+    }
+
+    public void updateName(final String name) {
+        this.name = name;
+        validateName();
+    }
 }
