@@ -1,4 +1,4 @@
-package daybyquest.follow.domain;
+package daybyquest.relation.domain;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@IdClass(FollowId.class)
-public class Follow {
+@IdClass(BlockId.class)
+public class Block {
 
     @Id
     private Long userId;
@@ -20,7 +20,7 @@ public class Follow {
     @Id
     private Long targetId;
 
-    public Follow(Long userId, Long targetId) {
+    public Block(Long userId, Long targetId) {
         this.userId = userId;
         this.targetId = targetId;
     }

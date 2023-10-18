@@ -9,4 +9,8 @@ public interface UserRepository extends Repository<User, Long> {
 
     Optional<User> findById(Long id);
 
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
+
 }

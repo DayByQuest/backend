@@ -4,3 +4,6 @@ server:
 logging:
   level:
     root: info
+
+profile:
+  base-image-url: base.png
