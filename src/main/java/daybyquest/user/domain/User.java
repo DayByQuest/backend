@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
-
     private static final int MAX_USERNAME_LENGTH = 15;
 
     private static final int MAX_NAME_LENGTH = 20;

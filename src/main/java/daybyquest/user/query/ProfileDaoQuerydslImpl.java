@@ -47,4 +47,32 @@ public class ProfileDaoQuerydslImpl implements ProfileDao {
         }
         return profile;
     }
+
+
+    @Override
+    public Profile getMine(final Long userId) {
+        final Profile profile = factory
+            .select(Projections.constructor(Profile.class,
+                user.id,
+                user.username,
+                user.name,
+                user.image.imageUrl,
+                JPAExpressions.select(post.count())
+                    .from(post)
+                    .where(post.userId.eq(userId)),
+                JPAExpressions.select(follow.count())
+                    .from(follow)
+                    .where(follow.userId.eq(userId)),
+                JPAExpressions.select(follow.count())
+                    .from(follow)
+                    .where(follow.targetId.eq(userId))
+            ))
+            .from(user)
+            .where(user.id.eq(userId))
+            .fetchOne();
+        if (profile == null) {
+            throw new NotExistUserException();
+        }
+        return profile;
+    }
 }

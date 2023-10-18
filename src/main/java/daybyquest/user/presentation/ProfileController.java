@@ -2,7 +2,9 @@ package daybyquest.user.presentation;
 
 import daybyquest.auth.Authorization;
 import daybyquest.auth.UserId;
+import daybyquest.user.application.GetMyProfileService;
 import daybyquest.user.application.GetProfileByUsernameService;
+import daybyquest.user.dto.response.MyProfileResponse;
 import daybyquest.user.dto.response.ProfileResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +16,12 @@ public class ProfileController {
 
     private final GetProfileByUsernameService getProfileByUsernameService;
 
-    public ProfileController(final GetProfileByUsernameService getProfileByUsernameService) {
+    private final GetMyProfileService getMyProfileService;
+
+    public ProfileController(final GetProfileByUsernameService getProfileByUsernameService,
+        final GetMyProfileService getMyProfileService) {
         this.getProfileByUsernameService = getProfileByUsernameService;
+        this.getMyProfileService = getMyProfileService;
     }
 
     @GetMapping("/profile/{username}")
@@ -26,4 +32,10 @@ public class ProfileController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/profile")
+    @Authorization(required = false)
+    public ResponseEntity<MyProfileResponse> getMyProfile(@UserId final Long loginId) {
+        final MyProfileResponse response = getMyProfileService.invoke(loginId);
+        return ResponseEntity.ok(response);
+    }
 }
