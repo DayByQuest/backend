@@ -21,6 +21,7 @@ public enum ExceptionCode {
     // User
     NOT_EXIST_USER("USR-00", BAD_REQUEST, "사용자가 존재하지 않습니다"),
     DUPLICATED_USERNAME("USR-01", BAD_REQUEST, "이미 존재하는 사용자 이름 입니다"),
+    DUPLICATED_EMAIL("USR-02", BAD_REQUEST, "이미 존재하는 이메일 입니다"),
 
     // Post
     NOT_EXIST_POST("POT-00", BAD_REQUEST, "게시물이 존재하지 않습니다"),
