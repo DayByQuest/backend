@@ -1,8 +1,5 @@
 package daybyquest.auth;
 
-import static daybyquest.global.error.ExceptionCode.INVALID_REQUEST;
-
-import daybyquest.global.error.exception.BadRequestException;
 import jakarta.annotation.Nonnull;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -14,8 +11,6 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final static String AUTHORIZATION_HEADER = "Authorization";
 
-    private final static String AUTHORIZATION_HEADER_PREFIX = "UserId ";
-
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(UserId.class) &&
@@ -26,10 +21,10 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(@Nonnull MethodParameter parameter, ModelAndViewContainer mavContainer,
         @Nonnull NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         final String header = webRequest.getHeader(AUTHORIZATION_HEADER);
-        if (header == null || !header.startsWith(AUTHORIZATION_HEADER_PREFIX)) {
-            throw new BadRequestException(INVALID_REQUEST);
+        final String userId = AuthorizationHeaderExtractor.extract(header);
+        if (userId == null) {
+            return -1L;
         }
-        final String userId = header.substring(AUTHORIZATION_HEADER_PREFIX.length());
         return Long.valueOf(userId);
     }
 

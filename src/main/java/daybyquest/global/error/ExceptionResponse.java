@@ -3,7 +3,9 @@ package daybyquest.global.error;
 import daybyquest.global.error.exception.CustomException;
 import java.util.Collections;
 import java.util.List;
+import lombok.Getter;
 
+@Getter
 public class ExceptionResponse {
 
     private final String code;

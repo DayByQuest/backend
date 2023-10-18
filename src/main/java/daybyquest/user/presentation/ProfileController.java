@@ -1,5 +1,6 @@
 package daybyquest.user.presentation;
 
+import daybyquest.auth.Authorization;
 import daybyquest.auth.UserId;
 import daybyquest.user.application.GetProfileByUsernameService;
 import daybyquest.user.dto.response.ProfileResponse;
@@ -18,6 +19,7 @@ public class ProfileController {
     }
 
     @GetMapping("/profile/{username}")
+    @Authorization(required = false)
     public ResponseEntity<ProfileResponse> getProfileByUsername(@UserId final Long loginId,
         @PathVariable final String username) {
         final ProfileResponse response = getProfileByUsernameService.invoke(loginId, username);
