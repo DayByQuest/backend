@@ -4,6 +4,7 @@ import daybyquest.user.domain.Profile;
 import daybyquest.user.dto.response.ProfileResponse;
 import daybyquest.user.query.ProfileDao;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GetProfileByUsernameService {
@@ -14,6 +15,7 @@ public class GetProfileByUsernameService {
         this.profileDao = profileDao;
     }
 
+    @Transactional(readOnly = true)
     public ProfileResponse invoke(final Long loginId, final String username) {
         final Profile profile = profileDao.getByUsername(loginId, username);
         return ProfileResponse.of(profile);
