@@ -5,4 +5,8 @@ public enum UserState {
     MODERATOR,
     ADMIN,
     DELETED;
+
+    public boolean canUpdate() {
+        return this == USER || this == MODERATOR;
+    }
 }
