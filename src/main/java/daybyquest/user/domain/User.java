@@ -134,4 +134,9 @@ public class User {
             throw new InvalidDomainException();
         }
     }
+
+    public void updateImage(Image image) {
+        validateUpdatable();
+        this.image = image;
+    }
 }
