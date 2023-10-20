@@ -1,4 +1,4 @@
-package daybyquest.global.vo;
+package daybyquest.image.vo;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 public class Image {
 
     @Column(nullable = false)
-    private String imageUrl;
+    private String imageIdentifier;
 
-    public Image(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public Image(String imageIdentifier) {
+        this.imageIdentifier = imageIdentifier;
     }
 
     @Override
@@ -26,12 +26,12 @@ public class Image {
             return false;
         }
         final Image image = (Image) o;
-        return this.imageUrl.equals(image.imageUrl);
+        return this.imageIdentifier.equals(image.imageIdentifier);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(imageUrl);
+        return Objects.hashCode(imageIdentifier);
     }
 
 }

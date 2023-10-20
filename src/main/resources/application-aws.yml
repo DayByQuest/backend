@@ -1,0 +1,6 @@
+aws:
+  credentials:
+    access-key: ${AWS_ACCESS}
+    secret-key: ${AWS_SECRET}
+  region: ap-northeast-2
+  bucket: ${AWS_BUCKET}

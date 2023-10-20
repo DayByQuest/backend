@@ -20,8 +20,9 @@ public class MyProfileResponse {
 
     private Long followerCount;
 
-    private MyProfileResponse(final String username, final String name, final String imageUrl, final Long postCount,
-        final Long followingCount, final Long followerCount) {
+    private MyProfileResponse(final String username, final String name, final String imageUrl,
+            final Long postCount,
+            final Long followingCount, final Long followerCount) {
         this.username = username;
         this.name = name;
         this.imageUrl = imageUrl;
@@ -30,8 +31,8 @@ public class MyProfileResponse {
         this.followerCount = followerCount;
     }
 
-    public static MyProfileResponse of(final Profile profile) {
-        return new MyProfileResponse(profile.getUsername(), profile.getName(), profile.getImageUrl(),
-            profile.getPostCount(), profile.getFollowingCount(), profile.getFollowerCount());
+    public static MyProfileResponse of(final Profile profile, final String publicImageUrl) {
+        return new MyProfileResponse(profile.getUsername(), profile.getName(), publicImageUrl,
+                profile.getPostCount(), profile.getFollowingCount(), profile.getFollowerCount());
     }
 }

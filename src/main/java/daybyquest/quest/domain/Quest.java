@@ -3,7 +3,7 @@ package daybyquest.quest.domain;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import daybyquest.global.vo.Image;
+import daybyquest.image.vo.Image;
 import daybyquest.interest.domain.Interest;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -77,8 +77,8 @@ public class Quest {
     private List<Image> images;
 
     private Quest(Long groupId, Long userId, Long badgeId, Interest interest, String title, String content,
-        QuestCategory category, Long rewardCount, LocalDateTime expiredAt, QuestState state,
-        String imageDescription, List<Image> images) {
+            QuestCategory category, Long rewardCount, LocalDateTime expiredAt, QuestState state,
+            String imageDescription, List<Image> images) {
         this.groupId = groupId;
         this.userId = userId;
         this.badgeId = badgeId;
@@ -93,16 +93,18 @@ public class Quest {
         this.images = images;
     }
 
-    public static Quest createNormalQuest(Long userId, Long badgeId, Interest interest, String title, String content,
-        Long rewardCount, String imageDescription, List<Image> images) {
+    public static Quest createNormalQuest(Long userId, Long badgeId, Interest interest, String title,
+            String content,
+            Long rewardCount, String imageDescription, List<Image> images) {
         return new Quest(null, userId, badgeId, interest, title, content, QuestCategory.NORMAL, rewardCount
-            , null, QuestState.NEED_LABEL, imageDescription, images);
+                , null, QuestState.NEED_LABEL, imageDescription, images);
     }
 
-    public static Quest createGroupQuest(Long groupId, Long userId, Interest interest, String title, String content,
-        LocalDateTime expiredAt, String imageDescription, List<Image> images) {
+    public static Quest createGroupQuest(Long groupId, Long userId, Interest interest, String title,
+            String content,
+            LocalDateTime expiredAt, String imageDescription, List<Image> images) {
         return new Quest(groupId, userId, null, interest, title, content, QuestCategory.GROUP, null
-            , expiredAt, QuestState.NEED_LABEL, imageDescription, images);
+                , expiredAt, QuestState.NEED_LABEL, imageDescription, images);
     }
 
 }

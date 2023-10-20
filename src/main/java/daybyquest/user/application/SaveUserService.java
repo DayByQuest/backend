@@ -1,10 +1,10 @@
 package daybyquest.user.application;
 
-import daybyquest.global.vo.Image;
+import daybyquest.image.vo.BaseImageProperties;
+import daybyquest.image.vo.Image;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.UserRepository;
 import daybyquest.user.dto.request.SaveUserRequest;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,14 +15,14 @@ public class SaveUserService {
 
     private final UserValidator validator;
 
-    private final String baseImageUrl;
+    private final BaseImageProperties baseImageProperties;
 
 
     public SaveUserService(final UserRepository userRepository,
-        final UserValidator validator, @Value("${profile.base-image-url}") final String baseImageUrl) {
+            final UserValidator validator, final BaseImageProperties baseImageProperties) {
         this.userRepository = userRepository;
         this.validator = validator;
-        this.baseImageUrl = baseImageUrl;
+        this.baseImageProperties = baseImageProperties;
     }
 
     @Transactional
@@ -35,6 +35,6 @@ public class SaveUserService {
 
     private User toEntity(final SaveUserRequest request) {
         return new User(request.getUsername(), request.getEmail(), request.getName(),
-            new Image(baseImageUrl));
+                new Image(baseImageProperties.getUserIdentifier()));
     }
 }
