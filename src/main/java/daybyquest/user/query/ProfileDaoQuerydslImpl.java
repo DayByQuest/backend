@@ -24,24 +24,24 @@ public class ProfileDaoQuerydslImpl implements ProfileDao {
     @Override
     public Profile getByUsername(final Long userId, final String username) {
         final Profile profile = factory
-            .select(Projections.constructor(Profile.class,
-                user.id,
-                user.username,
-                user.name,
-                user.image.imageUrl,
-                JPAExpressions.select(post.count())
-                    .from(post)
-                    .where(post.userId.eq(userId)),
-                JPAExpressions.selectFrom(follow)
-                    .where(follow.userId.eq(userId).and(follow.targetId.eq(user.id)))
-                    .exists(),
-                JPAExpressions.selectFrom(block)
-                    .where(block.userId.eq(userId).and(block.targetId.eq(user.id)))
-                    .exists()
-            ))
-            .from(user)
-            .where(user.username.eq(username))
-            .fetchOne();
+                .select(Projections.constructor(Profile.class,
+                        user.id,
+                        user.username,
+                        user.name,
+                        user.image.imageIdentifier,
+                        JPAExpressions.select(post.count())
+                                .from(post)
+                                .where(post.userId.eq(userId)),
+                        JPAExpressions.selectFrom(follow)
+                                .where(follow.userId.eq(userId).and(follow.targetId.eq(user.id)))
+                                .exists(),
+                        JPAExpressions.selectFrom(block)
+                                .where(block.userId.eq(userId).and(block.targetId.eq(user.id)))
+                                .exists()
+                ))
+                .from(user)
+                .where(user.username.eq(username))
+                .fetchOne();
         if (profile == null) {
             throw new NotExistUserException();
         }
@@ -52,24 +52,24 @@ public class ProfileDaoQuerydslImpl implements ProfileDao {
     @Override
     public Profile getMine(final Long userId) {
         final Profile profile = factory
-            .select(Projections.constructor(Profile.class,
-                user.id,
-                user.username,
-                user.name,
-                user.image.imageUrl,
-                JPAExpressions.select(post.count())
-                    .from(post)
-                    .where(post.userId.eq(userId)),
-                JPAExpressions.select(follow.count())
-                    .from(follow)
-                    .where(follow.userId.eq(userId)),
-                JPAExpressions.select(follow.count())
-                    .from(follow)
-                    .where(follow.targetId.eq(userId))
-            ))
-            .from(user)
-            .where(user.id.eq(userId))
-            .fetchOne();
+                .select(Projections.constructor(Profile.class,
+                        user.id,
+                        user.username,
+                        user.name,
+                        user.image.imageIdentifier,
+                        JPAExpressions.select(post.count())
+                                .from(post)
+                                .where(post.userId.eq(userId)),
+                        JPAExpressions.select(follow.count())
+                                .from(follow)
+                                .where(follow.userId.eq(userId)),
+                        JPAExpressions.select(follow.count())
+                                .from(follow)
+                                .where(follow.targetId.eq(userId))
+                ))
+                .from(user)
+                .where(user.id.eq(userId))
+                .fetchOne();
         if (profile == null) {
             throw new NotExistUserException();
         }

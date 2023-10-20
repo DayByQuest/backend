@@ -30,8 +30,8 @@ public class UpdateUserImageService {
         final String uuid = UUID.randomUUID().toString();
         final String identifier = uuid + file.getOriginalFilename();
         try {
-            final String imageUrl = userImages.upload(identifier, file.getInputStream());
-            user.updateImage(new Image(imageUrl));
+            userImages.upload(identifier, file.getInputStream());
+            user.updateImage(new Image(identifier));
         } catch (IOException e) {
             throw new InvalidFileException();
         }

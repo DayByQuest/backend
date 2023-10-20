@@ -22,6 +22,6 @@ public class GetProfileByUsernameService {
     @Transactional(readOnly = true)
     public ProfileResponse invoke(final Long loginId, final String username) {
         final Profile profile = profileDao.getByUsername(loginId, username);
-        return ProfileResponse.of(profile, userImages.getPublicUrl(profile.getImageUrl()));
+        return ProfileResponse.of(profile, userImages.getPublicUrl(profile.getImageIdentifier()));
     }
 }

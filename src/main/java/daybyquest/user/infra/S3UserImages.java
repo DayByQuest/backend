@@ -30,7 +30,7 @@ public class S3UserImages implements UserImages {
     }
 
     @Override
-    public String upload(final String identifier, final InputStream imageStream) {
+    public void upload(final String identifier, final InputStream imageStream) {
         try {
             final String identifierWithFolderName = FOLDER_NAME + "/" + identifier;
             final ObjectMetadata metadata = new ObjectMetadata();
@@ -39,17 +39,16 @@ public class S3UserImages implements UserImages {
                     bucket, identifierWithFolderName, imageStream, metadata
             );
             amazonS3.putObject(putObjectRequest);
-            return identifier;
         } catch (IOException e) {
             throw new InvalidFileException();
         }
     }
 
     @Override
-    public String getPublicUrl(final String privateUrl) {
+    public String getPublicUrl(final String identifier) {
         final long expirationLong = System.currentTimeMillis() + PUBLIC_URL_EXPIRATION;
         final Date expiration = new Date(expirationLong);
-        final String key = FOLDER_NAME + "/" + privateUrl;
+        final String key = FOLDER_NAME + "/" + identifier;
         final GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket, key)
                 .withMethod(HttpMethod.GET)
                 .withExpiration(expiration);

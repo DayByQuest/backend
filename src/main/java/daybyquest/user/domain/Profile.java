@@ -11,7 +11,7 @@ public class Profile {
 
     private final String name;
 
-    private final String imageUrl;
+    private final String imageIdentifier;
 
     private final Long postCount;
 
@@ -24,13 +24,13 @@ public class Profile {
     private final Long followerCount;
 
 
-    private Profile(final Long id, final String username, final String name, final String imageUrl,
-        final Long postCount, final boolean following, final boolean blocking, final Long followingCount,
-        final Long followerCount) {
+    private Profile(final Long id, final String username, final String name, final String imageIdentifier,
+            final Long postCount, final boolean following, final boolean blocking, final Long followingCount,
+            final Long followerCount) {
         this.id = id;
         this.username = username;
         this.name = name;
-        this.imageUrl = imageUrl;
+        this.imageIdentifier = imageIdentifier;
         this.postCount = postCount;
         this.following = following;
         this.blocking = blocking;
@@ -38,14 +38,14 @@ public class Profile {
         this.followerCount = followerCount;
     }
 
-    public Profile(final Long id, final String username, final String name, final String imageUrl,
-        final Long postCount,
-        final boolean following, final boolean blocking) {
-        this(id, username, name, imageUrl, postCount, following, blocking, 0L, 0L);
+    public Profile(final Long id, final String username, final String name, final String imageIdentifier,
+            final Long postCount,
+            final boolean following, final boolean blocking) {
+        this(id, username, name, imageIdentifier, postCount, following, blocking, 0L, 0L);
     }
 
-    public Profile(final Long id, final String username, final String name, final String imageUrl,
-        final Long postCount, final Long followingCount, final Long followerCount) {
-        this(id, username, name, imageUrl, postCount, false, false, followingCount, followerCount);
+    public Profile(final Long id, final String username, final String name, final String imageIdentifier,
+            final Long postCount, final Long followingCount, final Long followerCount) {
+        this(id, username, name, imageIdentifier, postCount, false, false, followingCount, followerCount);
     }
 }

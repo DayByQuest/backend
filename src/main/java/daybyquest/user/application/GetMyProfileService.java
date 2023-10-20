@@ -22,6 +22,6 @@ public class GetMyProfileService {
     @Transactional(readOnly = true)
     public MyProfileResponse invoke(final Long loginId) {
         final Profile profile = profileDao.getMine(loginId);
-        return MyProfileResponse.of(profile, userImages.getPublicUrl(profile.getImageUrl()));
+        return MyProfileResponse.of(profile, userImages.getPublicUrl(profile.getImageIdentifier()));
     }
 }
