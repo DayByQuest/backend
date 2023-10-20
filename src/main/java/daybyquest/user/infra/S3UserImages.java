@@ -39,7 +39,7 @@ public class S3UserImages implements UserImages {
                     bucket, identifierWithFolderName, imageStream, metadata
             );
             amazonS3.putObject(putObjectRequest);
-            return amazonS3.getUrl(bucket, identifier).toString();
+            return identifier;
         } catch (IOException e) {
             throw new InvalidFileException();
         }
@@ -49,7 +49,8 @@ public class S3UserImages implements UserImages {
     public String getPublicUrl(final String privateUrl) {
         final long expirationLong = System.currentTimeMillis() + PUBLIC_URL_EXPIRATION;
         final Date expiration = new Date(expirationLong);
-        final GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket, privateUrl)
+        final String key = FOLDER_NAME + "/" + privateUrl;
+        final GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket, key)
                 .withMethod(HttpMethod.GET)
                 .withExpiration(expiration);
         return amazonS3.generatePresignedUrl(request).toString();

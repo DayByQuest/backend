@@ -20,8 +20,9 @@ public class ProfileResponse {
 
     private boolean blocking;
 
-    private ProfileResponse(final String username, final String name, final String imageUrl, final Long postCount,
-        final boolean following, final boolean blocking) {
+    private ProfileResponse(final String username, final String name, final String imageUrl,
+            final Long postCount,
+            final boolean following, final boolean blocking) {
         this.username = username;
         this.name = name;
         this.imageUrl = imageUrl;
@@ -30,8 +31,8 @@ public class ProfileResponse {
         this.blocking = blocking;
     }
 
-    public static ProfileResponse of(final Profile profile) {
-        return new ProfileResponse(profile.getUsername(), profile.getName(), profile.getImageUrl(),
-            profile.getPostCount(), profile.isFollowing(), profile.isBlocking());
+    public static ProfileResponse of(final Profile profile, final String publicImageUrl) {
+        return new ProfileResponse(profile.getUsername(), profile.getName(), publicImageUrl,
+                profile.getPostCount(), profile.isFollowing(), profile.isBlocking());
     }
 }
