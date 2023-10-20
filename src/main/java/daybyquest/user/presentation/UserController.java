@@ -3,6 +3,7 @@ package daybyquest.user.presentation;
 import daybyquest.auth.Authorization;
 import daybyquest.auth.UserId;
 import daybyquest.user.application.SaveUserService;
+import daybyquest.user.application.UpdateUserImageService;
 import daybyquest.user.application.UpdateUserInterestService;
 import daybyquest.user.application.UpdateUserService;
 import daybyquest.user.application.UpdateVisibilityService;
@@ -15,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class UserController {
@@ -28,13 +31,17 @@ public class UserController {
 
     private final UpdateUserInterestService updateUserInterestService;
 
+    private final UpdateUserImageService updateUserImageService;
+
     public UserController(final SaveUserService saveUserService, final UpdateUserService updateUserService,
-        final UpdateVisibilityService updateVisibilityService,
-        final UpdateUserInterestService updateUserInterestService) {
+            final UpdateVisibilityService updateVisibilityService,
+            final UpdateUserInterestService updateUserInterestService,
+            final UpdateUserImageService updateUserImageService) {
         this.saveUserService = saveUserService;
         this.updateUserService = updateUserService;
         this.updateVisibilityService = updateVisibilityService;
         this.updateUserInterestService = updateUserInterestService;
+        this.updateUserImageService = updateUserImageService;
     }
 
     @PostMapping("/profile")
@@ -46,7 +53,7 @@ public class UserController {
     @PatchMapping("/profile")
     @Authorization
     public ResponseEntity<Void> updateUser(@UserId final Long loginId,
-        @RequestBody @Valid final UpdateUserRequest request) {
+            @RequestBody @Valid final UpdateUserRequest request) {
         updateUserService.invoke(loginId, request);
         return ResponseEntity.ok().build();
     }
@@ -54,7 +61,7 @@ public class UserController {
     @PatchMapping("/profile/visibility")
     @Authorization
     public ResponseEntity<Void> updateUserVisibility(@UserId final Long loginId,
-        @RequestBody @Valid final UpdateUserVisibilityRequest request) {
+            @RequestBody @Valid final UpdateUserVisibilityRequest request) {
         updateVisibilityService.invoke(loginId, request);
         return ResponseEntity.ok().build();
     }
@@ -62,8 +69,16 @@ public class UserController {
     @PatchMapping("/profile/interest")
     @Authorization
     public ResponseEntity<Void> updateUserInterests(@UserId final Long loginId,
-        @RequestBody @Valid final UpdateUserInterestRequest request) {
+            @RequestBody @Valid final UpdateUserInterestRequest request) {
         updateUserInterestService.invoke(loginId, request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/profile/image")
+    @Authorization
+    public ResponseEntity<Void> updateUserImage(@UserId final Long loginId,
+            @RequestPart("image") final MultipartFile multipartFile) {
+        updateUserImageService.invoke(loginId, multipartFile);
         return ResponseEntity.ok().build();
     }
 }

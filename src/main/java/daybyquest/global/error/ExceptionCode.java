@@ -18,6 +18,8 @@ public enum ExceptionCode {
 
     BAD_AUTHORIZATION("GLO-03", FORBIDDEN, "권한이 없습니다"),
 
+    INVALID_FILE("GLO-04", FORBIDDEN, "파일 오류 입니다"),
+
     // User
     NOT_EXIST_USER("USR-00", BAD_REQUEST, "사용자가 존재하지 않습니다"),
     DUPLICATED_USERNAME("USR-01", BAD_REQUEST, "이미 존재하는 사용자 이름 입니다"),

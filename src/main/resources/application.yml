@@ -6,6 +6,7 @@ spring:
       local:
         - data
         - web
+        - aws
       prod:
       performance:
     default: local
