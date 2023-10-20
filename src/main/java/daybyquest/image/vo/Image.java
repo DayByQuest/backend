@@ -1,4 +1,4 @@
-package daybyquest.global.vo;
+package daybyquest.image.vo;
 
 import static lombok.AccessLevel.PROTECTED;
 

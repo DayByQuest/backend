@@ -4,19 +4,15 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import daybyquest.global.vo.Image;
+import daybyquest.image.vo.Image;
 import daybyquest.interest.domain.Interest;
 import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -2,7 +2,7 @@ package daybyquest.post.domain;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import daybyquest.global.vo.Image;
+import daybyquest.image.vo.Image;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;

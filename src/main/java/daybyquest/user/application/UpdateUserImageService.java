@@ -1,7 +1,7 @@
 package daybyquest.user.application;
 
 import daybyquest.global.error.exception.InvalidFileException;
-import daybyquest.global.vo.Image;
+import daybyquest.image.vo.Image;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.UserImages;
 import daybyquest.user.domain.UserRepository;

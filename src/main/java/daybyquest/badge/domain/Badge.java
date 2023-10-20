@@ -2,8 +2,7 @@ package daybyquest.badge.domain;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import daybyquest.global.vo.Image;
-import jakarta.persistence.AttributeOverride;
+import daybyquest.image.vo.Image;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

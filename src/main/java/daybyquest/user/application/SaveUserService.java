@@ -1,6 +1,6 @@
 package daybyquest.user.application;
 
-import daybyquest.global.vo.Image;
+import daybyquest.image.vo.Image;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.UserRepository;
 import daybyquest.user.dto.request.SaveUserRequest;
@@ -19,7 +19,7 @@ public class SaveUserService {
 
 
     public SaveUserService(final UserRepository userRepository,
-        final UserValidator validator, @Value("${profile.base-image-url}") final String baseImageUrl) {
+            final UserValidator validator, @Value("${profile.base-image-url}") final String baseImageUrl) {
         this.userRepository = userRepository;
         this.validator = validator;
         this.baseImageUrl = baseImageUrl;
@@ -35,6 +35,6 @@ public class SaveUserService {
 
     private User toEntity(final SaveUserRequest request) {
         return new User(request.getUsername(), request.getEmail(), request.getName(),
-            new Image(baseImageUrl));
+                new Image(baseImageUrl));
     }
 }
