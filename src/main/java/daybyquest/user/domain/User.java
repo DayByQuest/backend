@@ -75,6 +75,10 @@ public class User {
         validate();
     }
 
+    public String getImageIdentifier() {
+        return image.getImageIdentifier();
+    }
+
     private void validate() {
         validateUsername();
         validateName();

@@ -5,8 +5,9 @@ logging:
   level:
     root: info
 
-profile:
-  base-image-url: base.png
+image:
+  base:
+    user-identifier: base.png
 
 spring:
   servlet:

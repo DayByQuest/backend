@@ -6,5 +6,8 @@ public interface UserImages {
 
     void upload(final String identifier, final InputStream image);
 
-    String getPublicUrl(final String indentifier);
+
+    void remove(final String identifier);
+
+    String getPublicUrl(final String identifier);
 }
