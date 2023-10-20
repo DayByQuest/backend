@@ -27,11 +27,13 @@ public class UpdateUserImageService {
     @Transactional
     public void invoke(final Long loginId, final MultipartFile file) {
         final User user = userRepository.getById(loginId);
+        final String oldIdentifier = user.getImageIdentifier();
         final String uuid = UUID.randomUUID().toString();
         final String identifier = uuid + file.getOriginalFilename();
         try {
             userImages.upload(identifier, file.getInputStream());
             user.updateImage(new Image(identifier));
+            userImages.remove(oldIdentifier);
         } catch (IOException e) {
             throw new InvalidFileException();
         }
