@@ -1,53 +1,31 @@
 package daybyquest.user.infra;
 
-import com.amazonaws.HttpMethod;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import daybyquest.global.error.exception.InvalidFileException;
+import daybyquest.global.s3.S3Images;
 import daybyquest.image.vo.BaseImageProperties;
 import daybyquest.user.domain.UserImages;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class S3UserImages implements UserImages {
 
-    private static final String FOLDER_NAME = "USER";
+    private static final String CATEGORY_NAME = "USER";
 
-    private static final long PUBLIC_URL_EXPIRATION = 1000 * 60 * 2;
+    private static final long PUBLIC_URL_EXPIRATION = 1000 * 60 * 60;
 
-    private final AmazonS3 amazonS3;
-
-    private final String bucket;
+    private final S3Images s3Images;
 
     private final BaseImageProperties baseImageProperties;
 
-    public S3UserImages(final AmazonS3 amazonS3, @Value("${aws.bucket}") final String bucket,
-            final BaseImageProperties baseImageProperties) {
-        this.amazonS3 = amazonS3;
-        this.bucket = bucket;
+    public S3UserImages(final S3Images s3Images, final BaseImageProperties baseImageProperties) {
+        this.s3Images = s3Images;
         this.baseImageProperties = baseImageProperties;
     }
 
     @Override
     public void upload(final String identifier, final InputStream imageStream) {
-        try {
-            final String key = FOLDER_NAME + "/" + identifier;
-            final ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(imageStream.available());
-            final PutObjectRequest putObjectRequest = new PutObjectRequest(
-                    bucket, key, imageStream, metadata
-            );
-            amazonS3.putObject(putObjectRequest);
-        } catch (IOException e) {
-            throw new InvalidFileException();
-        }
+        s3Images.upload(CATEGORY_NAME, identifier, imageStream);
     }
 
     @Override
@@ -55,19 +33,13 @@ public class S3UserImages implements UserImages {
         if (identifier.equals(baseImageProperties.getUserIdentifier())) {
             return;
         }
-        final String key = FOLDER_NAME + "/" + identifier;
-        final DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, key);
-        amazonS3.deleteObject(deleteObjectRequest);
+        s3Images.remove(CATEGORY_NAME, identifier);
     }
 
     @Override
     public String getPublicUrl(final String identifier) {
         final long expirationLong = System.currentTimeMillis() + PUBLIC_URL_EXPIRATION;
         final Date expiration = new Date(expirationLong);
-        final String key = FOLDER_NAME + "/" + identifier;
-        final GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket, key)
-                .withMethod(HttpMethod.GET)
-                .withExpiration(expiration);
-        return amazonS3.generatePresignedUrl(request).toString();
+        return s3Images.getPublicUrl(CATEGORY_NAME, identifier, expiration);
     }
 }
