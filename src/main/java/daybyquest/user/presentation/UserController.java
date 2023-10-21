@@ -2,6 +2,7 @@ package daybyquest.user.presentation;
 
 import daybyquest.auth.Authorization;
 import daybyquest.auth.UserId;
+import daybyquest.user.application.DeleteUserImageService;
 import daybyquest.user.application.SaveUserService;
 import daybyquest.user.application.UpdateUserImageService;
 import daybyquest.user.application.UpdateUserInterestService;
@@ -13,6 +14,7 @@ import daybyquest.user.dto.request.UpdateUserRequest;
 import daybyquest.user.dto.request.UpdateUserVisibilityRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,15 +35,19 @@ public class UserController {
 
     private final UpdateUserImageService updateUserImageService;
 
+    private final DeleteUserImageService deleteUserImageService;
+
     public UserController(final SaveUserService saveUserService, final UpdateUserService updateUserService,
             final UpdateVisibilityService updateVisibilityService,
             final UpdateUserInterestService updateUserInterestService,
-            final UpdateUserImageService updateUserImageService) {
+            final UpdateUserImageService updateUserImageService,
+            final DeleteUserImageService deleteUserImageService) {
         this.saveUserService = saveUserService;
         this.updateUserService = updateUserService;
         this.updateVisibilityService = updateVisibilityService;
         this.updateUserInterestService = updateUserInterestService;
         this.updateUserImageService = updateUserImageService;
+        this.deleteUserImageService = deleteUserImageService;
     }
 
     @PostMapping("/profile")
@@ -79,6 +85,13 @@ public class UserController {
     public ResponseEntity<Void> updateUserImage(@UserId final Long loginId,
             @RequestPart("image") final MultipartFile multipartFile) {
         updateUserImageService.invoke(loginId, multipartFile);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/profile/image")
+    @Authorization
+    public ResponseEntity<Void> deleteUserImage(@UserId final Long loginId) {
+        deleteUserImageService.invoke(loginId);
         return ResponseEntity.ok().build();
     }
 }
