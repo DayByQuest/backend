@@ -1,11 +1,9 @@
-package daybyquest.user.application;
+package daybyquest.user.domain;
 
 import static daybyquest.global.error.ExceptionCode.DUPLICATED_EMAIL;
 import static daybyquest.global.error.ExceptionCode.DUPLICATED_USERNAME;
 
 import daybyquest.global.error.exception.BadRequestException;
-import daybyquest.user.domain.User;
-import daybyquest.user.domain.UserRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
