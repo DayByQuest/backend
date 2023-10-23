@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class FollowService {
+public class SaveFollowService {
 
     private final Users users;
 
     private final Follows follows;
 
-    public FollowService(final Users users, final Follows follows) {
+    public SaveFollowService(final Users users, final Follows follows) {
         this.users = users;
         this.follows = follows;
     }
