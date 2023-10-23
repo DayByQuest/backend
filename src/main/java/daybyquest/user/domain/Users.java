@@ -1,22 +1,37 @@
-package daybyquest.user.application;
+package daybyquest.user.domain;
 
 import static daybyquest.global.error.ExceptionCode.DUPLICATED_EMAIL;
 import static daybyquest.global.error.ExceptionCode.DUPLICATED_USERNAME;
 
 import daybyquest.global.error.exception.BadRequestException;
-import daybyquest.user.domain.User;
-import daybyquest.user.domain.UserRepository;
+import daybyquest.global.error.exception.NotExistUserException;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Transactional(readOnly = true)
-public class UserValidator {
+public class Users {
 
     private final UserRepository userRepository;
 
-    public UserValidator(final UserRepository userRepository) {
+    public Users(final UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public User save(final User user) {
+        return userRepository.save(user);
+    }
+
+    public User getById(final Long id) {
+        return userRepository.findById(id).orElseThrow(NotExistUserException::new);
+    }
+
+    public User getByUsername(final String username) {
+        return userRepository.findByUsername(username).orElseThrow(NotExistUserException::new);
+    }
+
+    void validateExistentById(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new NotExistUserException();
+        }
     }
 
     public void validateUniqueness(final User user) {
