@@ -4,7 +4,7 @@ import daybyquest.global.error.exception.InvalidFileException;
 import daybyquest.image.vo.Image;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.UserImages;
-import daybyquest.user.domain.UserRepository;
+import daybyquest.user.domain.Users;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -17,19 +17,18 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class UpdateUserImageService {
 
-    private final UserRepository userRepository;
+    private final Users users;
 
     private final UserImages userImages;
 
-    public UpdateUserImageService(final UserRepository userRepository,
-            final UserImages userImages) {
-        this.userRepository = userRepository;
+    public UpdateUserImageService(final Users users, final UserImages userImages) {
+        this.users = users;
         this.userImages = userImages;
     }
 
     @Transactional
     public void invoke(final Long loginId, final MultipartFile file) {
-        final User user = userRepository.getById(loginId);
+        final User user = users.getById(loginId);
         final String oldIdentifier = user.getImageIdentifier();
         final String identifier = createIdentifier(file.getOriginalFilename());
         userImages.upload(identifier, getInputStream(file));

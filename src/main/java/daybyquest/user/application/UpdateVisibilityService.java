@@ -1,8 +1,8 @@
 package daybyquest.user.application;
 
 import daybyquest.user.domain.User;
-import daybyquest.user.domain.UserRepository;
 import daybyquest.user.domain.UserVisibility;
+import daybyquest.user.domain.Users;
 import daybyquest.user.dto.request.UpdateUserVisibilityRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,15 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UpdateVisibilityService {
 
-    private final UserRepository userRepository;
+    private final Users users;
 
-    public UpdateVisibilityService(final UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UpdateVisibilityService(final Users users) {
+        this.users = users;
     }
 
     @Transactional
     public void invoke(final Long loginId, final UpdateUserVisibilityRequest visibility) {
-        final User user = userRepository.getById(loginId);
+        final User user = users.getById(loginId);
         user.updateVisibility(UserVisibility.valueOf(visibility.getVisibility()));
     }
 }
