@@ -2,8 +2,9 @@ package daybyquest.relation.domain;
 
 import org.springframework.data.repository.Repository;
 
-public interface FollowRepository extends Repository<Follow, FollowId> {
+interface FollowRepository extends Repository<Follow, FollowId> {
 
-    Follow save(Follow follow);
+    Follow save(final Follow follow);
 
+    boolean existsByUserIdAndTargetId(final Long userId, final Long targetId);
 }
