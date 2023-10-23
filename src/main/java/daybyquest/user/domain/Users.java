@@ -12,11 +12,12 @@ public class Users {
 
     private final UserRepository userRepository;
 
-    public Users(final UserRepository userRepository) {
+    Users(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public User save(final User user) {
+        validateUniqueness(user);
         return userRepository.save(user);
     }
 
@@ -28,7 +29,11 @@ public class Users {
         return userRepository.findByUsername(username).orElseThrow(NotExistUserException::new);
     }
 
-    void validateExistentById(Long id) {
+    public Long getUserIdByUsername(final String username) {
+        return getByUsername(username).getId();
+    }
+
+    public void validateExistentById(final Long id) {
         if (!userRepository.existsById(id)) {
             throw new NotExistUserException();
         }

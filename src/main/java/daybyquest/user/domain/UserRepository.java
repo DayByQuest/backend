@@ -5,16 +5,16 @@ import org.springframework.data.repository.Repository;
 
 interface UserRepository extends Repository<User, Long> {
 
-    User save(User user);
+    User save(final User user);
 
-    Optional<User> findById(Long id);
+    Optional<User> findById(final Long id);
 
-    Optional<User> findByUsername(String username);
+    Optional<User> findByUsername(final String username);
 
-    boolean existsById(Long id);
+    boolean existsById(final Long id);
 
-    boolean existsByUsername(String username);
+    boolean existsByUsername(final String username);
 
-    boolean existsByEmail(String email);
+    boolean existsByEmail(final String email);
 
 }

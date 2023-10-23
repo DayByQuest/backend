@@ -23,7 +23,6 @@ public class SaveUserService {
     @Transactional
     public Long invoke(final SaveUserRequest request) {
         final User user = toEntity(request);
-        users.validateUniqueness(user);
         final User savedUser = users.save(user);
         return savedUser.getId();
     }
