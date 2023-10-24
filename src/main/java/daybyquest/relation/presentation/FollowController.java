@@ -4,6 +4,7 @@ import daybyquest.auth.Authorization;
 import daybyquest.auth.UserId;
 import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.relation.application.DeleteFollowService;
+import daybyquest.relation.application.DeleteFollowerService;
 import daybyquest.relation.application.GetFollowersService;
 import daybyquest.relation.application.GetFollowingsService;
 import daybyquest.relation.application.SaveFollowService;
@@ -22,15 +23,18 @@ public class FollowController {
 
     private final DeleteFollowService deleteFollowService;
 
+    private final DeleteFollowerService deleteFollowerService;
+
     private final GetFollowersService getFollowersService;
 
     private final GetFollowingsService getFollowingsService;
 
     public FollowController(final SaveFollowService saveFollowService,
-            final DeleteFollowService deleteFollowService, final GetFollowersService getFollowersService,
-            final GetFollowingsService getFollowingsService) {
+            final DeleteFollowService deleteFollowService, final DeleteFollowerService deleteFollowerService,
+            final GetFollowersService getFollowersService, final GetFollowingsService getFollowingsService) {
         this.saveFollowService = saveFollowService;
         this.deleteFollowService = deleteFollowService;
+        this.deleteFollowerService = deleteFollowerService;
         this.getFollowersService = getFollowersService;
         this.getFollowingsService = getFollowingsService;
     }
@@ -48,6 +52,14 @@ public class FollowController {
     public ResponseEntity<Void> deleteFollow(@UserId final Long loginId,
             @PathVariable final String username) {
         deleteFollowService.invoke(loginId, username);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/profile/{username}/follower")
+    @Authorization
+    public ResponseEntity<Void> deleteFollower(@UserId final Long loginId,
+            @PathVariable final String username) {
+        deleteFollowerService.invoke(loginId, username);
         return ResponseEntity.ok().build();
     }
 
