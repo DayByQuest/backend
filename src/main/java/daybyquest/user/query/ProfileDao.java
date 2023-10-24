@@ -1,6 +1,5 @@
 package daybyquest.user.query;
 
-import daybyquest.user.domain.Profile;
 import java.util.Collection;
 import java.util.List;
 
