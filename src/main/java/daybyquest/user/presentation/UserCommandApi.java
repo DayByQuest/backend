@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-public class UserController {
+public class UserCommandApi {
 
     private final SaveUserService saveUserService;
 
@@ -37,7 +37,7 @@ public class UserController {
 
     private final DeleteUserImageService deleteUserImageService;
 
-    public UserController(final SaveUserService saveUserService, final UpdateUserService updateUserService,
+    public UserCommandApi(final SaveUserService saveUserService, final UpdateUserService updateUserService,
             final UpdateVisibilityService updateVisibilityService,
             final UpdateUserInterestService updateUserInterestService,
             final UpdateUserImageService updateUserImageService,

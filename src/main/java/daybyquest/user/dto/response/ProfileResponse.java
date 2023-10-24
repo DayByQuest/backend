@@ -1,6 +1,6 @@
 package daybyquest.user.dto.response;
 
-import daybyquest.user.domain.Profile;
+import daybyquest.user.query.Profile;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

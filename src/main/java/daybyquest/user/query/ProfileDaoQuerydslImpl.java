@@ -10,7 +10,6 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import daybyquest.global.error.exception.NotExistUserException;
-import daybyquest.user.domain.Profile;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.stereotype.Repository;

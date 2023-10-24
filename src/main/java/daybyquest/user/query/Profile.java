@@ -1,4 +1,4 @@
-package daybyquest.user.domain;
+package daybyquest.user.query;
 
 import lombok.Getter;
 
