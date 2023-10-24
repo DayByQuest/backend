@@ -63,7 +63,7 @@ public enum ExceptionCode {
     NOT_EXIST_INTEREST("INT-00", BAD_REQUEST, "존재하지 않는 관심사 입니다"),
 
     // Relationship
-    NOT_FOLLOWING_USER("REL-00", BAD_REQUEST, "팔로우하지 않은 사용자는 취소할 수 없습니다"),
+    NOT_FOLLOWING_USER("REL-00", BAD_REQUEST, "팔로우하지 않은 사용자입니다"),
     NOT_BLOCKING_USER("REL-01", BAD_REQUEST, "차단하지 않은 사용자는 취소할 수 없습니다"),
     ALREADY_FOLLOWING_USER("REL-02", BAD_REQUEST, "이미 팔로우한 사용자입니다"),
     ALREADY_BLOCKING_USER("REL-03", BAD_REQUEST, "이미 차단한 사용자입니다"),
