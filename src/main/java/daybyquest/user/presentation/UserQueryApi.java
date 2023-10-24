@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ProfileController {
+public class UserQueryApi {
 
     private final GetProfileByUsernameService getProfileByUsernameService;
 
     private final GetMyProfileService getMyProfileService;
 
-    public ProfileController(final GetProfileByUsernameService getProfileByUsernameService,
-        final GetMyProfileService getMyProfileService) {
+    public UserQueryApi(final GetProfileByUsernameService getProfileByUsernameService,
+            final GetMyProfileService getMyProfileService) {
         this.getProfileByUsernameService = getProfileByUsernameService;
         this.getMyProfileService = getMyProfileService;
     }
@@ -27,7 +27,7 @@ public class ProfileController {
     @GetMapping("/profile/{username}")
     @Authorization(required = false)
     public ResponseEntity<ProfileResponse> getProfileByUsername(@UserId final Long loginId,
-        @PathVariable final String username) {
+            @PathVariable final String username) {
         final ProfileResponse response = getProfileByUsernameService.invoke(loginId, username);
         return ResponseEntity.ok(response);
     }
