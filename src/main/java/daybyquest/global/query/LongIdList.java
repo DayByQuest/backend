@@ -13,6 +13,9 @@ public class LongIdList {
     }
 
     public Long getLastId() {
+        if (ids.isEmpty()) {
+            return Long.MAX_VALUE;
+        }
         return ids.get(ids.size() - 1);
     }
 }
