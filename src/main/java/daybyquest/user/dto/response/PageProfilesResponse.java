@@ -10,10 +10,10 @@ public class PageProfilesResponse {
 
     private List<ProfileResponse> users;
 
-    private Long nextId;
+    private Long lastId;
 
-    public PageProfilesResponse(final List<ProfileResponse> users, final Long nextId) {
+    public PageProfilesResponse(final List<ProfileResponse> users, final Long lastId) {
         this.users = users;
-        this.nextId = nextId;
+        this.lastId = lastId;
     }
 }

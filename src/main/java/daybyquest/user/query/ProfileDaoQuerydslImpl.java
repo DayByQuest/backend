@@ -87,6 +87,7 @@ public class ProfileDaoQuerydslImpl implements ProfileDao {
                 .select(profileProjection(userId))
                 .from(user)
                 .where(user.id.in(targetIds))
+                .orderBy(user.id.asc())
                 .fetch();
     }
 }
