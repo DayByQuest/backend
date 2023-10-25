@@ -2,8 +2,10 @@ package daybyquest.post.domain;
 
 public enum PostState {
 
+    PREPARING,
     SUCCESS,
     NEED_CHECK,
     FAIL,
-    NOT_DECIDED;
+    NOT_DECIDED,
+    DELETED;
 }

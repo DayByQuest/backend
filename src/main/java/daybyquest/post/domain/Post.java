@@ -1,7 +1,11 @@
 package daybyquest.post.domain;
 
+import static daybyquest.post.domain.PostState.NOT_DECIDED;
+import static daybyquest.post.domain.PostState.PREPARING;
+import static daybyquest.post.domain.PostState.SUCCESS;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.image.vo.Image;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -28,6 +32,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class Post {
 
+    private static final int MAX_IMAGE_SIZE = 5;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -35,6 +41,7 @@ public class Post {
     @Column(nullable = false)
     private Long userId;
 
+    @Column
     private Long questId;
 
     @LastModifiedDate
@@ -51,15 +58,32 @@ public class Post {
     @OrderColumn(name = "order")
     private List<Image> images;
 
-    private boolean deleted;
-
-
-    public Post(Long userId, Long questId, String content, List<Image> images, boolean deleted) {
+    public Post(Long userId, Long questId, String content, List<Image> images) {
         this.userId = userId;
         this.questId = questId;
         this.content = content;
         this.images = images;
-        this.deleted = deleted;
-        this.state = PostState.NOT_DECIDED;
+        this.state = PREPARING;
+        validateImages();
+    }
+
+    private void validateImages() {
+        if (this.images.isEmpty() || this.images.size() > MAX_IMAGE_SIZE) {
+            throw new InvalidDomainException();
+        }
+    }
+
+    public void afterRequestDeciding() {
+        if (this.state != PREPARING || this.images == null) {
+            throw new InvalidDomainException();
+        }
+        this.state = NOT_DECIDED;
+    }
+
+    public void success() {
+        if (this.state != PREPARING && this.state != NOT_DECIDED) {
+            throw new InvalidDomainException();
+        }
+        this.state = SUCCESS;
     }
 }
