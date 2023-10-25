@@ -55,6 +55,19 @@ public class ProfileDaoQuerydslImpl implements ProfileDao {
     }
 
     @Override
+    public Profile getById(final Long userId, final Long targetId) {
+        final Profile profile = factory
+                .select(profileProjection(userId))
+                .from(user)
+                .where(user.id.eq(targetId))
+                .fetchOne();
+        if (profile == null) {
+            throw new NotExistUserException();
+        }
+        return profile;
+    }
+
+    @Override
     public Profile getMine(final Long userId) {
         final Profile profile = factory
                 .select(Projections.constructor(Profile.class,
