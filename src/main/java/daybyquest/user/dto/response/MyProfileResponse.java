@@ -12,7 +12,7 @@ public class MyProfileResponse {
 
     private String name;
 
-    private String imageUrl;
+    private String imageIdentifier;
 
     private Long postCount;
 
@@ -20,19 +20,18 @@ public class MyProfileResponse {
 
     private Long followerCount;
 
-    private MyProfileResponse(final String username, final String name, final String imageUrl,
-            final Long postCount,
-            final Long followingCount, final Long followerCount) {
+    private MyProfileResponse(final String username, final String name, final String imageIdentifier,
+            final Long postCount, final Long followingCount, final Long followerCount) {
         this.username = username;
         this.name = name;
-        this.imageUrl = imageUrl;
+        this.imageIdentifier = imageIdentifier;
         this.postCount = postCount;
         this.followingCount = followingCount;
         this.followerCount = followerCount;
     }
 
-    public static MyProfileResponse of(final Profile profile, final String publicImageUrl) {
-        return new MyProfileResponse(profile.getUsername(), profile.getName(), publicImageUrl,
+    public static MyProfileResponse of(final Profile profile) {
+        return new MyProfileResponse(profile.getUsername(), profile.getName(), profile.getImageIdentifier(),
                 profile.getPostCount(), profile.getFollowingCount(), profile.getFollowerCount());
     }
 }

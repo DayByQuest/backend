@@ -39,7 +39,7 @@ public class UpdateUserImageService {
         final String identifier = generator.generateIdentifier(CATEGORY, file.getOriginalFilename());
         images.upload(identifier, MultipartFileUtils.getInputStream(file));
         user.updateImage(new Image(identifier));
-        if (!properties.isBase(oldIdentifier)) {
+        if (properties.isNotBase(oldIdentifier)) {
             images.remove(oldIdentifier);
         }
     }

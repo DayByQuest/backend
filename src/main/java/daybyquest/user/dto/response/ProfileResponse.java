@@ -31,8 +31,8 @@ public class ProfileResponse {
         this.blocking = blocking;
     }
 
-    public static ProfileResponse of(final Profile profile, final String publicImageUrl) {
-        return new ProfileResponse(profile.getUsername(), profile.getName(), publicImageUrl,
+    public static ProfileResponse of(final Profile profile) {
+        return new ProfileResponse(profile.getUsername(), profile.getName(), profile.getImageIdentifier(),
                 profile.getPostCount(), profile.isFollowing(), profile.isBlocking());
     }
 }
