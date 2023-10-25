@@ -14,4 +14,12 @@ public class BaseImageProperties {
     public BaseImageProperties(final String userIdentifier) {
         this.userIdentifier = userIdentifier;
     }
+
+    public boolean isBase(final String identifier) {
+        return userIdentifier.equals(identifier);
+    }
+
+    public Image getImage() {
+        return new Image(userIdentifier);
+    }
 }
