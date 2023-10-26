@@ -2,6 +2,7 @@ package daybyquest.relation.query;
 
 import static daybyquest.relation.domain.QFollow.follow;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import daybyquest.global.query.LongIdList;
 import daybyquest.global.query.NoOffsetIdPage;
@@ -20,17 +21,25 @@ public class FollowDaoQuerydslImpl implements FollowDao {
     public LongIdList getFollowingIds(final Long userId, final NoOffsetIdPage page) {
         return new LongIdList(factory.select(follow.targetId)
                 .from(follow)
-                .where(follow.userId.eq(userId).and(follow.targetId.gt(page.getLastId())))
+                .where(follow.userId.eq(userId), isTargetIdGtLastId(page.getLastId()))
                 .limit(page.getLimit())
                 .fetch());
+    }
+
+    private BooleanExpression isTargetIdGtLastId(final Long lastId) {
+        return lastId == null ? null : follow.targetId.gt(lastId);
     }
 
     @Override
     public LongIdList getFollowerIds(final Long targetId, final NoOffsetIdPage page) {
         return new LongIdList(factory.select(follow.userId)
                 .from(follow)
-                .where(follow.targetId.eq(targetId).and(follow.userId.gt(page.getLastId())))
+                .where(follow.targetId.eq(targetId), isUserIdGtLastId(page.getLastId()))
                 .limit(page.getLimit())
                 .fetch());
+    }
+
+    private BooleanExpression isUserIdGtLastId(final Long lastId) {
+        return lastId == null ? null : follow.userId.gt(lastId);
     }
 }
