@@ -5,6 +5,7 @@ import static daybyquest.relation.domain.QBlock.block;
 import static daybyquest.relation.domain.QFollow.follow;
 import static daybyquest.user.domain.QUser.user;
 
+import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
@@ -12,6 +13,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import daybyquest.global.error.exception.NotExistUserException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -102,5 +104,14 @@ public class ProfileDaoQuerydslImpl implements ProfileDao {
                 .where(user.id.in(targetIds))
                 .orderBy(user.id.asc())
                 .fetch();
+    }
+
+    @Override
+    public Map<Long, Profile> findMapByUserIdIn(final Long userId, final Collection<Long> targetIds) {
+        return factory
+                .from(user)
+                .where(user.id.in(targetIds))
+                .orderBy(user.id.asc())
+                .transform(GroupBy.groupBy(user.id).as(profileProjection(userId)));
     }
 }
