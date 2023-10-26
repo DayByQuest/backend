@@ -2,6 +2,7 @@ package daybyquest.user.query;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface ProfileDao {
 
@@ -12,4 +13,6 @@ public interface ProfileDao {
     Profile getMine(final Long userId);
 
     List<Profile> findAllByUserIdIn(final Long userId, final Collection<Long> targetIds);
+
+    Map<Long, Profile> findMapByUserIdIn(final Long userId, final Collection<Long> targetIds);
 }
