@@ -8,7 +8,7 @@ public class Posts {
 
     private final PostRepository postRepository;
 
-    public Posts(final PostRepository postRepository) {
+    Posts(final PostRepository postRepository) {
         this.postRepository = postRepository;
     }
 
