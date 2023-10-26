@@ -31,7 +31,7 @@ public class NoOffsetIdPageArgumentResolver implements HandlerMethodArgumentReso
 
     private Long convertAndValidateLastId(String lastId) {
         if (lastId == null) {
-            return 0L;
+            return null;
         }
         if (!NUMBER.matcher(lastId).matches()) {
             throw new BadRequestException();
