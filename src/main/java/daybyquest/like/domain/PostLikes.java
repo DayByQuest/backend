@@ -24,7 +24,6 @@ public class PostLikes {
     }
 
     public void save(final PostLike postLike) {
-        // TODO 중복 검사
         users.validateExistentById(postLike.getUserId());
         posts.validateExistentById(postLike.getPostId());
         validateNotExistent(postLike.getUserId(), postLike.getPostId());
