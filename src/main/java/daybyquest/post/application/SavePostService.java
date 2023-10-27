@@ -7,7 +7,6 @@ import daybyquest.image.vo.Images;
 import daybyquest.post.domain.Post;
 import daybyquest.post.domain.Posts;
 import daybyquest.post.dto.request.SavePostRequest;
-import daybyquest.user.domain.Users;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,17 +17,14 @@ public class SavePostService {
 
     private static final String CATEGORY = "POST";
 
-    private final Users users;
-
     private final Posts posts;
 
     private final Images images;
 
     private final ImageIdentifierGenerator generator;
 
-    public SavePostService(final Users users, final Posts posts, final Images images,
+    public SavePostService(final Posts posts, final Images images,
             final ImageIdentifierGenerator generator) {
-        this.users = users;
         this.posts = posts;
         this.images = images;
         this.generator = generator;
@@ -37,7 +33,6 @@ public class SavePostService {
     @Transactional
     public Long invoke(final Long loginId, final SavePostRequest request,
             final List<MultipartFile> files) {
-        users.validateExistentById(loginId);
         final Post post = toEntity(loginId, request, toImageList(files));
         return posts.save(post);
     }

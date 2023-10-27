@@ -1,12 +1,13 @@
 package daybyquest.like.domain;
 
-import java.util.Optional;
 import org.springframework.data.repository.Repository;
 
-public interface PostLikeRepository extends Repository<PostLike, PostLikeId> {
+interface PostLikeRepository extends Repository<PostLike, PostLikeId> {
 
-    PostLike save(PostLike postLike);
+    PostLike save(final PostLike postLike);
 
-    Optional<PostLike> findByUserIdAndPostId(Long userId, Long postId);
+    boolean existsByUserIdAndPostId(final Long userId, final Long postId);
+
+    void deleteByUserIdAndPostId(final Long userId, final Long postId);
 
 }
