@@ -1,4 +1,4 @@
-package daybyquest.like.domain;
+package daybyquest.dislike.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -1,4 +1,4 @@
-package daybyquest.like.domain;
+package daybyquest.dislike.domain;
 
 import java.io.Serializable;
 import lombok.AccessLevel;

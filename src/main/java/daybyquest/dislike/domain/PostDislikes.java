@@ -1,4 +1,4 @@
-package daybyquest.like.domain;
+package daybyquest.dislike.domain;
 
 import static daybyquest.global.error.ExceptionCode.ALREADY_DISLIKED_POST;
 import static daybyquest.global.error.ExceptionCode.NOT_EXIST_DISLIKE;
