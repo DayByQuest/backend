@@ -35,6 +35,10 @@ public class PostLikes {
         postLikeRepository.deleteByUserIdAndPostId(userId, postId);
     }
 
+    public void deleteByUserIdAndPostIdWithoutValidation(final Long userId, final Long postId) {
+        postLikeRepository.deleteByUserIdAndPostId(userId, postId);
+    }
+
     private void validateNotExistent(final Long userId, final Long postId) {
         if (postLikeRepository.existsByUserIdAndPostId(userId, postId)) {
             throw new InvalidDomainException(ALREADY_LIKED_POST);
