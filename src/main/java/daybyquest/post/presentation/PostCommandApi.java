@@ -16,8 +16,15 @@ public class PostCommandApi {
 
     private final SavePostService savePostService;
 
-    public PostCommandApi(final SavePostService savePostService) {
+    private final SwipePostService swipePostService;
+
+    private final GetPostService getPostService;
+
+    public PostCommandApi(final SavePostService savePostService, final SwipePostService swipePostService,
+            final GetPostService getPostService) {
         this.savePostService = savePostService;
+        this.swipePostService = swipePostService;
+        this.getPostService = getPostService;
     }
 
     @PostMapping("/post")
@@ -26,5 +33,12 @@ public class PostCommandApi {
             @RequestPart List<MultipartFile> files) {
         final Long postId = savePostService.invoke(loginId, request, files);
         return ResponseEntity.ok(postId);
+    }
+
+    @PostMapping("/post/{postId}/swipe")
+    @Authorization
+    public ResponseEntity<Void> swipePost(@UserId final Long loginId, @PathVariable final Long postId) {
+        swipePostService.invoke(loginId, postId);
+        return ResponseEntity.ok().build();
     }
 }
