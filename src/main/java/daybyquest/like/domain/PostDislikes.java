@@ -35,6 +35,10 @@ public class PostDislikes {
         postDislikeRepository.deleteByUserIdAndPostId(userId, postId);
     }
 
+    public void deleteByUserIdAndPostIdWithoutValidation(final Long userId, final Long postId) {
+        postDislikeRepository.deleteByUserIdAndPostId(userId, postId);
+    }
+
     private void validateNotExistent(final Long userId, final Long postId) {
         if (postDislikeRepository.existsByUserIdAndPostId(userId, postId)) {
             throw new InvalidDomainException(ALREADY_DISLIKED_POST);
