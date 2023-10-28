@@ -4,7 +4,7 @@ import daybyquest.global.event.Event;
 import lombok.Getter;
 
 @Getter
-public class PostSwipedEvent extends Event {
+public class PostSwipedEvent implements Event {
 
     private final Long userId;
 
