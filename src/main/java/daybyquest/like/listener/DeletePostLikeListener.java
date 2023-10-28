@@ -2,7 +2,7 @@ package daybyquest.like.listener;
 
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 
-import daybyquest.like.domain.PostDislikedEvent;
+import daybyquest.dislike.domain.PostDislikedEvent;
 import daybyquest.like.domain.PostLikes;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

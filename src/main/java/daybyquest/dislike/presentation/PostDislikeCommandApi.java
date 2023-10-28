@@ -1,9 +1,9 @@
-package daybyquest.like.presentation;
+package daybyquest.dislike.presentation;
 
 import daybyquest.auth.Authorization;
 import daybyquest.auth.UserId;
-import daybyquest.like.application.DeletePostDislikeService;
-import daybyquest.like.application.SavePostDislikeService;
+import daybyquest.dislike.application.DeletePostDislikeService;
+import daybyquest.dislike.application.SavePostDislikeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;

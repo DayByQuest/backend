@@ -1,4 +1,4 @@
-package daybyquest.like.domain;
+package daybyquest.dislike.domain;
 
 import daybyquest.global.event.Event;
 import lombok.Getter;

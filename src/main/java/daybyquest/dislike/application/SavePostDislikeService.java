@@ -1,8 +1,8 @@
-package daybyquest.like.application;
+package daybyquest.dislike.application;
 
-import daybyquest.like.domain.PostDislike;
-import daybyquest.like.domain.PostDislikedEvent;
-import daybyquest.like.domain.PostDislikes;
+import daybyquest.dislike.domain.PostDislike;
+import daybyquest.dislike.domain.PostDislikedEvent;
+import daybyquest.dislike.domain.PostDislikes;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
