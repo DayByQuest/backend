@@ -12,7 +12,7 @@ public class ProfileResponse {
 
     private String name;
 
-    private String imageUrl;
+    private String imageIdentifier;
 
     private Long postCount;
 
@@ -20,12 +20,12 @@ public class ProfileResponse {
 
     private boolean blocking;
 
-    private ProfileResponse(final String username, final String name, final String imageUrl,
+    private ProfileResponse(final String username, final String name, final String imageIdentifier,
             final Long postCount,
             final boolean following, final boolean blocking) {
         this.username = username;
         this.name = name;
-        this.imageUrl = imageUrl;
+        this.imageIdentifier = imageIdentifier;
         this.postCount = postCount;
         this.following = following;
         this.blocking = blocking;
