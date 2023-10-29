@@ -23,17 +23,17 @@ public class PostResponse {
 
     private boolean liked;
 
-    private List<String> images;
+    private List<String> imageIdentifiers;
 
     public PostResponse(final ProfileResponse author, final Long id, final String content,
             final LocalDateTime updatedAt, final boolean liked,
-            final List<String> images) {
+            final List<String> imageIdentifiers) {
         this.author = author;
         this.id = id;
         this.content = content;
         this.updatedAt = updatedAt;
         this.liked = liked;
-        this.images = images;
+        this.imageIdentifiers = imageIdentifiers;
     }
 
     public static PostResponse of(final PostData postData, final Profile profile) {
