@@ -35,4 +35,8 @@ public enum UserFixtures {
         ReflectionTestUtils.setField(user, "id", id);
         return user;
     }
+
+    public Image 프로필_사진() {
+        return new Image(imageIdentifier);
+    }
 }
