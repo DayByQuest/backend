@@ -19,7 +19,7 @@ class CommentResponseConverter {
         this.profileDao = profileDao;
     }
 
-    public List<CommentResponse> convertFromCommentData(final Long loginId,
+    List<CommentResponse> convertFromCommentData(final Long loginId,
             final List<CommentData> commentData) {
         final Set<Long> userIds = commentData.stream().map(CommentData::getUserId)
                 .collect(Collectors.toSet());
