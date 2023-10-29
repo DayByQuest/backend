@@ -14,6 +14,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -72,6 +73,7 @@ public class User {
         this.image = image;
         this.state = UserState.USER;
         this.visibility = UserVisibility.PUBLIC;
+        this.interests = new ArrayList<>();
         validate();
     }
 
