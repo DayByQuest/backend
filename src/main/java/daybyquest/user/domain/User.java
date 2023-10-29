@@ -86,19 +86,19 @@ public class User {
     }
 
     private void validateUsername() {
-        if (this.username.length() > MAX_USERNAME_LENGTH) {
+        if (username.isEmpty() || username.length() > MAX_USERNAME_LENGTH) {
             throw new InvalidDomainException();
         }
     }
 
     private void validateName() {
-        if (this.name.length() > MAX_NAME_LENGTH) {
+        if (name.isEmpty() || name.length() > MAX_NAME_LENGTH) {
             throw new InvalidDomainException();
         }
     }
 
     private void validateEmail() {
-        if (this.email.length() > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.matcher(email).matches()) {
+        if (email.isEmpty() || email.length() > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.matcher(email).matches()) {
             throw new InvalidDomainException();
         }
     }
