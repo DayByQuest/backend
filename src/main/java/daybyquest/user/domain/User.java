@@ -14,6 +14,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -72,6 +73,7 @@ public class User {
         this.image = image;
         this.state = UserState.USER;
         this.visibility = UserVisibility.PUBLIC;
+        this.interests = new ArrayList<>();
         validate();
     }
 
@@ -86,19 +88,19 @@ public class User {
     }
 
     private void validateUsername() {
-        if (this.username.length() > MAX_USERNAME_LENGTH) {
+        if (username.isEmpty() || username.length() > MAX_USERNAME_LENGTH) {
             throw new InvalidDomainException();
         }
     }
 
     private void validateName() {
-        if (this.name.length() > MAX_NAME_LENGTH) {
+        if (name.isEmpty() || name.length() > MAX_NAME_LENGTH) {
             throw new InvalidDomainException();
         }
     }
 
     private void validateEmail() {
-        if (this.email.length() > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.matcher(email).matches()) {
+        if (email.isEmpty() || email.length() > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.matcher(email).matches()) {
             throw new InvalidDomainException();
         }
     }

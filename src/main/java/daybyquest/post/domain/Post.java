@@ -34,6 +34,8 @@ public class Post {
 
     private static final int MAX_IMAGE_SIZE = 5;
 
+    private static final int MAX_CONTENT_SIZE = 500;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -51,6 +53,7 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private PostState state;
 
+    @Column(length = MAX_CONTENT_SIZE)
     private String content;
 
     @ElementCollection
@@ -64,26 +67,40 @@ public class Post {
         this.content = content;
         this.images = images;
         this.state = PREPARING;
+        validateUserId();
         validateImages();
+        validateContent();
+    }
+
+    private void validateUserId() {
+        if (userId == null) {
+            throw new InvalidDomainException();
+        }
     }
 
     private void validateImages() {
-        if (this.images.isEmpty() || this.images.size() > MAX_IMAGE_SIZE) {
+        if (images.isEmpty() || images.size() > MAX_IMAGE_SIZE) {
+            throw new InvalidDomainException();
+        }
+    }
+
+    private void validateContent() {
+        if (content.length() > MAX_CONTENT_SIZE) {
             throw new InvalidDomainException();
         }
     }
 
     public void afterRequestDeciding() {
-        if (this.state != PREPARING || this.images == null) {
+        if (state != PREPARING || images == null) {
             throw new InvalidDomainException();
         }
-        this.state = NOT_DECIDED;
+        state = NOT_DECIDED;
     }
 
     public void success() {
-        if (this.state != PREPARING && this.state != NOT_DECIDED) {
+        if (state != PREPARING && state != NOT_DECIDED) {
             throw new InvalidDomainException();
         }
-        this.state = SUCCESS;
+        state = SUCCESS;
     }
 }

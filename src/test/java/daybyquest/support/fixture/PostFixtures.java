@@ -25,7 +25,7 @@ public enum PostFixtures {
     }
 
     public Post 생성(final Long id, final Long userId, final Long questId) {
-        final Post post = new Post(userId, questId, content, getImages());
+        final Post post = new Post(userId, questId, content, 사진_목록());
         ReflectionTestUtils.setField(post, "id", id);
         return post;
     }
@@ -46,7 +46,7 @@ public enum PostFixtures {
         return 생성(null, user.getId(), null);
     }
 
-    private List<Image> getImages() {
+    public List<Image> 사진_목록() {
         return imageIdentifiers.stream().map(Image::new).toList();
     }
 }
