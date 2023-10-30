@@ -101,7 +101,7 @@ public class PostDaoQuerydslImplTest extends QuerydslTest {
     }
 
     @Test
-    void 컬렉션으로_프로필_맵을_조회한다() {
+    void 컬렉션으로_게시물_리스트를_조회한다() {
         // given
         final User bob = entityManager.merge(BOB.생성());
         final Post post1 = entityManager.merge(POST_1.생성(bob));
