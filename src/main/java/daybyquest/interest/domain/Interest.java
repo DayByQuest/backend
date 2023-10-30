@@ -1,6 +1,8 @@
 package daybyquest.interest.domain;
 
+import daybyquest.image.vo.Image;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
@@ -16,8 +18,11 @@ public class Interest {
     @Column(length = 10)
     private String name;
 
-    public Interest(String name) {
-        this.name = name;
-    }
+    @Embedded
+    private Image image;
 
+    public Interest(final String name, final Image image) {
+        this.name = name;
+        this.image = image;
+    }
 }
