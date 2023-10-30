@@ -4,6 +4,7 @@ import static daybyquest.global.error.ExceptionCode.ALREADY_FOLLOWING_USER;
 import static daybyquest.global.error.ExceptionCode.NOT_FOLLOWING_USER;
 
 import daybyquest.global.error.exception.InvalidDomainException;
+import daybyquest.user.domain.Users;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,11 +12,16 @@ public class Follows {
 
     private final FollowRepository followRepository;
 
-    Follows(final FollowRepository followRepository) {
+    private final Users users;
+
+    Follows(final FollowRepository followRepository, final Users users) {
         this.followRepository = followRepository;
+        this.users = users;
     }
 
     public void save(final Follow follow) {
+        users.validateExistentById(follow.getUserId());
+        users.validateExistentById(follow.getTargetId());
         validateNonExistent(follow);
         followRepository.save(follow);
     }
