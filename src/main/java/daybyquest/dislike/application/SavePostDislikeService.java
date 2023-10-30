@@ -22,7 +22,7 @@ public class SavePostDislikeService {
 
     @Transactional
     public void invoke(final Long loginId, final Long postId) {
-        final PostDislike postDislike = new PostDislike(postId, loginId);
+        final PostDislike postDislike = new PostDislike(loginId, postId);
         postDislikes.save(postDislike);
         publisher.publishEvent(new PostDislikedEvent(loginId, postId));
     }

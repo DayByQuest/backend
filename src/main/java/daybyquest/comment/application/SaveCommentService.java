@@ -17,7 +17,7 @@ public class SaveCommentService {
 
     @Transactional
     public void invoke(final Long loginId, final Long postId, final SaveCommentRequest request) {
-        final Comment comment = new Comment(postId, loginId, request.getContent());
+        final Comment comment = new Comment(loginId, postId, request.getContent());
         comments.save(comment);
     }
 }

@@ -14,14 +14,13 @@ import lombok.NoArgsConstructor;
 public class PostDislike {
 
     @Id
-    private Long postId;
-
-    @Id
     private Long userId;
 
-    public PostDislike(Long postId, Long userId) {
-        this.postId = postId;
-        this.userId = userId;
-    }
+    @Id
+    private Long postId;
 
+    public PostDislike(Long userId, Long postId) {
+        this.userId = userId;
+        this.postId = postId;
+    }
 }
