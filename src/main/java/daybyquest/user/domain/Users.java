@@ -3,7 +3,7 @@ package daybyquest.user.domain;
 import static daybyquest.global.error.ExceptionCode.DUPLICATED_EMAIL;
 import static daybyquest.global.error.ExceptionCode.DUPLICATED_USERNAME;
 
-import daybyquest.global.error.exception.BadRequestException;
+import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.global.error.exception.NotExistUserException;
 import org.springframework.stereotype.Component;
 
@@ -46,13 +46,13 @@ public class Users {
 
     public void validateUniqueUsername(final String username) {
         if (userRepository.existsByUsername(username)) {
-            throw new BadRequestException(DUPLICATED_USERNAME);
+            throw new InvalidDomainException(DUPLICATED_USERNAME);
         }
     }
 
     public void validateUniqueEmail(final String email) {
         if (userRepository.existsByEmail(email)) {
-            throw new BadRequestException(DUPLICATED_EMAIL);
+            throw new InvalidDomainException(DUPLICATED_EMAIL);
         }
     }
 }

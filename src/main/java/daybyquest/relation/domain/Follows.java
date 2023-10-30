@@ -3,7 +3,7 @@ package daybyquest.relation.domain;
 import static daybyquest.global.error.ExceptionCode.ALREADY_FOLLOWING_USER;
 import static daybyquest.global.error.ExceptionCode.NOT_FOLLOWING_USER;
 
-import daybyquest.global.error.exception.BadRequestException;
+import daybyquest.global.error.exception.InvalidDomainException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,13 +22,13 @@ public class Follows {
 
     private void validateNonExistent(final Follow follow) {
         if (followRepository.existsByUserIdAndTargetId(follow.getUserId(), follow.getTargetId())) {
-            throw new BadRequestException(ALREADY_FOLLOWING_USER);
+            throw new InvalidDomainException(ALREADY_FOLLOWING_USER);
         }
     }
 
     public Follow getByUserIdAndTargetId(final Long userId, final Long targetId) {
         return followRepository.findByUserIdAndTargetId(userId, targetId).orElseThrow(
-                () -> new BadRequestException(NOT_FOLLOWING_USER));
+                () -> new InvalidDomainException(NOT_FOLLOWING_USER));
     }
 
     public void delete(final Follow follow) {

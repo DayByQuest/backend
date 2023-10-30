@@ -8,6 +8,7 @@ import static daybyquest.user.domain.QUser.user;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import daybyquest.global.error.exception.NotExistUserException;
@@ -80,12 +81,8 @@ public class ProfileDaoQuerydslImpl implements ProfileDao {
                         JPAExpressions.select(post.count())
                                 .from(post)
                                 .where(post.userId.eq(userId)),
-                        JPAExpressions.select(follow.count())
-                                .from(follow)
-                                .where(follow.userId.eq(userId)),
-                        JPAExpressions.select(follow.count())
-                                .from(follow)
-                                .where(follow.targetId.eq(userId))
+                        Expressions.asBoolean(false),
+                        Expressions.asBoolean(false)
                 ))
                 .from(user)
                 .where(user.id.eq(userId))
