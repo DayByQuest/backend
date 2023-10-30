@@ -21,7 +21,7 @@ public class SavePostLikeService {
 
     @Transactional
     public void invoke(final Long loginId, final Long postId) {
-        final PostLike postLike = new PostLike(postId, loginId);
+        final PostLike postLike = new PostLike(loginId, postId);
         postLikes.save(postLike);
         publisher.publishEvent(new PostLikedEvent(loginId, postId));
     }

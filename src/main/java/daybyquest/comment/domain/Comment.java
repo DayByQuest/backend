@@ -28,10 +28,10 @@ public class Comment {
     private Long id;
 
     @Column(nullable = false)
-    private Long postId;
+    private Long userId;
 
     @Column(nullable = false)
-    private Long userId;
+    private Long postId;
 
     @Column(nullable = false, length = MAX_CONTENT_SIZE)
     private String content;
@@ -39,9 +39,9 @@ public class Comment {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public Comment(Long postId, Long userId, String content) {
-        this.postId = postId;
+    public Comment(Long userId, Long postId, String content) {
         this.userId = userId;
+        this.postId = postId;
         this.content = content;
         validateContent();
     }

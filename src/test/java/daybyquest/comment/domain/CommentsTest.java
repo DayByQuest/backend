@@ -32,10 +32,10 @@ public class CommentsTest {
     void 사용자와_게시물_ID를_검증하고_댓글을_저장한다() {
         // given
         final Long userId = 1L;
-        final Long postId = 1L;
+        final Long postId = 2L;
 
         // when
-        comments.save(댓글_1.생성(postId, userId));
+        comments.save(댓글_1.생성(userId, postId));
 
         // then
         assertAll(() -> {
