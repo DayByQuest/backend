@@ -118,6 +118,19 @@ public class UsersTest {
     }
 
     @Test
+    void 사용자_ID_존재_여부를_검증한다() {
+        // given
+        final Long aliceId = 1L;
+        given(userRepository.existsById(aliceId)).willReturn(true);
+
+        // when
+        users.validateExistentById(aliceId);
+
+        // then
+        verify(userRepository).existsById(aliceId);
+    }
+
+    @Test
     void 사용자_이름_유일성을_검증한다() {
         // given
         given(userRepository.existsByUsername(ALICE.username)).willReturn(true);
