@@ -13,6 +13,6 @@ spring:
         globally_quoted_identifiers: true
         format_sql: true
         default_batch_fetch_size: 1000
-        dialect: org.hibernate.dialect.MariaDB103Dialect
+        dialect: org.hibernate.dialect.MariaDBDialect
     hibernate:
       ddl-auto: update
