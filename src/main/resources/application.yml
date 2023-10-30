@@ -8,5 +8,8 @@ spring:
         - web
         - aws
       prod:
+        - prod-data
+        - web
+        - aws
       performance:
     default: local
