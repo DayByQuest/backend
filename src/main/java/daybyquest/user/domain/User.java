@@ -112,7 +112,7 @@ public class User {
     }
 
     private void validateUpdatable() {
-        if (!this.state.canUpdate()) {
+        if (!isUser()) {
             throw new InvalidDomainException();
         }
     }
@@ -144,5 +144,13 @@ public class User {
     public void updateImage(Image image) {
         validateUpdatable();
         this.image = image;
+    }
+
+    public boolean isUser() {
+        return state == UserState.USER || state == UserState.MODERATOR;
+    }
+
+    public boolean isAdmin() {
+        return state == UserState.ADMIN;
     }
 }

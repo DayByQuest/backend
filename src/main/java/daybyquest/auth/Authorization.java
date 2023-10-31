@@ -11,4 +11,5 @@ public @interface Authorization {
 
     boolean required() default true;
 
+    boolean admin() default false;
 }
