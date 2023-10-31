@@ -3,17 +3,20 @@ package daybyquest.auth;
 import daybyquest.auth.domain.AccessUser;
 import daybyquest.global.error.exception.BadAuthorizationException;
 import java.util.Arrays;
-import org.aspectj.lang.JoinPoint;
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
+@Slf4j
 public class AuthorizationAspect {
 
-    @Before("@annotation(authorization)")
-    public void authorize(final JoinPoint joinPoint, final Authorization authorization) {
+    @Around("@annotation(authorization)")
+    public Object authorize(final ProceedingJoinPoint joinPoint, final Authorization authorization)
+            throws Throwable {
         final AccessUser accessUser = (AccessUser) Arrays.stream(joinPoint.getArgs())
                 .filter(AccessUser.class::isInstance).findFirst()
                 .orElseThrow(BadAuthorizationException::new);
@@ -23,5 +26,6 @@ public class AuthorizationAspect {
         if (authorization.admin() && !accessUser.isAdmin()) {
             throw new BadAuthorizationException();
         }
+        return joinPoint.proceed();
     }
 }

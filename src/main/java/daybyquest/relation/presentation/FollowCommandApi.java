@@ -1,7 +1,7 @@
 package daybyquest.relation.presentation;
 
 import daybyquest.auth.Authorization;
-import daybyquest.auth.UserId;
+import daybyquest.auth.domain.AccessUser;
 import daybyquest.relation.application.DeleteFollowService;
 import daybyquest.relation.application.DeleteFollowerService;
 import daybyquest.relation.application.SaveFollowService;
@@ -30,25 +30,25 @@ public class FollowCommandApi {
 
     @PostMapping("/profile/{username}/follow")
     @Authorization
-    public ResponseEntity<Void> saveFollow(@UserId final Long loginId,
+    public ResponseEntity<Void> saveFollow(final AccessUser accessUser,
             @PathVariable final String username) {
-        saveFollowService.invoke(loginId, username);
+        saveFollowService.invoke(accessUser.getId(), username);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/profile/{username}/follow")
     @Authorization
-    public ResponseEntity<Void> deleteFollow(@UserId final Long loginId,
+    public ResponseEntity<Void> deleteFollow(final AccessUser accessUser,
             @PathVariable final String username) {
-        deleteFollowService.invoke(loginId, username);
+        deleteFollowService.invoke(accessUser.getId(), username);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/profile/{username}/follower")
     @Authorization
-    public ResponseEntity<Void> deleteFollower(@UserId final Long loginId,
+    public ResponseEntity<Void> deleteFollower(final AccessUser accessUser,
             @PathVariable final String username) {
-        deleteFollowerService.invoke(loginId, username);
+        deleteFollowerService.invoke(accessUser.getId(), username);
         return ResponseEntity.ok().build();
     }
 }

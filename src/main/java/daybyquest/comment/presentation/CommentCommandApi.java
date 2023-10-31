@@ -1,7 +1,7 @@
 package daybyquest.comment.presentation;
 
 import daybyquest.auth.Authorization;
-import daybyquest.auth.UserId;
+import daybyquest.auth.domain.AccessUser;
 import daybyquest.comment.application.SaveCommentService;
 import daybyquest.comment.dto.request.SaveCommentRequest;
 import jakarta.validation.Valid;
@@ -22,9 +22,9 @@ public class CommentCommandApi {
 
     @PostMapping("/comment/{postId}")
     @Authorization
-    public ResponseEntity<Void> saveComment(@UserId final Long loginId, @PathVariable final Long postId,
+    public ResponseEntity<Void> saveComment(final AccessUser accessUser, @PathVariable final Long postId,
             @RequestBody @Valid final SaveCommentRequest request) {
-        saveCommentService.invoke(loginId, postId, request);
+        saveCommentService.invoke(accessUser.getId(), postId, request);
         return ResponseEntity.ok().build();
     }
 }

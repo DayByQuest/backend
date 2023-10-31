@@ -1,7 +1,7 @@
 package daybyquest.post.presentation;
 
 import daybyquest.auth.Authorization;
-import daybyquest.auth.UserId;
+import daybyquest.auth.domain.AccessUser;
 import daybyquest.post.application.GetPostService;
 import daybyquest.post.application.SavePostService;
 import daybyquest.post.application.SwipePostService;
@@ -33,18 +33,18 @@ public class PostCommandApi {
 
     @PostMapping("/post")
     @Authorization
-    public ResponseEntity<PostResponse> savePost(@UserId final Long loginId,
+    public ResponseEntity<PostResponse> savePost(final AccessUser accessUser,
             @RequestPart SavePostRequest request,
             @RequestPart List<MultipartFile> files) {
-        final Long postId = savePostService.invoke(loginId, request, files);
-        final PostResponse response = getPostService.invoke(loginId, postId);
+        final Long postId = savePostService.invoke(accessUser.getId(), request, files);
+        final PostResponse response = getPostService.invoke(accessUser.getId(), postId);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/post/{postId}/swipe")
     @Authorization
-    public ResponseEntity<Void> swipePost(@UserId final Long loginId, @PathVariable final Long postId) {
-        swipePostService.invoke(loginId, postId);
+    public ResponseEntity<Void> swipePost(final AccessUser accessUser, @PathVariable final Long postId) {
+        swipePostService.invoke(accessUser.getId(), postId);
         return ResponseEntity.ok().build();
     }
 }

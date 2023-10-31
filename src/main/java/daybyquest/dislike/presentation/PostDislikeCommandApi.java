@@ -1,7 +1,7 @@
 package daybyquest.dislike.presentation;
 
 import daybyquest.auth.Authorization;
-import daybyquest.auth.UserId;
+import daybyquest.auth.domain.AccessUser;
 import daybyquest.dislike.application.DeletePostDislikeService;
 import daybyquest.dislike.application.SavePostDislikeService;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +25,17 @@ public class PostDislikeCommandApi {
 
     @PostMapping("/post/{postId}/dislike")
     @Authorization
-    public ResponseEntity<Void> savePostDislike(@UserId final Long loginId, @PathVariable final Long postId) {
-        savePostDislikeService.invoke(loginId, postId);
+    public ResponseEntity<Void> savePostDislike(final AccessUser accessUser,
+            @PathVariable final Long postId) {
+        savePostDislikeService.invoke(accessUser.getId(), postId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/post/{postId}/dislike")
     @Authorization
-    public ResponseEntity<Void> deletePostDislike(@UserId final Long loginId,
+    public ResponseEntity<Void> deletePostDislike(final AccessUser accessUser,
             @PathVariable final Long postId) {
-        deletePostDislikeService.invoke(loginId, postId);
+        deletePostDislikeService.invoke(accessUser.getId(), postId);
         return ResponseEntity.ok().build();
     }
 }

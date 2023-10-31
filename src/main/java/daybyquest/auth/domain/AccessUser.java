@@ -18,7 +18,7 @@ public class AccessUser {
     }
 
     public static AccessUser ofUser(final Long id) {
-        return new AccessUser(id, Authority.GUEST);
+        return new AccessUser(id, Authority.USER);
     }
 
     public static AccessUser ofAdmin(final Long id) {

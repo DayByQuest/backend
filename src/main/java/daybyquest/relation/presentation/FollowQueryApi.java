@@ -1,7 +1,7 @@
 package daybyquest.relation.presentation;
 
 import daybyquest.auth.Authorization;
-import daybyquest.auth.UserId;
+import daybyquest.auth.domain.AccessUser;
 import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.relation.application.GetFollowersService;
 import daybyquest.relation.application.GetFollowingsService;
@@ -25,17 +25,17 @@ public class FollowQueryApi {
 
     @GetMapping("/followings")
     @Authorization
-    public ResponseEntity<PageProfilesResponse> getFollowings(@UserId final Long loginId,
+    public ResponseEntity<PageProfilesResponse> getFollowings(final AccessUser accessUser,
             final NoOffsetIdPage page) {
-        final PageProfilesResponse response = getFollowingsService.invoke(loginId, page);
+        final PageProfilesResponse response = getFollowingsService.invoke(accessUser.getId(), page);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/followers")
     @Authorization
-    public ResponseEntity<PageProfilesResponse> getFollowers(@UserId final Long loginId,
+    public ResponseEntity<PageProfilesResponse> getFollowers(final AccessUser accessUser,
             final NoOffsetIdPage page) {
-        final PageProfilesResponse response = getFollowersService.invoke(loginId, page);
+        final PageProfilesResponse response = getFollowersService.invoke(accessUser.getId(), page);
         return ResponseEntity.ok(response);
     }
 }

@@ -1,6 +1,8 @@
 package daybyquest.auth;
 
 import daybyquest.auth.domain.AccessUser;
+import daybyquest.global.error.exception.BadAuthorizationException;
+import daybyquest.global.error.exception.NotExistUserException;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
 import jakarta.annotation.Nonnull;
@@ -37,7 +39,12 @@ public class AccessUserArgumentResolver implements HandlerMethodArgumentResolver
     }
 
     private AccessUser convertUserIdToLoginUser(final Long userId) {
-        final User user = users.getById(userId);
+        User user;
+        try {
+            user = users.getById(userId);
+        } catch (NotExistUserException e) {
+            throw new BadAuthorizationException();
+        }
         if (user.isAdmin()) {
             return AccessUser.ofAdmin(userId);
         }

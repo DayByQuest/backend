@@ -1,7 +1,7 @@
 package daybyquest.user.presentation;
 
 import daybyquest.auth.Authorization;
-import daybyquest.auth.UserId;
+import daybyquest.auth.domain.AccessUser;
 import daybyquest.user.application.DeleteUserImageService;
 import daybyquest.user.application.SaveUserService;
 import daybyquest.user.application.UpdateUserImageService;
@@ -58,40 +58,40 @@ public class UserCommandApi {
 
     @PatchMapping("/profile")
     @Authorization
-    public ResponseEntity<Void> updateUser(@UserId final Long loginId,
+    public ResponseEntity<Void> updateUser(final AccessUser accessUser,
             @RequestBody @Valid final UpdateUserRequest request) {
-        updateUserService.invoke(loginId, request);
+        updateUserService.invoke(accessUser.getId(), request);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/profile/visibility")
     @Authorization
-    public ResponseEntity<Void> updateUserVisibility(@UserId final Long loginId,
+    public ResponseEntity<Void> updateUserVisibility(final AccessUser accessUser,
             @RequestBody @Valid final UpdateUserVisibilityRequest request) {
-        updateVisibilityService.invoke(loginId, request);
+        updateVisibilityService.invoke(accessUser.getId(), request);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/profile/interest")
     @Authorization
-    public ResponseEntity<Void> updateUserInterests(@UserId final Long loginId,
+    public ResponseEntity<Void> updateUserInterests(final AccessUser accessUser,
             @RequestBody @Valid final UpdateUserInterestRequest request) {
-        updateUserInterestService.invoke(loginId, request);
+        updateUserInterestService.invoke(accessUser.getId(), request);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/profile/image")
     @Authorization
-    public ResponseEntity<Void> updateUserImage(@UserId final Long loginId,
+    public ResponseEntity<Void> updateUserImage(final AccessUser accessUser,
             @RequestPart("image") final MultipartFile multipartFile) {
-        updateUserImageService.invoke(loginId, multipartFile);
+        updateUserImageService.invoke(accessUser.getId(), multipartFile);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/profile/image")
     @Authorization
-    public ResponseEntity<Void> deleteUserImage(@UserId final Long loginId) {
-        deleteUserImageService.invoke(loginId);
+    public ResponseEntity<Void> deleteUserImage(final AccessUser accessUser) {
+        deleteUserImageService.invoke(accessUser.getId());
         return ResponseEntity.ok().build();
     }
 }
