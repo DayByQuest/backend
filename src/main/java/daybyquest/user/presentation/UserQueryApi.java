@@ -1,7 +1,7 @@
 package daybyquest.user.presentation;
 
 import daybyquest.auth.Authorization;
-import daybyquest.auth.UserId;
+import daybyquest.auth.domain.AccessUser;
 import daybyquest.user.application.GetMyProfileService;
 import daybyquest.user.application.GetProfileByUsernameService;
 import daybyquest.user.dto.response.MyProfileResponse;
@@ -26,16 +26,16 @@ public class UserQueryApi {
 
     @GetMapping("/profile/{username}")
     @Authorization(required = false)
-    public ResponseEntity<ProfileResponse> getProfileByUsername(@UserId final Long loginId,
+    public ResponseEntity<ProfileResponse> getProfileByUsername(final AccessUser accessUser,
             @PathVariable final String username) {
-        final ProfileResponse response = getProfileByUsernameService.invoke(loginId, username);
+        final ProfileResponse response = getProfileByUsernameService.invoke(accessUser.getId(), username);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/profile")
-    @Authorization(required = false)
-    public ResponseEntity<MyProfileResponse> getMyProfile(@UserId final Long loginId) {
-        final MyProfileResponse response = getMyProfileService.invoke(loginId);
+    @Authorization
+    public ResponseEntity<MyProfileResponse> getMyProfile(final AccessUser accessUser) {
+        final MyProfileResponse response = getMyProfileService.invoke(accessUser.getId());
         return ResponseEntity.ok(response);
     }
 }

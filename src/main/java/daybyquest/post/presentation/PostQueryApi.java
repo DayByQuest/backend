@@ -1,7 +1,7 @@
 package daybyquest.post.presentation;
 
 import daybyquest.auth.Authorization;
-import daybyquest.auth.UserId;
+import daybyquest.auth.domain.AccessUser;
 import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.post.application.GetPostByUsernameService;
 import daybyquest.post.application.GetPostFromFollowingService;
@@ -32,24 +32,26 @@ public class PostQueryApi {
 
     @GetMapping("/post/{postId}")
     @Authorization
-    public ResponseEntity<PostResponse> getPost(@UserId final Long loginId, @PathVariable final Long postId) {
-        final PostResponse response = getPostService.invoke(loginId, postId);
+    public ResponseEntity<PostResponse> getPost(final AccessUser accessUser,
+            @PathVariable final Long postId) {
+        final PostResponse response = getPostService.invoke(accessUser.getId(), postId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/feed")
     @Authorization
-    public ResponseEntity<PagePostsResponse> getPostFromFollowings(@UserId final Long loginId,
+    public ResponseEntity<PagePostsResponse> getPostFromFollowings(final AccessUser accessUser,
             final NoOffsetIdPage page) {
-        final PagePostsResponse response = getPostFromFollowingService.invoke(loginId, page);
+        final PagePostsResponse response = getPostFromFollowingService.invoke(accessUser.getId(), page);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/profile/{username}/post")
     @Authorization
-    public ResponseEntity<PagePostsResponse> getPostByUsername(@UserId final Long loginId,
+    public ResponseEntity<PagePostsResponse> getPostByUsername(final AccessUser accessUser,
             @PathVariable final String username, final NoOffsetIdPage page) {
-        final PagePostsResponse response = getPostByUsernameService.invoke(loginId, username, page);
+        final PagePostsResponse response = getPostByUsernameService.invoke(accessUser.getId(), username,
+                page);
         return ResponseEntity.ok(response);
     }
 }

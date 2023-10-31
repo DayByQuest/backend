@@ -1,7 +1,7 @@
 package daybyquest.like.presentation;
 
 import daybyquest.auth.Authorization;
-import daybyquest.auth.UserId;
+import daybyquest.auth.domain.AccessUser;
 import daybyquest.like.application.DeletePostLikeService;
 import daybyquest.like.application.SavePostLikeService;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +25,16 @@ public class PostLikeCommandApi {
 
     @PostMapping("/post/{postId}/like")
     @Authorization
-    public ResponseEntity<Void> savePostLike(@UserId final Long loginId, @PathVariable final Long postId) {
-        savePostLikeService.invoke(loginId, postId);
+    public ResponseEntity<Void> savePostLike(final AccessUser accessUser, @PathVariable final Long postId) {
+        savePostLikeService.invoke(accessUser.getId(), postId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/post/{postId}/like")
     @Authorization
-    public ResponseEntity<Void> deletePostLike(@UserId final Long loginId,
+    public ResponseEntity<Void> deletePostLike(final AccessUser accessUser,
             @PathVariable final Long postId) {
-        deletePostLikeService.invoke(loginId, postId);
+        deletePostLikeService.invoke(accessUser.getId(), postId);
         return ResponseEntity.ok().build();
     }
 }

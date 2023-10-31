@@ -1,7 +1,7 @@
 package daybyquest.comment.presentation;
 
 import daybyquest.auth.Authorization;
-import daybyquest.auth.UserId;
+import daybyquest.auth.domain.AccessUser;
 import daybyquest.comment.application.GetCommentsByPostIdService;
 import daybyquest.comment.dto.response.PageCommentsResponse;
 import daybyquest.global.query.NoOffsetIdPage;
@@ -21,9 +21,10 @@ public class CommentQueryApi {
 
     @GetMapping("/comment/{postId}")
     @Authorization
-    public ResponseEntity<PageCommentsResponse> getCommentsByPostId(@UserId final Long userId,
+    public ResponseEntity<PageCommentsResponse> getCommentsByPostId(final AccessUser accessUser,
             @PathVariable final Long postId, final NoOffsetIdPage page) {
-        final PageCommentsResponse response = getCommentsByPostIdService.invoke(userId, postId, page);
+        final PageCommentsResponse response = getCommentsByPostIdService.invoke(accessUser.getId(), postId,
+                page);
         return ResponseEntity.ok(response);
     }
 }

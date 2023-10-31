@@ -21,8 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import daybyquest.global.config.WebMvcConfig;
+import daybyquest.support.test.ApiTest;
 import daybyquest.user.application.DeleteUserImageService;
 import daybyquest.user.application.SaveUserService;
 import daybyquest.user.application.UpdateUserImageService;
@@ -36,23 +35,15 @@ import daybyquest.user.dto.request.UpdateUserRequest;
 import daybyquest.user.dto.request.UpdateUserVisibilityRequest;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.multipart.MultipartFile;
 
-@WebMvcTest({UserCommandApi.class})
-@Import({WebMvcConfig.class})
-@AutoConfigureRestDocs
-public class UserCommandApiTest {
+public class UserCommandApiTest extends ApiTest {
 
     @MockBean
     private SaveUserService saveUserService;
@@ -71,12 +62,6 @@ public class UserCommandApiTest {
 
     @MockBean
     private DeleteUserImageService deleteUserImageService;
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Test
     void 회원가입을_한다() throws Exception {
