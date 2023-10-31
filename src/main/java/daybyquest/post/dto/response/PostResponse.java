@@ -1,5 +1,7 @@
 package daybyquest.post.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import daybyquest.image.vo.Image;
 import daybyquest.post.query.PostData;
 import daybyquest.user.dto.response.ProfileResponse;
@@ -19,6 +21,7 @@ public class PostResponse {
 
     private String content;
 
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime updatedAt;
 
     private boolean liked;
