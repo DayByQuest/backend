@@ -3,7 +3,7 @@ package daybyquest.quest.domain;
 import java.util.Optional;
 import org.springframework.data.repository.Repository;
 
-public interface QuestRepository extends Repository<Quest, Long> {
+interface QuestRepository extends Repository<Quest, Long> {
 
     Quest save(Quest quest);
 
