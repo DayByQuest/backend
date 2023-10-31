@@ -17,18 +17,18 @@ import lombok.NoArgsConstructor;
 public class Participant {
 
     @Id
-    private Long questId;
+    private Long userId;
 
     @Id
-    private Long userId;
+    private Long questId;
 
     @Column(nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     private ParticipantState state;
 
-    public Participant(Long questId, Long userId) {
-        this.questId = questId;
+    public Participant(Long userId, Long questId) {
         this.userId = userId;
+        this.questId = questId;
         this.state = ParticipantState.DOING;
     }
 }

@@ -5,8 +5,9 @@ import org.springframework.data.repository.Repository;
 
 interface QuestRepository extends Repository<Quest, Long> {
 
-    Quest save(Quest quest);
+    Quest save(final Quest quest);
 
-    Optional<Quest> findById(Long id);
+    Optional<Quest> findById(final Long id);
 
+    boolean existsById(final Long id);
 }
