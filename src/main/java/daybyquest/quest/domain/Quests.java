@@ -12,13 +12,11 @@ public class Quests {
         this.questRepository = questRepository;
     }
 
-    public void save(final Quest quest) {
-        questRepository.save(quest);
+    public Long save(final Quest quest) {
+        return questRepository.save(quest).getId();
     }
 
-    public void validateExistentById(final Long id) {
-        if (!questRepository.existsById(id)) {
-            throw new NotExistQuestException();
-        }
+    public Quest getById(final Long id) {
+        return questRepository.findById(id).orElseThrow(NotExistQuestException::new);
     }
 }
