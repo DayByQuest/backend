@@ -1,9 +1,10 @@
 package daybyquest.auth.domain;
 
-import daybyquest.global.error.exception.InvalidDomainException;
+import lombok.Getter;
 
 public class AccessUser {
 
+    @Getter
     private final Long id;
 
     private final Authority authority;
@@ -23,13 +24,6 @@ public class AccessUser {
 
     public static AccessUser ofAdmin(final Long id) {
         return new AccessUser(id, Authority.ADMIN);
-    }
-
-    public Long getId() {
-        if (!isUser()) {
-            throw new InvalidDomainException();
-        }
-        return id;
     }
 
     public boolean isUser() {
