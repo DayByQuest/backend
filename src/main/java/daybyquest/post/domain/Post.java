@@ -49,7 +49,7 @@ public class Post {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
     private PostState state;
 
