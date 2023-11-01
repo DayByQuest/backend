@@ -1,5 +1,7 @@
 package daybyquest.participant.domain;
 
+import static daybyquest.global.error.ExceptionCode.ALREADY_REWARDED_QUEST;
+import static daybyquest.global.error.ExceptionCode.NOT_CONTINUABLE_QUEST;
 import static daybyquest.global.error.ExceptionCode.NOT_FINISHABLE_QUEST;
 import static daybyquest.participant.domain.ParticipantState.CONTINUE;
 import static daybyquest.participant.domain.ParticipantState.DOING;
@@ -13,7 +15,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,17 +31,19 @@ public class Participant {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "quest_id")
     private Quest quest;
 
     @Column(nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     private ParticipantState state;
 
+    private int linkedCount;
+
     public Participant(Long userId, Quest quest) {
         this.userId = userId;
         this.quest = quest;
         this.state = DOING;
+        this.linkedCount = 0;
     }
 
     public Long getQuestId() {
@@ -48,10 +51,22 @@ public class Participant {
     }
 
     public void takeReward() {
+        validateDidNotTakeReward();
+        validateRewardCount();
+        state = FINISHED;
+    }
+
+    private void validateDidNotTakeReward() {
         if (state == FINISHED || state == CONTINUE) {
+            throw new InvalidDomainException(ALREADY_REWARDED_QUEST);
+        }
+    }
+
+    private void validateRewardCount() {
+        if (quest.getRewardCount() != null && quest.getRewardCount() != 0
+                && linkedCount < quest.getRewardCount()) {
             throw new InvalidDomainException(NOT_FINISHABLE_QUEST);
         }
-        state = FINISHED;
     }
 
     public void finish() {
@@ -63,8 +78,12 @@ public class Participant {
 
     public void doContinue() {
         if (state != FINISHED) {
-            throw new InvalidDomainException(NOT_FINISHABLE_QUEST);
+            throw new InvalidDomainException(NOT_CONTINUABLE_QUEST);
         }
         state = CONTINUE;
+    }
+
+    public void increaseLinkedCount() {
+        linkedCount += 1;
     }
 }
