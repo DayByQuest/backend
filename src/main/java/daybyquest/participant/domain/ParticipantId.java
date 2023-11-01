@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class ParticipantId implements Serializable {
 
-    private Long questId;
-
     private Long userId;
+
+    private Long quest;
 
 }

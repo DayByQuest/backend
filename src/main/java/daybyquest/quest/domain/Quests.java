@@ -1,5 +1,6 @@
 package daybyquest.quest.domain;
 
+import daybyquest.global.error.exception.NotExistQuestException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,7 +12,11 @@ public class Quests {
         this.questRepository = questRepository;
     }
 
-    public void save(final Quest quest) {
-        questRepository.save(quest);
+    public Long save(final Quest quest) {
+        return questRepository.save(quest).getId();
+    }
+
+    public Quest getById(final Long id) {
+        return questRepository.findById(id).orElseThrow(NotExistQuestException::new);
     }
 }

@@ -1,6 +1,7 @@
 package daybyquest.quest.query;
 
 import static daybyquest.participant.domain.QParticipant.participant;
+import static daybyquest.post.domain.PostState.SUCCESS;
 import static daybyquest.post.domain.QPost.post;
 import static daybyquest.quest.domain.QQuest.quest;
 
@@ -32,9 +33,10 @@ public class QuestDaoQuerydslImpl implements QuestDao {
                         quest.rewardCount,
                         JPAExpressions.select(post.count())
                                 .from(post)
-                                .where(post.userId.eq(userId), post.questId.eq(id))
+                                .where(post.userId.eq(userId), post.questId.eq(id), post.state.eq(SUCCESS))
                 ))
                 .from(quest)
+                .where(quest.id.eq(id))
                 .fetchOne();
         if (data == null) {
             throw new NotExistQuestException();
@@ -42,7 +44,7 @@ public class QuestDaoQuerydslImpl implements QuestDao {
 
         ParticipantState state = factory.select(participant.state)
                 .from(participant)
-                .where(participant.userId.eq(userId), participant.questId.eq(id))
+                .where(participant.userId.eq(userId), participant.quest.id.eq(id))
                 .fetchOne();
         if (state == null) {
             state = ParticipantState.NOT;

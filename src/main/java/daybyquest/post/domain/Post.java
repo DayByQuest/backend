@@ -1,7 +1,7 @@
 package daybyquest.post.domain;
 
+import static daybyquest.post.domain.PostState.NEED_CHECK;
 import static daybyquest.post.domain.PostState.NOT_DECIDED;
-import static daybyquest.post.domain.PostState.PREPARING;
 import static daybyquest.post.domain.PostState.SUCCESS;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -49,7 +49,7 @@ public class Post {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
     private PostState state;
 
@@ -66,7 +66,7 @@ public class Post {
         this.questId = questId;
         this.content = content;
         this.images = images;
-        this.state = PREPARING;
+        this.state = NOT_DECIDED;
         validateUserId();
         validateImages();
         validateContent();
@@ -90,17 +90,17 @@ public class Post {
         }
     }
 
-    public void afterRequestDeciding() {
-        if (state != PREPARING || images == null) {
-            throw new InvalidDomainException();
-        }
-        state = NOT_DECIDED;
-    }
-
     public void success() {
-        if (state != PREPARING && state != NOT_DECIDED) {
+        if (state != NOT_DECIDED) {
             throw new InvalidDomainException();
         }
         state = SUCCESS;
+    }
+
+    public void needCheck() {
+        if (state != NOT_DECIDED) {
+            throw new InvalidDomainException();
+        }
+        state = NEED_CHECK;
     }
 }

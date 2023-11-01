@@ -31,9 +31,9 @@ public class SaveQuestService {
     }
 
     @Transactional
-    public void invoke(final SaveQuestRequest request, final List<MultipartFile> files) {
+    public Long invoke(final SaveQuestRequest request, final List<MultipartFile> files) {
         final Quest quest = toEntity(request, toImageList(files));
-        quests.save(quest);
+        return quests.save(quest);
     }
 
     private List<Image> toImageList(final List<MultipartFile> files) {
