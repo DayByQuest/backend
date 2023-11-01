@@ -4,6 +4,7 @@ import static daybyquest.global.error.ExceptionCode.ALREADY_ACCEPTED_QUEST;
 import static daybyquest.global.error.ExceptionCode.NOT_ACCEPTED_QUEST;
 
 import daybyquest.global.error.exception.InvalidDomainException;
+import daybyquest.quest.domain.Quest;
 import daybyquest.quest.domain.Quests;
 import daybyquest.user.domain.Users;
 import org.springframework.stereotype.Component;
@@ -24,9 +25,10 @@ public class Participants {
         this.quests = quests;
     }
 
-    public void save(final Participant participant) {
-        users.validateExistentById(participant.getUserId());
-        quests.validateExistentById(participant.getQuestId());
+    public void saveWithUserIdAndQuestId(final Long userId, final Long questId) {
+        users.validateExistentById(userId);
+        final Quest quest = quests.getById(questId);
+        final Participant participant = new Participant(userId, quest);
         validateNotExistent(participant);
         participantRepository.save(participant);
     }

@@ -1,6 +1,5 @@
 package daybyquest.participant.application;
 
-import daybyquest.participant.domain.Participant;
 import daybyquest.participant.domain.Participants;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +15,7 @@ public class SaveParticipantService {
 
     @Transactional
     public void invoke(final Long loginId, final Long questId) {
-        final Participant participant = new Participant(loginId, questId);
-        participants.save(participant);
+        participants.saveWithUserIdAndQuestId(loginId, questId);
     }
 }
 
