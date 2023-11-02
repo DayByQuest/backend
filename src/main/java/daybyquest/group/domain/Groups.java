@@ -1,7 +1,7 @@
 package daybyquest.group.domain;
 
 import daybyquest.global.error.exception.NotExistGroupException;
-import daybyquest.interest.domain.InterestValidator;
+import daybyquest.interest.domain.Interests;
 import daybyquest.user.domain.Users;
 import org.springframework.stereotype.Component;
 
@@ -14,20 +14,20 @@ public class Groups {
 
     private final Users users;
 
-    private final InterestValidator interestValidator;
+    private final Interests interests;
 
     Groups(final GroupRepository groupRepository, final GroupUserRepository groupUserRepository,
             final Users users,
-            final InterestValidator interestValidator) {
+            final Interests interests) {
         this.groupRepository = groupRepository;
         this.groupUserRepository = groupUserRepository;
         this.users = users;
-        this.interestValidator = interestValidator;
+        this.interests = interests;
     }
 
     public Long save(final Long userId, final Group group) {
         users.validateModeratorById(userId);
-        interestValidator.validateInterest(group.getInterest());
+        interests.validateInterest(group.getInterest());
         final Group savedGroup = groupRepository.save(group);
         groupUserRepository.save(GroupUser.createGroupManager(userId, savedGroup));
         return savedGroup.getId();
