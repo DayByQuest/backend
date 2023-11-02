@@ -52,8 +52,8 @@ public class QuestResponse {
 
     public static QuestResponse of(final QuestData questData) {
         return new QuestResponse(questData.getId(), questData.getCategory().toString(), questData.getTitle(),
-                questData.getContent(), questData.getInterestName(), questData.getExpiredAt(), null,
-                questData.getState().toString(), questData.getRewardCount(), questData.getCurrentCount(),
-                questData.getGroupName());
+                questData.getContent(), questData.getInterestName(), questData.getExpiredAt(),
+                questData.getImageIdentifier(), questData.getState().toString(), questData.getRewardCount(),
+                questData.getCurrentCount(), questData.getGroupName());
     }
 }

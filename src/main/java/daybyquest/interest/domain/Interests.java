@@ -6,11 +6,11 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InterestValidator {
+public class Interests {
 
     private final InterestRepository interestRepository;
 
-    public InterestValidator(final InterestRepository interestRepository) {
+    Interests(final InterestRepository interestRepository) {
         this.interestRepository = interestRepository;
     }
 

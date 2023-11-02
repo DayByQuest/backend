@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.repository.Repository;
 
-public interface InterestRepository extends Repository<Interest, String> {
+interface InterestRepository extends Repository<Interest, String> {
 
     Interest save(final Interest interest);
 

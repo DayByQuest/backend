@@ -1,6 +1,6 @@
 package daybyquest.user.application;
 
-import daybyquest.interest.domain.InterestValidator;
+import daybyquest.interest.domain.Interests;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
 import daybyquest.user.dto.request.UpdateUserInterestRequest;
@@ -14,18 +14,18 @@ public class UpdateUserInterestService {
     private final Users users;
 
 
-    private final InterestValidator interestValidator;
+    private final Interests interests;
 
-    public UpdateUserInterestService(final Users users, final InterestValidator interestValidator) {
+    public UpdateUserInterestService(final Users users, final Interests interests) {
         this.users = users;
-        this.interestValidator = interestValidator;
+        this.interests = interests;
     }
 
     @Transactional
     public void invoke(final Long loginId, final UpdateUserInterestRequest request) {
         final User user = users.getById(loginId);
         final Collection<String> interests = request.getInterests();
-        interestValidator.validateInterests(interests);
+        this.interests.validateInterests(interests);
         user.updateInterests(interests);
     }
 }
