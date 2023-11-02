@@ -2,6 +2,7 @@ package daybyquest.badge.domain;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.image.vo.Image;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -17,11 +18,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Badge {
 
+    private static final int MAX_NAME_LENGTH = 15;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = MAX_NAME_LENGTH)
     private String name;
 
     @Embedded
@@ -30,5 +33,12 @@ public class Badge {
     public Badge(String name, Image image) {
         this.name = name;
         this.image = image;
+        validateName();
+    }
+
+    private void validateName() {
+        if (name.isEmpty() || name.length() > MAX_NAME_LENGTH) {
+            throw new InvalidDomainException();
+        }
     }
 }
