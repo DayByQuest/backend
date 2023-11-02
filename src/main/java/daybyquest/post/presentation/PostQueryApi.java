@@ -7,7 +7,7 @@ import daybyquest.post.application.GetPostByUsernameService;
 import daybyquest.post.application.GetPostFromFollowingService;
 import daybyquest.post.application.GetPostService;
 import daybyquest.post.dto.response.PagePostsResponse;
-import daybyquest.post.dto.response.PostResponse;
+import daybyquest.post.dto.response.PostWithQuestResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,9 +32,9 @@ public class PostQueryApi {
 
     @GetMapping("/post/{postId}")
     @Authorization
-    public ResponseEntity<PostResponse> getPost(final AccessUser accessUser,
+    public ResponseEntity<PostWithQuestResponse> getPost(final AccessUser accessUser,
             @PathVariable final Long postId) {
-        final PostResponse response = getPostService.invoke(accessUser.getId(), postId);
+        final PostWithQuestResponse response = getPostService.invoke(accessUser.getId(), postId);
         return ResponseEntity.ok(response);
     }
 

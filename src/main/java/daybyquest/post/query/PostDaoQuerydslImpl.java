@@ -5,6 +5,7 @@ import static com.querydsl.core.group.GroupBy.list;
 import static daybyquest.image.vo.QImage.image;
 import static daybyquest.like.domain.QPostLike.postLike;
 import static daybyquest.post.domain.QPost.post;
+import static daybyquest.quest.domain.QQuest.quest;
 import static daybyquest.relation.domain.QFollow.follow;
 
 import com.querydsl.core.types.ConstructorExpression;
@@ -56,7 +57,12 @@ public class PostDaoQuerydslImpl implements PostDao {
                 post.updatedAt,
                 JPAExpressions.selectFrom(postLike)
                         .where(postLike.userId.eq(userId).and(postLike.postId.eq(post.id)))
-                        .exists());
+                        .exists(),
+                post.questId,
+                JPAExpressions.select(quest.title)
+                        .from(quest)
+                        .where(quest.id.eq(post.questId)),
+                post.state);
     }
 
     @Override
