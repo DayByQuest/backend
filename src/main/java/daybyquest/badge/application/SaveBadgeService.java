@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class SaveBadgeService {
 
-
     private static final String CATEGORY = "BADGE";
 
     private final Badges badges;
