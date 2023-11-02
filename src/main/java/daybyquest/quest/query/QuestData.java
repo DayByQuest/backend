@@ -1,5 +1,7 @@
 package daybyquest.quest.query;
 
+import daybyquest.badge.domain.Badge;
+import daybyquest.group.domain.Group;
 import daybyquest.image.vo.Image;
 import daybyquest.participant.domain.ParticipantState;
 import daybyquest.quest.domain.QuestCategory;
@@ -10,6 +12,10 @@ import lombok.Getter;
 public class QuestData {
 
     private final Long id;
+
+    private final Long groupId;
+
+    private final Long badgeId;
 
     private final String title;
 
@@ -31,10 +37,12 @@ public class QuestData {
 
     private String groupName;
 
-    public QuestData(final Long id, final String title, final String content, final String interestName,
-            final QuestCategory category, final LocalDateTime expiredAt,
-            final Long rewardCount, final Long currentCount) {
+    public QuestData(final Long id, final Long groupId, final Long badgeId, final String title,
+            final String content, final String interestName, final QuestCategory category,
+            final LocalDateTime expiredAt, final Long rewardCount, final Long currentCount) {
         this.id = id;
+        this.groupId = groupId;
+        this.badgeId = badgeId;
         this.title = title;
         this.content = content;
         this.interestName = interestName;
@@ -44,7 +52,24 @@ public class QuestData {
         this.currentCount = currentCount;
     }
 
+    public String getImageIdentifier() {
+        return image.getImageIdentifier();
+    }
+
     public void setState(final ParticipantState state) {
         this.state = state;
+    }
+
+    public boolean isGroupQuest() {
+        return category == QuestCategory.GROUP;
+    }
+
+    public void setNormalDetail(final Badge badge) {
+        this.image = badge.getImage();
+    }
+
+    public void setGroupDetail(final Group group) {
+        this.image = group.getImage();
+        this.groupName = group.getName();
     }
 }
