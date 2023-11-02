@@ -2,6 +2,7 @@ package daybyquest.global.config;
 
 import daybyquest.auth.AccessUserArgumentResolver;
 import daybyquest.global.query.NoOffsetIdPageArgumentResolver;
+import daybyquest.global.query.NoOffsetTimePageArgumentResolver;
 import daybyquest.user.domain.Users;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
@@ -23,5 +24,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new AccessUserArgumentResolver(users));
         resolvers.add(new NoOffsetIdPageArgumentResolver());
+        resolvers.add(new NoOffsetTimePageArgumentResolver());
     }
 }

@@ -1,8 +1,7 @@
-package daybyquest.owner.domain;
+package daybyquest.badge.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-import daybyquest.badge.domain.Badge;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
@@ -23,17 +22,17 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Owning {
 
     @Id
-    @ManyToOne(fetch = LAZY)
-    private Badge badge;
+    private Long userId;
 
     @Id
-    private Long userId;
+    @ManyToOne(fetch = LAZY)
+    private Badge badge;
 
     @CreatedDate
     private LocalDateTime acquiredAt;
 
-    public Owning(Badge badge, Long userId) {
-        this.badge = badge;
+    public Owning(final Long userId, final Badge badge) {
         this.userId = userId;
+        this.badge = badge;
     }
 }

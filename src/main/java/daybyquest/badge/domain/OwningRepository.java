@@ -1,4 +1,4 @@
-package daybyquest.owner.domain;
+package daybyquest.badge.domain;
 
 import java.util.Optional;
 import org.springframework.data.repository.Repository;

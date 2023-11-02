@@ -21,8 +21,8 @@ public class FollowDaoQuerydslImpl implements FollowDao {
     public LongIdList getFollowingIds(final Long userId, final NoOffsetIdPage page) {
         return new LongIdList(factory.select(follow.targetId)
                 .from(follow)
-                .where(follow.userId.eq(userId), isTargetIdGtLastId(page.getLastId()))
-                .limit(page.getLimit())
+                .where(follow.userId.eq(userId), isTargetIdGtLastId(page.lastId()))
+                .limit(page.limit())
                 .fetch());
     }
 
@@ -34,8 +34,8 @@ public class FollowDaoQuerydslImpl implements FollowDao {
     public LongIdList getFollowerIds(final Long targetId, final NoOffsetIdPage page) {
         return new LongIdList(factory.select(follow.userId)
                 .from(follow)
-                .where(follow.targetId.eq(targetId), isUserIdGtLastId(page.getLastId()))
-                .limit(page.getLimit())
+                .where(follow.targetId.eq(targetId), isUserIdGtLastId(page.lastId()))
+                .limit(page.limit())
                 .fetch());
     }
 
