@@ -3,10 +3,10 @@ package daybyquest.badge.domain;
 import java.util.Optional;
 import org.springframework.data.repository.Repository;
 
-public interface OwningRepository extends Repository<Owning, OwningId> {
+interface OwningRepository extends Repository<Owning, OwningId> {
 
-    Owning save(Owning owning);
+    Owning save(final Owning owning);
 
-    Optional<Owning> findByUserId(Long userId);
+    Optional<Owning> findByUserId(final Long userId);
 
 }

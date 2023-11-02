@@ -1,5 +1,6 @@
 package daybyquest.badge.domain;
 
+import daybyquest.global.error.exception.NotExistBadgeException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,5 +14,15 @@ public class Badges {
 
     public void save(final Badge badge) {
         badgeRepository.save(badge);
+    }
+
+    public void validateExistentById(final Long id) {
+        if (!badgeRepository.existsById(id)) {
+            throw new NotExistBadgeException();
+        }
+    }
+
+    public Badge getById(final Long id) {
+        return badgeRepository.findById(id).orElseThrow(NotExistBadgeException::new);
     }
 }
