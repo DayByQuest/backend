@@ -60,7 +60,8 @@ public enum ExceptionCode {
     EXCEED_BADGE("BDE-02", BAD_REQUEST, "뱃지는 최대 15개만 지정가능합니다"),
 
     // Interest
-    NOT_EXIST_INTEREST("INT-00", BAD_REQUEST, "존재하지 않는 관심사 입니다"),
+    NOT_EXIST_INTEREST("INT-00", BAD_REQUEST, "존재하지 않는 관심사입니다"),
+    ALREADY_EXIST_INTEREST("INT-01", BAD_REQUEST, "이미 존재하는 관심사 이름입니다"),
 
     // Relationship
     NOT_FOLLOWING_USER("REL-00", BAD_REQUEST, "팔로우하지 않은 사용자입니다"),

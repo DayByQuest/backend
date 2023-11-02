@@ -1,5 +1,6 @@
 package daybyquest.interest.domain;
 
+import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.image.vo.Image;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -14,8 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Interest {
 
+    private static final int MAX_NAME_LENGTH = 20;
+
     @Id
-    @Column(length = 10)
+    @Column(length = MAX_NAME_LENGTH)
     private String name;
 
     @Embedded
@@ -24,9 +27,16 @@ public class Interest {
     public Interest(final String name, final Image image) {
         this.name = name;
         this.image = image;
+        validateName();
     }
 
     public String getImageIdentifier() {
         return image.getImageIdentifier();
+    }
+
+    private void validateName() {
+        if (name.isEmpty() || name.length() > MAX_NAME_LENGTH) {
+            throw new InvalidDomainException();
+        }
     }
 }
