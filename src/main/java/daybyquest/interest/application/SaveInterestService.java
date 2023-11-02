@@ -1,38 +1,39 @@
-package daybyquest.badge.application;
+package daybyquest.interest.application;
 
-import daybyquest.badge.domain.Badge;
-import daybyquest.badge.domain.Badges;
 import daybyquest.global.utils.MultipartFileUtils;
 import daybyquest.image.vo.Image;
 import daybyquest.image.vo.ImageIdentifierGenerator;
 import daybyquest.image.vo.Images;
+import daybyquest.interest.domain.Interest;
+import daybyquest.interest.domain.Interests;
+import daybyquest.interest.dto.request.SaveInterestRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class SaveBadgeService {
+public class SaveInterestService {
 
-    private static final String CATEGORY = "BADGE";
+    private static final String CATEGORY = "INTEREST";
 
-    private final Badges badges;
+    private final Interests interests;
 
     private final Images images;
 
     private final ImageIdentifierGenerator generator;
 
-    public SaveBadgeService(final Badges badges, final Images images,
+    public SaveInterestService(final Interests interests, final Images images,
             final ImageIdentifierGenerator generator) {
-        this.badges = badges;
+        this.interests = interests;
         this.images = images;
         this.generator = generator;
     }
 
     @Transactional
-    public void invoke(final String name, final MultipartFile file) {
+    public void invoke(final SaveInterestRequest request, final MultipartFile file) {
         final String identifier = generator.generateIdentifier(CATEGORY, file.getOriginalFilename());
         images.upload(identifier, MultipartFileUtils.getInputStream(file));
-        final Badge badge = new Badge(name, new Image(identifier));
-        badges.save(badge);
+        final Interest interest = new Interest(request.getName(), new Image(identifier));
+        interests.save(interest);
     }
 }

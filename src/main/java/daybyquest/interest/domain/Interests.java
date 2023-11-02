@@ -1,5 +1,8 @@
 package daybyquest.interest.domain;
 
+import static daybyquest.global.error.ExceptionCode.ALREADY_EXIST_INTEREST;
+
+import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.global.error.exception.NotExistInterestException;
 import java.util.Collection;
 import java.util.List;
@@ -12,6 +15,17 @@ public class Interests {
 
     Interests(final InterestRepository interestRepository) {
         this.interestRepository = interestRepository;
+    }
+
+    public void save(final Interest interest) {
+        validateNotExistentByName(interest.getName());
+        interestRepository.save(interest);
+    }
+
+    public void validateNotExistentByName(final String interestName) {
+        if (interestRepository.existsByName(interestName)) {
+            throw new InvalidDomainException(ALREADY_EXIST_INTEREST);
+        }
     }
 
     public void validateInterest(final String interestName) {
@@ -34,5 +48,9 @@ public class Interests {
         if (!interestStrings.contains(interest.getName())) {
             throw new NotExistInterestException();
         }
+    }
+
+    public List<Interest> findAll() {
+        return interestRepository.findAll();
     }
 }
