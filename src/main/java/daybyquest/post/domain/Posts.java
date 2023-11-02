@@ -1,6 +1,7 @@
 package daybyquest.post.domain;
 
 import daybyquest.global.error.exception.NotExistPostException;
+import daybyquest.participant.domain.Participants;
 import daybyquest.user.domain.Users;
 import org.springframework.stereotype.Component;
 
@@ -11,13 +12,19 @@ public class Posts {
 
     private final Users users;
 
-    Posts(final PostRepository postRepository, final Users users) {
+    private final Participants participants;
+
+    Posts(final PostRepository postRepository, final Users users, final Participants participants) {
         this.postRepository = postRepository;
         this.users = users;
+        this.participants = participants;
     }
 
     public Long save(final Post post) {
         users.validateExistentById(post.getUserId());
+        if (post.getQuestId() != null) {
+            participants.validateExistent(post.getUserId(), post.getQuestId());
+        }
         return postRepository.save(post).getId();
     }
 

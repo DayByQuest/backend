@@ -40,6 +40,13 @@ public class Participants {
         }
     }
 
+    public void validateExistent(final Long userId, final Long questId) {
+        if (!participantRepository.existsByUserIdAndQuestId(userId,
+                questId)) {
+            throw new InvalidDomainException(NOT_ACCEPTED_QUEST);
+        }
+    }
+
     public Participant getByUserIdAndQuestId(final Long userId, final Long questId) {
         return participantRepository.findByUserIdAndQuestId(userId, questId)
                 .orElseThrow(() -> new InvalidDomainException(NOT_ACCEPTED_QUEST));
