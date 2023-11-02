@@ -1,4 +1,4 @@
-package daybyquest.owner.domain;
+package daybyquest.badge.domain;
 
 
 import java.io.Serializable;
@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class OwningId implements Serializable {
 
-    private Long badge;
-
     private Long userId;
+
+    private Long badge;
 
 }
