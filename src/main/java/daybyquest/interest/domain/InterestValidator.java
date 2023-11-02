@@ -14,13 +14,19 @@ public class InterestValidator {
         this.interestRepository = interestRepository;
     }
 
-    public void validateInterests(final Collection<String> interestStrings) {
-        final List<Interest> interests = interestRepository.findAllByNameIn(interestStrings);
-        if (interests.size() != interestStrings.size()) {
+    public void validateInterest(final String interestName) {
+        if (!interestRepository.existsByName(interestName)) {
+            throw new NotExistInterestException();
+        }
+    }
+
+    public void validateInterests(final Collection<String> interestNames) {
+        final List<Interest> interests = interestRepository.findAllByNameIn(interestNames);
+        if (interests.size() != interestNames.size()) {
             throw new NotExistInterestException();
         }
         interests.forEach(
-            interest -> validateContainsInterest(interestStrings, interest)
+                interest -> validateContainsInterest(interestNames, interest)
         );
     }
 

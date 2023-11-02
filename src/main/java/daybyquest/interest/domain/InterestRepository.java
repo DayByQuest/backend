@@ -7,9 +7,11 @@ import org.springframework.data.repository.Repository;
 
 public interface InterestRepository extends Repository<Interest, String> {
 
-    Interest save(Interest interest);
+    Interest save(final Interest interest);
 
-    Optional<Interest> findByName(String name);
+    Optional<Interest> findByName(final String name);
 
-    List<Interest> findAllByNameIn(Collection<String> names);
+    List<Interest> findAllByNameIn(final Collection<String> names);
+
+    boolean existsByName(final String name);
 }
