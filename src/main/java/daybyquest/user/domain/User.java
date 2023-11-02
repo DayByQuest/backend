@@ -153,4 +153,8 @@ public class User {
     public boolean isAdmin() {
         return state == UserState.ADMIN;
     }
+
+    public boolean isModerator() {
+        return state == UserState.MODERATOR;
+    }
 }
