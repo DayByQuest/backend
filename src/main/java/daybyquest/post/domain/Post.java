@@ -70,6 +70,9 @@ public class Post {
         validateUserId();
         validateImages();
         validateContent();
+        if (questId == null) {
+            success();
+        }
     }
 
     private void validateUserId() {

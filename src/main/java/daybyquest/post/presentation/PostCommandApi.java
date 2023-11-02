@@ -8,7 +8,7 @@ import daybyquest.post.application.SavePostService;
 import daybyquest.post.application.SwipePostService;
 import daybyquest.post.dto.request.JudgePostRequest;
 import daybyquest.post.dto.request.SavePostRequest;
-import daybyquest.post.dto.response.PostResponse;
+import daybyquest.post.dto.response.PostWithQuestResponse;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -40,11 +40,11 @@ public class PostCommandApi {
 
     @PostMapping("/post")
     @Authorization
-    public ResponseEntity<PostResponse> savePost(final AccessUser accessUser,
+    public ResponseEntity<PostWithQuestResponse> savePost(final AccessUser accessUser,
             @RequestPart SavePostRequest request,
             @RequestPart List<MultipartFile> files) {
         final Long postId = savePostService.invoke(accessUser.getId(), request, files);
-        final PostResponse response = getPostService.invoke(accessUser.getId(), postId);
+        final PostWithQuestResponse response = getPostService.invoke(accessUser.getId(), postId);
         return ResponseEntity.ok(response);
     }
 
