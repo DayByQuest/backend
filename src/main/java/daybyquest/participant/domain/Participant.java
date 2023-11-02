@@ -50,10 +50,11 @@ public class Participant {
         return quest.getId();
     }
 
-    public void takeReward() {
+    public Long takeReward() {
         validateDidNotTakeReward();
         validateRewardCount();
         state = FINISHED;
+        return quest.getBadgeId();
     }
 
     private void validateDidNotTakeReward() {
