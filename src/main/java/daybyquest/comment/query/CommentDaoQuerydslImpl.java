@@ -24,9 +24,9 @@ public class CommentDaoQuerydslImpl implements CommentDao {
     public LongIdList findIdsByPostId(final Long userId, final Long postId, final NoOffsetIdPage page) {
         return new LongIdList(factory.select(comment.id)
                 .from(comment)
-                .where(comment.postId.eq(postId), gtCommentId(page.getLastId()))
+                .where(comment.postId.eq(postId), gtCommentId(page.lastId()))
                 .orderBy(comment.id.asc())
-                .limit(page.getLimit())
+                .limit(page.limit())
                 .fetch());
     }
 

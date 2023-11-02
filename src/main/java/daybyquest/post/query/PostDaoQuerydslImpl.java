@@ -66,10 +66,10 @@ public class PostDaoQuerydslImpl implements PostDao {
                 .where(post.userId.in(JPAExpressions.select(follow.targetId)
                                 .from(follow)
                                 .where(follow.userId.eq(userId)))
-                        , ltPostId(page.getLastId())
+                        , ltPostId(page.lastId())
                 )
                 .orderBy(post.id.desc())
-                .limit(page.getLimit())
+                .limit(page.limit())
                 .fetch());
     }
 
@@ -82,10 +82,10 @@ public class PostDaoQuerydslImpl implements PostDao {
         return new LongIdList(factory.select(post.id)
                 .from(post)
                 .where(post.userId.eq(targetId)
-                        , ltPostId(page.getLastId())
+                        , ltPostId(page.lastId())
                 )
                 .orderBy(post.id.desc())
-                .limit(page.getLimit())
+                .limit(page.limit())
                 .fetch());
     }
 

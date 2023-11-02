@@ -14,7 +14,6 @@ public class NoOffsetIdPageArgumentResolver implements HandlerMethodArgumentReso
     private static final int MAX_LIMIT = 15;
     private static final Pattern NUMBER = Pattern.compile("^[0-9]*$");
 
-
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.getParameterType().equals(NoOffsetIdPage.class);
