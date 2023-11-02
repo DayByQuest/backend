@@ -35,4 +35,8 @@ public class Interests {
             throw new NotExistInterestException();
         }
     }
+
+    public List<Interest> findAll() {
+        return interestRepository.findAll();
+    }
 }

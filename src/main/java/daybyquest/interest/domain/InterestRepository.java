@@ -13,5 +13,7 @@ interface InterestRepository extends Repository<Interest, String> {
 
     List<Interest> findAllByNameIn(final Collection<String> names);
 
+    List<Interest> findAll();
+
     boolean existsByName(final String name);
 }

@@ -25,4 +25,8 @@ public class Interest {
         this.name = name;
         this.image = image;
     }
+
+    public String getImageIdentifier() {
+        return image.getImageIdentifier();
+    }
 }
