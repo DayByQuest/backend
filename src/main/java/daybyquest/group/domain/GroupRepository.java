@@ -3,10 +3,11 @@ package daybyquest.group.domain;
 import java.util.Optional;
 import org.springframework.data.repository.Repository;
 
-public interface GroupRepository extends Repository<Group, Long> {
+interface GroupRepository extends Repository<Group, Long> {
 
-    Group save(Group group);
+    Group save(final Group group);
 
-    Optional<Group> findById(Long id);
+    Optional<Group> findById(final Long id);
 
+    boolean existsById(final Long id);
 }

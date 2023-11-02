@@ -1,12 +1,12 @@
 package daybyquest.group.domain;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
-public interface GroupUserRepository extends Repository<GroupUser, GroupUserId> {
+interface GroupUserRepository extends Repository<GroupUser, GroupUserId> {
 
-    GroupUser save(GroupUser groupUser);
+    GroupUser save(final GroupUser groupUser);
 
-    List<GroupUser> findAllByGroupId(Long groupId);
-
+    @Query("SELECT count (gu) > 0 FROM GroupUser gu WHERE gu.userId=:userId and gu.group.id = :groupId")
+    boolean existsByUserIdAndGroupId(final Long userId, final Long groupId);
 }

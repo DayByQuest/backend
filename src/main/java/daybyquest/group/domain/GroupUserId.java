@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class GroupUserId implements Serializable {
 
-    private Long group;
-
     private Long userId;
+
+    private Long group;
 
 }
