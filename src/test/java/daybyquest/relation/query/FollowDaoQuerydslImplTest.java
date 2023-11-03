@@ -28,7 +28,7 @@ public class FollowDaoQuerydslImplTest extends QuerydslTest {
         final User bob = 저장한다(BOB.생성());
         final User alice = 저장한다(ALICE.생성());
         final User charlie = 저장한다(CHARLIE.생성());
-        final User david = 저장한다(DAVID.생성());
+        저장한다(DAVID.생성());
 
         저장한다(new Follow(bob.getId(), alice.getId()));
         저장한다(new Follow(bob.getId(), charlie.getId()));
@@ -49,7 +49,7 @@ public class FollowDaoQuerydslImplTest extends QuerydslTest {
         final User bob = 저장한다(BOB.생성());
         final User alice = 저장한다(ALICE.생성());
         final User charlie = 저장한다(CHARLIE.생성());
-        final User david = 저장한다(DAVID.생성());
+        저장한다(DAVID.생성());
 
         저장한다(new Follow(alice.getId(), bob.getId()));
         저장한다(new Follow(charlie.getId(), bob.getId()));
