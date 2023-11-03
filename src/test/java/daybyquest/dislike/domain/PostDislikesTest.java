@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.then;
 
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.post.domain.Posts;
@@ -42,9 +42,9 @@ public class PostDislikesTest {
 
         // then
         assertAll(() -> {
-            verify(users).validateExistentById(userId);
-            verify(posts).validateExistentById(postId);
-            verify(postDislikeRepository).save(any(PostDislike.class));
+            then(users).should().validateExistentById(userId);
+            then(posts).should().validateExistentById(postId);
+            then(postDislikeRepository).should().save(any(PostDislike.class));
         });
     }
 
@@ -71,7 +71,7 @@ public class PostDislikesTest {
         postDislikes.deleteByUserIdAndPostId(userId, postId);
 
         // then
-        verify(postDislikeRepository).deleteByUserIdAndPostId(userId, postId);
+        then(postDislikeRepository).should().deleteByUserIdAndPostId(userId, postId);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class PostDislikesTest {
         assertAll(() -> {
             assertThatCode(() -> postDislikes.deleteByUserIdAndPostIdWithoutValidation(userId, postId))
                     .doesNotThrowAnyException();
-            verify(postDislikeRepository).deleteByUserIdAndPostId(userId, postId);
+            then(postDislikeRepository).should().deleteByUserIdAndPostId(userId, postId);
         });
     }
 }

@@ -5,7 +5,7 @@ import static daybyquest.user.domain.UserVisibility.PRIVATE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.then;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -82,7 +82,7 @@ public class UserCommandApiTest extends ApiTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()))
                 );
-        verify(saveUserService).invoke(any(SaveUserRequest.class));
+        then(saveUserService).should().invoke(any(SaveUserRequest.class));
     }
 
     @Test
@@ -105,7 +105,7 @@ public class UserCommandApiTest extends ApiTest {
                         preprocessResponse(prettyPrint()),
                         requestHeaders(headerWithName("Authorization").description("UserId 헤더")))
                 );
-        verify(updateUserService).invoke(anyLong(), any(UpdateUserRequest.class));
+        then(updateUserService).should().invoke(anyLong(), any(UpdateUserRequest.class));
     }
 
     @Test
@@ -128,7 +128,7 @@ public class UserCommandApiTest extends ApiTest {
                         preprocessResponse(prettyPrint()),
                         requestHeaders(headerWithName("Authorization").description("UserId 헤더")))
                 );
-        verify(updateVisibilityService).invoke(anyLong(), any(UpdateUserVisibilityRequest.class));
+        then(updateVisibilityService).should().invoke(anyLong(), any(UpdateUserVisibilityRequest.class));
     }
 
     @Test
@@ -150,7 +150,7 @@ public class UserCommandApiTest extends ApiTest {
                         preprocessResponse(prettyPrint()),
                         requestHeaders(headerWithName("Authorization").description("UserId 헤더")))
                 );
-        verify(updateUserInterestService).invoke(anyLong(), any(UpdateUserInterestRequest.class));
+        then(updateUserInterestService).should().invoke(anyLong(), any(UpdateUserInterestRequest.class));
     }
 
     @Test
@@ -174,7 +174,7 @@ public class UserCommandApiTest extends ApiTest {
                         requestHeaders(headerWithName("Authorization").description("UserId 헤더")),
                         requestParts(partWithName("image").description("사진 파일")))
                 );
-        verify(updateUserImageService).invoke(anyLong(), any(MultipartFile.class));
+        then(updateUserImageService).should().invoke(anyLong(), any(MultipartFile.class));
     }
 
     @Test
@@ -191,7 +191,7 @@ public class UserCommandApiTest extends ApiTest {
                         preprocessResponse(prettyPrint()),
                         requestHeaders(headerWithName("Authorization").description("UserId 헤더")))
                 );
-        verify(deleteUserImageService).invoke(anyLong());
+        then(deleteUserImageService).should().invoke(anyLong());
     }
 
     private SaveUserRequest 회원가입_요청(final User user) {

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.then;
 
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.user.domain.Users;
@@ -39,9 +39,9 @@ public class FollowsTest {
 
         // then
         assertAll(() -> {
-            verify(users).validateExistentById(aliceId);
-            verify(users).validateExistentById(targetId);
-            verify(followRepository).save(any(Follow.class));
+            then(users).should().validateExistentById(aliceId);
+            then(users).should().validateExistentById(targetId);
+            then(followRepository).should().save(any(Follow.class));
         });
     }
 
@@ -94,6 +94,6 @@ public class FollowsTest {
         follows.delete(follow);
 
         // then
-        verify(followRepository).delete(follow);
+        then(followRepository).should().delete(follow);
     }
 }

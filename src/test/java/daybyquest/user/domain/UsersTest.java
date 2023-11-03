@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.then;
 
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.global.error.exception.NotExistUserException;
@@ -32,7 +32,7 @@ public class UsersTest {
         users.save(ALICE.생성());
 
         // when & then
-        verify(userRepository).save(any());
+        then(userRepository).should().save(any());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class UsersTest {
 
         // when & then
         assertAll(() -> {
-            verify(userRepository).findById(aliceId);
+            then(userRepository).should().findById(aliceId);
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedAlice);
         });
     }
@@ -81,7 +81,7 @@ public class UsersTest {
 
         // when & then
         assertAll(() -> {
-            verify(userRepository).findByUsername(ALICE.username);
+            then(userRepository).should().findByUsername(ALICE.username);
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedAlice);
         });
     }
@@ -105,7 +105,7 @@ public class UsersTest {
 
         // when & then
         assertAll(() -> {
-            verify(userRepository).findByUsername(ALICE.username);
+            then(userRepository).should().findByUsername(ALICE.username);
             assertThat(actual).isEqualTo(expectedId);
         });
     }
@@ -127,7 +127,7 @@ public class UsersTest {
         users.validateExistentById(aliceId);
 
         // then
-        verify(userRepository).existsById(aliceId);
+        then(userRepository).should().existsById(aliceId);
     }
 
     @Test
@@ -139,7 +139,7 @@ public class UsersTest {
         assertAll(() -> {
             assertThatThrownBy(() -> users.validateUniqueUsername(ALICE.username))
                     .isInstanceOf(InvalidDomainException.class);
-            verify(userRepository).existsByUsername(ALICE.username);
+            then(userRepository).should().existsByUsername(ALICE.username);
         });
     }
 
@@ -152,7 +152,7 @@ public class UsersTest {
         assertAll(() -> {
             assertThatThrownBy(() -> users.validateUniqueEmail(ALICE.email))
                     .isInstanceOf(InvalidDomainException.class);
-            verify(userRepository).existsByEmail(ALICE.email);
+            then(userRepository).should().existsByEmail(ALICE.email);
         });
     }
 }
