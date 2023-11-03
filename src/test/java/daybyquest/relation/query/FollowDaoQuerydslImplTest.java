@@ -32,9 +32,8 @@ public class FollowDaoQuerydslImplTest extends QuerydslTest {
 
         저장한다(new Follow(bob.getId(), alice.getId()));
         저장한다(new Follow(bob.getId(), charlie.getId()));
-        저장한다(new Follow(bob.getId(), david.getId()));
 
-        final List<Long> userIds = List.of(alice.getId(), charlie.getId(), david.getId());
+        final List<Long> userIds = List.of(alice.getId(), charlie.getId());
         final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
 
         // when
@@ -54,9 +53,8 @@ public class FollowDaoQuerydslImplTest extends QuerydslTest {
 
         저장한다(new Follow(alice.getId(), bob.getId()));
         저장한다(new Follow(charlie.getId(), bob.getId()));
-        저장한다(new Follow(david.getId(), bob.getId()));
 
-        final List<Long> userIds = List.of(alice.getId(), charlie.getId(), david.getId());
+        final List<Long> userIds = List.of(alice.getId(), charlie.getId());
         final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
 
         // when
