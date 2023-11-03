@@ -1,14 +1,13 @@
 package daybyquest.post.domain;
 
 import static daybyquest.support.fixture.PostFixtures.POST_1;
+import static daybyquest.support.util.StringUtils.문자열을_만든다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.image.vo.Image;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +45,7 @@ public class PostTest {
         @Test
         void 내용이_500_글자_초과면_예외를_던진다() {
             // given
-            final String content = Stream.generate(() -> "x").limit(501).collect(Collectors.joining());
+            final String content = 문자열을_만든다(501);
 
             // when & then
             assertThatThrownBy(() -> new Post(1L, null, content, POST_1.사진_목록()))

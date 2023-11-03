@@ -1,10 +1,9 @@
 package daybyquest.comment.domain;
 
+import static daybyquest.support.util.StringUtils.문자열을_만든다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import daybyquest.global.error.exception.InvalidDomainException;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +22,7 @@ public class CommentTest {
         @Test
         void 내용이_200_글자_초과면_예외를_던진다() {
             // given
-            final String content = Stream.generate(() -> "x").limit(201).collect(Collectors.joining());
+            final String content = 문자열을_만든다(201);
 
             // when & then
             assertThatThrownBy(() -> new Comment(1L, 1L, content))

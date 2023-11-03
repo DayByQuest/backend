@@ -1,11 +1,10 @@
 package daybyquest.group.domain;
 
 import static daybyquest.support.fixture.GroupFixtures.GROUP_1;
+import static daybyquest.support.util.StringUtils.문자열을_만든다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import daybyquest.global.error.exception.InvalidDomainException;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -23,7 +22,7 @@ public class GroupTest {
     @Test
     void 설명이_200_글자_초과면_예외를_던진다() {
         // given
-        final String description = Stream.generate(() -> "x").limit(201).collect(Collectors.joining());
+        final String description = 문자열을_만든다(201);
 
         // when & then
         assertThatThrownBy(

@@ -13,6 +13,7 @@ public enum PostFixtures {
     POST_1("게시물 내용 1", List.of("이미지주소1")),
     POST_2("게시물 내용 2", List.of("이미지주소2")),
     POST_3("게시물 내용 3", List.of("이미지주소3")),
+    POST_4("게시물 내용 4", List.of("이미지주소4")),
     POST_WITH_3_IMAGES("게시물 내용", List.of("이미지주소1", "이미지주소2", "이미지주소3"));
 
     public final String content;

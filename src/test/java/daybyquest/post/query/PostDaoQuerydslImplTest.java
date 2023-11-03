@@ -3,6 +3,7 @@ package daybyquest.post.query;
 import static daybyquest.support.fixture.PostFixtures.POST_1;
 import static daybyquest.support.fixture.PostFixtures.POST_2;
 import static daybyquest.support.fixture.PostFixtures.POST_3;
+import static daybyquest.support.fixture.PostFixtures.POST_4;
 import static daybyquest.support.fixture.PostFixtures.POST_WITH_3_IMAGES;
 import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
@@ -66,6 +67,7 @@ public class PostDaoQuerydslImplTest extends QuerydslTest {
         저장한다(POST_1.생성(alice));
         저장한다(POST_2.생성(charlie));
         저장한다(POST_3.생성(charlie));
+        저장한다(POST_4.생성(bob));
         저장한다(new Follow(bob.getId(), alice.getId()));
         저장한다(new Follow(bob.getId(), charlie.getId()));
 
@@ -82,9 +84,12 @@ public class PostDaoQuerydslImplTest extends QuerydslTest {
     void 사용자_ID를_통해_업로드한_게시물_ID_목록을_조회한다() {
         // given
         final User bob = 저장한다(BOB.생성());
+        final User alice = 저장한다(ALICE.생성());
+
         저장한다(POST_1.생성(bob));
         저장한다(POST_2.생성(bob));
         저장한다(POST_3.생성(bob));
+        저장한다(POST_3.생성(alice));
 
         final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
 
@@ -99,9 +104,12 @@ public class PostDaoQuerydslImplTest extends QuerydslTest {
     void 컬렉션으로_게시물_리스트를_조회한다() {
         // given
         final User bob = 저장한다(BOB.생성());
+        final User alice = 저장한다(ALICE.생성());
         final Post post1 = 저장한다(POST_1.생성(bob));
         final Post post2 = 저장한다(POST_2.생성(bob));
         final Post post3 = 저장한다(POST_3.생성(bob));
+        저장한다(POST_4.생성(alice));
+
         final List<Long> ids = List.of(post1.getId(), post2.getId(), post3.getId());
 
         // when

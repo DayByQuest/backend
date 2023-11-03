@@ -28,13 +28,12 @@ public class FollowDaoQuerydslImplTest extends QuerydslTest {
         final User bob = 저장한다(BOB.생성());
         final User alice = 저장한다(ALICE.생성());
         final User charlie = 저장한다(CHARLIE.생성());
-        final User david = 저장한다(DAVID.생성());
+        저장한다(DAVID.생성());
 
         저장한다(new Follow(bob.getId(), alice.getId()));
         저장한다(new Follow(bob.getId(), charlie.getId()));
-        저장한다(new Follow(bob.getId(), david.getId()));
 
-        final List<Long> userIds = List.of(alice.getId(), charlie.getId(), david.getId());
+        final List<Long> userIds = List.of(alice.getId(), charlie.getId());
         final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
 
         // when
@@ -50,13 +49,12 @@ public class FollowDaoQuerydslImplTest extends QuerydslTest {
         final User bob = 저장한다(BOB.생성());
         final User alice = 저장한다(ALICE.생성());
         final User charlie = 저장한다(CHARLIE.생성());
-        final User david = 저장한다(DAVID.생성());
+        저장한다(DAVID.생성());
 
         저장한다(new Follow(alice.getId(), bob.getId()));
         저장한다(new Follow(charlie.getId(), bob.getId()));
-        저장한다(new Follow(david.getId(), bob.getId()));
 
-        final List<Long> userIds = List.of(alice.getId(), charlie.getId(), david.getId());
+        final List<Long> userIds = List.of(alice.getId(), charlie.getId());
         final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
 
         // when
