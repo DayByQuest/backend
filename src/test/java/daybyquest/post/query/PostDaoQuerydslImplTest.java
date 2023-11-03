@@ -16,8 +16,6 @@ import daybyquest.post.domain.Post;
 import daybyquest.relation.domain.Follow;
 import daybyquest.support.test.QuerydslTest;
 import daybyquest.user.domain.User;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +27,11 @@ public class PostDaoQuerydslImplTest extends QuerydslTest {
     @Autowired
     private PostDaoQuerydslImpl postDao;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Test
     void 게시물_ID로_데이터를_조회한다() {
         // given
-        final User user = entityManager.merge(BOB.생성());
-        final Post post = entityManager.merge(POST_1.생성(user));
+        final User user = 저장한다(BOB.생성());
+        final Post post = 저장한다(POST_1.생성(user));
 
         // when
         final PostData postData = postDao.getByPostId(user.getId(), post.getId());
@@ -52,8 +47,8 @@ public class PostDaoQuerydslImplTest extends QuerydslTest {
     @Test
     void 게시물_사진이_여러장_이면_모두_함께_조회한다() {
         // given
-        final User user = entityManager.merge(BOB.생성());
-        final Post post = entityManager.merge(POST_WITH_3_IMAGES.생성(user));
+        final User user = 저장한다(BOB.생성());
+        final Post post = 저장한다(POST_WITH_3_IMAGES.생성(user));
 
         // when
         final PostData postData = postDao.getByPostId(user.getId(), post.getId());
@@ -65,14 +60,14 @@ public class PostDaoQuerydslImplTest extends QuerydslTest {
     @Test
     void 팔로잉_목록의_게시물_ID_목록을_조회한다() {
         // given
-        final User bob = entityManager.merge(BOB.생성());
-        final User alice = entityManager.merge(ALICE.생성());
-        final User charlie = entityManager.merge(CHARLIE.생성());
-        entityManager.persist(POST_1.생성(alice));
-        entityManager.persist(POST_2.생성(charlie));
-        entityManager.persist(POST_3.생성(charlie));
-        entityManager.persist(new Follow(bob.getId(), alice.getId()));
-        entityManager.persist(new Follow(bob.getId(), charlie.getId()));
+        final User bob = 저장한다(BOB.생성());
+        final User alice = 저장한다(ALICE.생성());
+        final User charlie = 저장한다(CHARLIE.생성());
+        저장한다(POST_1.생성(alice));
+        저장한다(POST_2.생성(charlie));
+        저장한다(POST_3.생성(charlie));
+        저장한다(new Follow(bob.getId(), alice.getId()));
+        저장한다(new Follow(bob.getId(), charlie.getId()));
 
         final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
 
@@ -86,10 +81,10 @@ public class PostDaoQuerydslImplTest extends QuerydslTest {
     @Test
     void 사용자_ID를_통해_업로드한_게시물_ID_목록을_조회한다() {
         // given
-        final User bob = entityManager.merge(BOB.생성());
-        entityManager.persist(POST_1.생성(bob));
-        entityManager.persist(POST_2.생성(bob));
-        entityManager.persist(POST_3.생성(bob));
+        final User bob = 저장한다(BOB.생성());
+        저장한다(POST_1.생성(bob));
+        저장한다(POST_2.생성(bob));
+        저장한다(POST_3.생성(bob));
 
         final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
 
@@ -103,10 +98,10 @@ public class PostDaoQuerydslImplTest extends QuerydslTest {
     @Test
     void 컬렉션으로_게시물_리스트를_조회한다() {
         // given
-        final User bob = entityManager.merge(BOB.생성());
-        final Post post1 = entityManager.merge(POST_1.생성(bob));
-        final Post post2 = entityManager.merge(POST_2.생성(bob));
-        final Post post3 = entityManager.merge(POST_3.생성(bob));
+        final User bob = 저장한다(BOB.생성());
+        final Post post1 = 저장한다(POST_1.생성(bob));
+        final Post post2 = 저장한다(POST_2.생성(bob));
+        final Post post3 = 저장한다(POST_3.생성(bob));
         final List<Long> ids = List.of(post1.getId(), post2.getId(), post3.getId());
 
         // when
