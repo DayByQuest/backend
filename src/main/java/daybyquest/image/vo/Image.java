@@ -22,10 +22,9 @@ public class Image {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Image)) {
+        if (!(o instanceof Image image)) {
             return false;
         }
-        final Image image = (Image) o;
         return this.imageIdentifier.equals(image.imageIdentifier);
     }
 
