@@ -13,8 +13,6 @@ import daybyquest.group.domain.Group;
 import daybyquest.group.domain.GroupUser;
 import daybyquest.support.test.QuerydslTest;
 import daybyquest.user.domain.User;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -25,14 +23,11 @@ public class GroupDaoQuerydslImplTest extends QuerydslTest {
     @Autowired
     private GroupDaoQuerydslImpl groupDao;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Test
     void 그룹_ID로_데이터를_조회한다() {
         // given
-        final User user = entityManager.merge(BOB.생성());
-        final Group group = entityManager.merge(GROUP_1.생성());
+        final User user = 저장한다(BOB.생성());
+        final Group group = 저장한다(GROUP_1.생성());
 
         // when
         final GroupData groupData = groupDao.getById(user.getId(), group.getId());
@@ -51,14 +46,14 @@ public class GroupDaoQuerydslImplTest extends QuerydslTest {
     @Test
     void 그룹_인원_수가_함께_조회된다() {
         // given
-        final User bob = entityManager.merge(BOB.생성());
-        final User alice = entityManager.merge(ALICE.생성());
-        final User charlie = entityManager.merge(CHARLIE.생성());
-        final Group group = entityManager.merge(GROUP_1.생성());
+        final User bob = 저장한다(BOB.생성());
+        final User alice = 저장한다(ALICE.생성());
+        final User charlie = 저장한다(CHARLIE.생성());
+        final Group group = 저장한다(GROUP_1.생성());
 
-        entityManager.merge(GroupUser.createGroupMember(bob.getId(), group));
-        entityManager.merge(GroupUser.createGroupMember(alice.getId(), group));
-        entityManager.merge(GroupUser.createGroupManager(charlie.getId(), group));
+        저장한다(GroupUser.createGroupMember(bob.getId(), group));
+        저장한다(GroupUser.createGroupMember(alice.getId(), group));
+        저장한다(GroupUser.createGroupManager(charlie.getId(), group));
 
         // when
         final GroupData groupData = groupDao.getById(bob.getId(), group.getId());
@@ -70,12 +65,12 @@ public class GroupDaoQuerydslImplTest extends QuerydslTest {
     @Test
     void 그룹_관리자_여부가_함께_조회된다() {
         // given
-        final User bob = entityManager.merge(BOB.생성());
-        final User alice = entityManager.merge(ALICE.생성());
-        final Group group = entityManager.merge(GROUP_1.생성());
+        final User bob = 저장한다(BOB.생성());
+        final User alice = 저장한다(ALICE.생성());
+        final Group group = 저장한다(GROUP_1.생성());
 
-        entityManager.merge(GroupUser.createGroupMember(bob.getId(), group));
-        entityManager.merge(GroupUser.createGroupManager(alice.getId(), group));
+        저장한다(GroupUser.createGroupMember(bob.getId(), group));
+        저장한다(GroupUser.createGroupManager(alice.getId(), group));
 
         // when
         final GroupData bobActual = groupDao.getById(bob.getId(), group.getId());

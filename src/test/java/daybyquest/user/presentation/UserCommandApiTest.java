@@ -5,18 +5,14 @@ import static daybyquest.user.domain.UserVisibility.PRIVATE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.then;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,19 +66,13 @@ public class UserCommandApiTest extends ApiTest {
         final SaveUserRequest request = 회원가입_요청(ALICE.생성());
 
         // when
-        final ResultActions resultActions = mockMvc.perform(
-                post("/profile")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)));
+        final ResultActions resultActions = POST_요청을_보낸다("/profile", request);
 
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("user/save",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()))
-                );
-        verify(saveUserService).invoke(any(SaveUserRequest.class));
+                .andDo(문서화한다("user/save"));
+        then(saveUserService).should().invoke(any(SaveUserRequest.class));
     }
 
     @Test
@@ -91,21 +81,13 @@ public class UserCommandApiTest extends ApiTest {
         final UpdateUserRequest request = 사용자_수정_요청(ALICE.생성());
 
         // when
-        final ResultActions resultActions = mockMvc.perform(
-                patch("/profile")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .header("Authorization", "UserId 1"));
+        final ResultActions resultActions = 인증_상태로_PATCH_요청을_보낸다("/profile", request);
 
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("user/update",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestHeaders(headerWithName("Authorization").description("UserId 헤더")))
-                );
-        verify(updateUserService).invoke(anyLong(), any(UpdateUserRequest.class));
+                .andDo(인증_상태로_문서화한다("user/update"));
+        then(updateUserService).should().invoke(anyLong(), any(UpdateUserRequest.class));
     }
 
     @Test
@@ -114,21 +96,13 @@ public class UserCommandApiTest extends ApiTest {
         final UpdateUserVisibilityRequest request = 사용자_가시성_수정_요청();
 
         // when
-        final ResultActions resultActions = mockMvc.perform(
-                patch("/profile/visibility")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .header("Authorization", "UserId 1"));
+        final ResultActions resultActions = 인증_상태로_PATCH_요청을_보낸다("/profile/visibility", request);
 
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("user/visibility/update",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestHeaders(headerWithName("Authorization").description("UserId 헤더")))
-                );
-        verify(updateVisibilityService).invoke(anyLong(), any(UpdateUserVisibilityRequest.class));
+                .andDo(인증_상태로_문서화한다("user/update/visibility"));
+        then(updateVisibilityService).should().invoke(anyLong(), any(UpdateUserVisibilityRequest.class));
     }
 
     @Test
@@ -137,20 +111,13 @@ public class UserCommandApiTest extends ApiTest {
         final UpdateUserInterestRequest request = 사용자_관심사_수정_요청();
 
         // when
-        final ResultActions resultActions = mockMvc.perform(
-                patch("/profile/interest")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .header("Authorization", "UserId 1"));
+        final ResultActions resultActions = 인증_상태로_PATCH_요청을_보낸다("/profile/interest", request);
 
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("user/interest/update",
-                        preprocessResponse(prettyPrint()),
-                        requestHeaders(headerWithName("Authorization").description("UserId 헤더")))
-                );
-        verify(updateUserInterestService).invoke(anyLong(), any(UpdateUserInterestRequest.class));
+                .andDo(인증_상태로_문서화한다("user/update/interest"));
+        then(updateUserInterestService).should().invoke(anyLong(), any(UpdateUserInterestRequest.class));
     }
 
     @Test
@@ -169,29 +136,24 @@ public class UserCommandApiTest extends ApiTest {
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("user/image/update",
+                .andDo(document("user/update/image",
                         preprocessResponse(prettyPrint()),
                         requestHeaders(headerWithName("Authorization").description("UserId 헤더")),
                         requestParts(partWithName("image").description("사진 파일")))
                 );
-        verify(updateUserImageService).invoke(anyLong(), any(MultipartFile.class));
+        then(updateUserImageService).should().invoke(anyLong(), any(MultipartFile.class));
     }
 
     @Test
     void 사용자_사진을_삭제한다() throws Exception {
         // given & when
-        final ResultActions resultActions = mockMvc.perform(
-                delete("/profile/image")
-                        .header("Authorization", "UserId 1"));
+        final ResultActions resultActions = 인증_상태로_DELETE_요청을_보낸다("/profile/image");
 
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("user/image/delete",
-                        preprocessResponse(prettyPrint()),
-                        requestHeaders(headerWithName("Authorization").description("UserId 헤더")))
-                );
-        verify(deleteUserImageService).invoke(anyLong());
+                .andDo(인증_상태로_문서화한다("user/delete/image"));
+        then(deleteUserImageService).should().invoke(anyLong());
     }
 
     private SaveUserRequest 회원가입_요청(final User user) {

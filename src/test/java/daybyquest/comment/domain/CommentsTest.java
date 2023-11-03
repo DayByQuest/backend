@@ -3,7 +3,7 @@ package daybyquest.comment.domain;
 import static daybyquest.support.fixture.CommentFixtures.댓글_1;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.then;
 
 import daybyquest.post.domain.Posts;
 import daybyquest.user.domain.Users;
@@ -39,9 +39,9 @@ public class CommentsTest {
 
         // then
         assertAll(() -> {
-            verify(users).validateExistentById(userId);
-            verify(posts).validateExistentById(postId);
-            verify(commentRepository).save(any(Comment.class));
+            then(users).should().validateExistentById(userId);
+            then(posts).should().validateExistentById(postId);
+            then(commentRepository).should().save(any(Comment.class));
         });
     }
 }

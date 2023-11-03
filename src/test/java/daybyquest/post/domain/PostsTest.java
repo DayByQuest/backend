@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.then;
 
 import daybyquest.global.error.exception.NotExistPostException;
 import daybyquest.user.domain.Users;
@@ -41,8 +41,8 @@ public class PostsTest {
 
         // then
         assertAll(() -> {
-            verify(users).validateExistentById(aliceId);
-            verify(postRepository).save(any(Post.class));
+            then(users).should().validateExistentById(aliceId);
+            then(postRepository).should().save(any(Post.class));
         });
     }
 
@@ -59,7 +59,7 @@ public class PostsTest {
 
         // then
         assertAll(() -> {
-            verify(postRepository).findById(aliceId);
+            then(postRepository).should().findById(aliceId);
             assertThat(actual).usingRecursiveComparison().isEqualTo(post);
         });
     }
@@ -70,7 +70,7 @@ public class PostsTest {
         assertThatThrownBy(() -> posts.getById(1L))
                 .isInstanceOf(NotExistPostException.class);
     }
-    
+
     @Test
     void 게시물_ID_존재_여부를_검증한다() {
         // given
@@ -81,6 +81,6 @@ public class PostsTest {
         posts.validateExistentById(postId);
 
         // then
-        verify(postRepository).existsById(postId);
+        then(postRepository).should().existsById(postId);
     }
 }
