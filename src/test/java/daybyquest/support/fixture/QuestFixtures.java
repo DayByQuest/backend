@@ -6,6 +6,7 @@ import daybyquest.image.vo.Image;
 import daybyquest.quest.domain.Quest;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.test.util.ReflectionTestUtils;
 
 public enum QuestFixtures {
     QUEST_1("일반퀘스트1", "퀘스트1입니다", "관심사", 5L, null,
@@ -46,27 +47,42 @@ public enum QuestFixtures {
         this.label = label;
     }
 
+    public Quest 일반_퀘스트_생성(final Long id, final Long badgeId) {
+        Long rewardCount = this.rewardCount;
+        if (badgeId == null) {
+            rewardCount = null;
+        }
+        final Quest quest = Quest.createNormalQuest(badgeId, interest, title, content, rewardCount,
+                imageDescription, 사진_목록());
+        ReflectionTestUtils.setField(quest, "id", id);
+        return quest;
+    }
+
     public Quest 일반_퀘스트_생성() {
-        return Quest.createNormalQuest(null, interest, title, content, null, imageDescription,
-                사진_목록());
+        return 일반_퀘스트_생성(null, null);
     }
 
     public Quest 일반_퀘스트_생성(final Long badgeId) {
-        return Quest.createNormalQuest(badgeId, interest, title, content, rewardCount, imageDescription,
-                사진_목록());
+        return 일반_퀘스트_생성(null, badgeId);
     }
 
     public Quest 일반_퀘스트_생성(final Badge badge) {
         return 일반_퀘스트_생성(badge.getId());
     }
 
+    public Quest 그룹_퀘스트_생성(final Long id, final Long groupId) {
+        final Quest quest = Quest.createGroupQuest(groupId, interest, title, content, expiredAt,
+                imageDescription, 사진_목록());
+        ReflectionTestUtils.setField(quest, "id", id);
+        return quest;
+    }
+
     public Quest 그룹_퀘스트_생성(final Long groupId) {
-        return Quest.createGroupQuest(groupId, interest, title, content, expiredAt, imageDescription,
-                사진_목록());
+        return 그룹_퀘스트_생성(null, groupId);
     }
 
     public Quest 그룹_퀘스트_생성(final Group group) {
-        return 일반_퀘스트_생성(group.getId());
+        return 그룹_퀘스트_생성(group.getId());
     }
 
     public List<Image> 사진_목록() {
