@@ -1,13 +1,6 @@
 package daybyquest.image.domain;
 
-import java.util.UUID;
-import org.springframework.stereotype.Component;
+public interface ImageIdentifierGenerator {
 
-@Component
-public class ImageIdentifierGenerator {
-
-    public String generateIdentifier(final String category, final String originalName) {
-        final String uuid = UUID.randomUUID().toString();
-        return category + "/" + uuid + originalName;
-    }
+    String generate(final String category, final String originalName);
 }

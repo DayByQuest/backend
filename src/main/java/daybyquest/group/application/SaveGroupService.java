@@ -31,7 +31,7 @@ public class SaveGroupService {
 
     @Transactional
     public Long invoke(final Long loginId, final SaveGroupRequest request, final MultipartFile file) {
-        final String identifier = generator.generateIdentifier(CATEGORY, file.getOriginalFilename());
+        final String identifier = generator.generate(CATEGORY, file.getOriginalFilename());
         final Image image = images.upload(identifier, MultipartFileUtils.getInputStream(file));
         final Group group = toEntity(request, image);
         return groups.save(loginId, group);

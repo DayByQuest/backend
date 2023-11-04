@@ -36,7 +36,7 @@ public class UpdateUserImageService {
     public void invoke(final Long loginId, final MultipartFile file) {
         final User user = users.getById(loginId);
         final String oldIdentifier = user.getImageIdentifier();
-        final String identifier = generator.generateIdentifier(CATEGORY, file.getOriginalFilename());
+        final String identifier = generator.generate(CATEGORY, file.getOriginalFilename());
         final Image image = images.upload(identifier, MultipartFileUtils.getInputStream(file));
         user.updateImage(image);
         if (properties.isNotBase(oldIdentifier)) {
