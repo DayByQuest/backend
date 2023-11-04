@@ -22,7 +22,7 @@ public class Interests {
         interestRepository.save(interest);
     }
 
-    public void validateNotExistentByName(final String interestName) {
+    private void validateNotExistentByName(final String interestName) {
         if (interestRepository.existsByName(interestName)) {
             throw new InvalidDomainException(ALREADY_EXIST_INTEREST);
         }
