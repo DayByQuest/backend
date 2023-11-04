@@ -31,8 +31,8 @@ public class SaveBadgeService {
     @Transactional
     public void invoke(final String name, final MultipartFile file) {
         final String identifier = generator.generateIdentifier(CATEGORY, file.getOriginalFilename());
-        images.upload(identifier, MultipartFileUtils.getInputStream(file));
-        final Badge badge = new Badge(name, new Image(identifier));
+        final Image image = images.upload(identifier, MultipartFileUtils.getInputStream(file));
+        final Badge badge = new Badge(name, image);
         badges.save(badge);
     }
 }

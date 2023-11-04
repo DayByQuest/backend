@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import daybyquest.global.error.exception.InvalidFileException;
+import daybyquest.image.domain.Image;
 import daybyquest.image.domain.Images;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +25,7 @@ public class S3Images implements Images {
     }
 
     @Override
-    public void upload(final String identifier, final InputStream imageStream) {
+    public Image upload(final String identifier, final InputStream imageStream) {
         try {
             final ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(imageStream.available());
@@ -32,6 +33,7 @@ public class S3Images implements Images {
                     bucket, identifier, imageStream, metadata
             );
             amazonS3.putObject(putObjectRequest);
+            return new Image(identifier);
         } catch (IOException e) {
             throw new InvalidFileException();
         }

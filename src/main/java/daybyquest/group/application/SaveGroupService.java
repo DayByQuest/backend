@@ -32,13 +32,13 @@ public class SaveGroupService {
     @Transactional
     public Long invoke(final Long loginId, final SaveGroupRequest request, final MultipartFile file) {
         final String identifier = generator.generateIdentifier(CATEGORY, file.getOriginalFilename());
-        images.upload(identifier, MultipartFileUtils.getInputStream(file));
-        final Group group = toEntity(request, identifier);
+        final Image image = images.upload(identifier, MultipartFileUtils.getInputStream(file));
+        final Group group = toEntity(request, image);
         return groups.save(loginId, group);
     }
 
-    public Group toEntity(final SaveGroupRequest request, final String imageIdentifier) {
+    public Group toEntity(final SaveGroupRequest request, final Image image) {
         return new Group(request.getInterest(), request.getName(), request.getDescription(),
-                new Image(imageIdentifier));
+                image);
     }
 }

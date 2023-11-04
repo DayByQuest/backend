@@ -32,8 +32,8 @@ public class SaveInterestService {
     @Transactional
     public void invoke(final SaveInterestRequest request, final MultipartFile file) {
         final String identifier = generator.generateIdentifier(CATEGORY, file.getOriginalFilename());
-        images.upload(identifier, MultipartFileUtils.getInputStream(file));
-        final Interest interest = new Interest(request.getName(), new Image(identifier));
+        final Image image = images.upload(identifier, MultipartFileUtils.getInputStream(file));
+        final Interest interest = new Interest(request.getName(), image);
         interests.save(interest);
     }
 }

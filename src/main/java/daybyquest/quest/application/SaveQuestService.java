@@ -39,8 +39,7 @@ public class SaveQuestService {
     private List<Image> toImageList(final List<MultipartFile> files) {
         return files.stream().map((file) -> {
             final String identifier = generator.generateIdentifier(CATEGORY, file.getOriginalFilename());
-            images.upload(identifier, MultipartFileUtils.getInputStream(file));
-            return new Image(identifier);
+            return images.upload(identifier, MultipartFileUtils.getInputStream(file));
         }).toList();
     }
 
