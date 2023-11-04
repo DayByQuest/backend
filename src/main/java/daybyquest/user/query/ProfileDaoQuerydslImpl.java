@@ -44,7 +44,7 @@ public class ProfileDaoQuerydslImpl implements ProfileDao {
                 user.id,
                 user.username,
                 user.name,
-                user.image.imageIdentifier,
+                user.image.identifier,
                 JPAExpressions.select(post.count())
                         .from(post)
                         .where(post.userId.eq(userId)),
@@ -77,7 +77,7 @@ public class ProfileDaoQuerydslImpl implements ProfileDao {
                         user.id,
                         user.username,
                         user.name,
-                        user.image.imageIdentifier,
+                        user.image.identifier,
                         JPAExpressions.select(post.count())
                                 .from(post)
                                 .where(post.userId.eq(userId)),
