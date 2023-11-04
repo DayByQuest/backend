@@ -30,13 +30,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class Quest {
 
-    private static final int MAX_TITLE_LENGTH = 15;
+    private static final int MAX_TITLE_LENGTH = 30;
 
     private static final int MAX_CONTENT_LENGTH = 300;
 
-    private static final int MAX_IMAGE_DESCRIPTION_LENGTH = 300;
+    private static final int MAX_IMAGE_DESCRIPTION_LENGTH = 100;
 
-    private static final int MAX_REWARD_COUNT = 100;
+    private static final Long MIN_REWARD_COUNT = 1L;
+
+    private static final Long MAX_REWARD_COUNT = 365L;
 
     private static final int IMAGE_COUNT = 3;
 
@@ -81,9 +83,9 @@ public class Quest {
     @CollectionTable(name = "quest_image", joinColumns = @JoinColumn(name = "quest_id"))
     private List<Image> images;
 
-    private Quest(Long groupId, Long badgeId, String interestName, String title, String content,
-            QuestCategory category, Long rewardCount, LocalDateTime expiredAt,
-            String imageDescription, List<Image> images) {
+    private Quest(final Long groupId, final Long badgeId, final String interestName, final String title,
+            final String content, final QuestCategory category, final Long rewardCount,
+            final LocalDateTime expiredAt, final String imageDescription, final List<Image> images) {
         this.groupId = groupId;
         this.badgeId = badgeId;
         this.interestName = interestName;
@@ -98,18 +100,25 @@ public class Quest {
         validate();
     }
 
-    public static Quest createNormalQuest(Long badgeId, String interestName, String title,
-            String content,
-            Long rewardCount, String imageDescription, List<Image> images) {
+    public static Quest createNormalQuest(final Long badgeId, final String interestName, final String title,
+            final String content, final Long rewardCount, final String imageDescription,
+            final List<Image> images) {
         return new Quest(null, badgeId, interestName, title, content, QuestCategory.NORMAL, rewardCount
                 , null, imageDescription, images);
     }
 
-    public static Quest createGroupQuest(Long groupId, String interestName, String title,
-            String content,
-            LocalDateTime expiredAt, String imageDescription, List<Image> images) {
+    public static Quest createGroupQuest(final Long groupId, final String interestName, final String title,
+            final String content, final LocalDateTime expiredAt, final String imageDescription,
+            final List<Image> images) {
+        validateGroupId(groupId);
         return new Quest(groupId, null, interestName, title, content, QuestCategory.GROUP, null
                 , expiredAt, imageDescription, images);
+    }
+
+    private static void validateGroupId(final Long groupId) {
+        if (groupId == null) {
+            throw new InvalidDomainException();
+        }
     }
 
     private void validate() {
@@ -118,6 +127,8 @@ public class Quest {
         validateImageDescription();
         validateRewardCount();
         validateImageCount();
+        validateReward();
+        validateExpiredAt();
     }
 
     private void validateTitle() {
@@ -139,13 +150,28 @@ public class Quest {
     }
 
     private void validateRewardCount() {
-        if (rewardCount > MAX_REWARD_COUNT) {
+        if (rewardCount == null) {
+            return;
+        }
+        if (rewardCount < MIN_REWARD_COUNT || rewardCount > MAX_REWARD_COUNT) {
             throw new InvalidDomainException();
         }
     }
 
     private void validateImageCount() {
         if (images.size() != IMAGE_COUNT) {
+            throw new InvalidDomainException();
+        }
+    }
+
+    private void validateReward() {
+        if (rewardCount == null ^ badgeId == null) {
+            throw new InvalidDomainException();
+        }
+    }
+
+    private void validateExpiredAt() {
+        if (expiredAt != null && expiredAt.isBefore(LocalDateTime.now())) {
             throw new InvalidDomainException();
         }
     }
