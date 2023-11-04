@@ -1,6 +1,8 @@
 package daybyquest.support.fixture;
 
 
+import static daybyquest.post.domain.PostState.SUCCESS;
+
 import daybyquest.image.vo.Image;
 import daybyquest.post.domain.Post;
 import daybyquest.quest.domain.Quest;
@@ -41,6 +43,12 @@ public enum PostFixtures {
 
     public Post 생성(final User user, final Quest quest) {
         return 생성(null, user.getId(), quest.getId());
+    }
+
+    public Post 링크_성공_상태로_생성(final User user, final Quest quest) {
+        final Post post = 생성(null, user.getId(), quest.getId());
+        ReflectionTestUtils.setField(post, "state", SUCCESS);
+        return post;
     }
 
     public Post 생성(final User user) {
