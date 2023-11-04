@@ -3,7 +3,7 @@ package daybyquest.support.fixture;
 
 import static daybyquest.post.domain.PostState.SUCCESS;
 
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import daybyquest.post.domain.Post;
 import daybyquest.quest.domain.Quest;
 import daybyquest.user.domain.User;

@@ -1,6 +1,6 @@
 package daybyquest.group.query;
 
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import lombok.Getter;
 
 @Getter

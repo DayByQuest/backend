@@ -1,6 +1,6 @@
 package daybyquest.global.config;
 
-import daybyquest.image.vo.BaseImageProperties;
+import daybyquest.image.domain.BaseImageProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

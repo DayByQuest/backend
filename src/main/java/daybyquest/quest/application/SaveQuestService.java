@@ -1,9 +1,9 @@
 package daybyquest.quest.application;
 
 import daybyquest.global.utils.MultipartFileUtils;
-import daybyquest.image.vo.Image;
-import daybyquest.image.vo.ImageIdentifierGenerator;
-import daybyquest.image.vo.Images;
+import daybyquest.image.domain.Image;
+import daybyquest.image.domain.ImageIdentifierGenerator;
+import daybyquest.image.domain.Images;
 import daybyquest.quest.domain.Quest;
 import daybyquest.quest.domain.Quests;
 import daybyquest.quest.dto.request.SaveQuestRequest;

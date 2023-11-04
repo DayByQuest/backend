@@ -5,7 +5,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import daybyquest.global.error.exception.InvalidFileException;
-import daybyquest.image.vo.Images;
+import daybyquest.image.domain.Images;
 import java.io.IOException;
 import java.io.InputStream;
 import org.springframework.beans.factory.annotation.Value;

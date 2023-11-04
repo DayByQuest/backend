@@ -1,11 +1,11 @@
 package daybyquest.support.fixture;
 
 import daybyquest.badge.domain.Badge;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public enum BadgeFixtures {
-    
+
     BADGE_1("뱃지1", "badge1.png"),
     BADGE_2("뱃지2", "badge2.png"),
     BADGE_3("뱃지3", "badge3.png"),

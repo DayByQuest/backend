@@ -2,7 +2,7 @@ package daybyquest.post.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import daybyquest.post.domain.PostState;
 import daybyquest.post.query.PostData;
 import daybyquest.user.dto.response.ProfileResponse;

@@ -2,7 +2,7 @@ package daybyquest.post.query;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
-import static daybyquest.image.vo.QImage.image;
+import static daybyquest.image.domain.QImage.image;
 import static daybyquest.like.domain.QPostLike.postLike;
 import static daybyquest.post.domain.QPost.post;
 import static daybyquest.quest.domain.QQuest.quest;
@@ -16,7 +16,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import daybyquest.global.error.exception.NotExistPostException;
 import daybyquest.global.query.LongIdList;
 import daybyquest.global.query.NoOffsetIdPage;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

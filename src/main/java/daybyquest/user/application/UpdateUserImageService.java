@@ -1,10 +1,10 @@
 package daybyquest.user.application;
 
 import daybyquest.global.utils.MultipartFileUtils;
-import daybyquest.image.vo.BaseImageProperties;
-import daybyquest.image.vo.Image;
-import daybyquest.image.vo.ImageIdentifierGenerator;
-import daybyquest.image.vo.Images;
+import daybyquest.image.domain.BaseImageProperties;
+import daybyquest.image.domain.Image;
+import daybyquest.image.domain.ImageIdentifierGenerator;
+import daybyquest.image.domain.Images;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
 import org.springframework.stereotype.Service;

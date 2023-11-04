@@ -2,7 +2,7 @@ package daybyquest.support.fixture;
 
 import daybyquest.badge.domain.Badge;
 import daybyquest.group.domain.Group;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import daybyquest.quest.domain.Quest;
 import java.time.LocalDateTime;
 import java.util.List;

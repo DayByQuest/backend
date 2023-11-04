@@ -1,7 +1,7 @@
 package daybyquest.support.fixture;
 
 import daybyquest.group.domain.Group;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public enum GroupFixtures {

@@ -1,6 +1,6 @@
 package daybyquest.post.query;
 
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import daybyquest.post.domain.PostState;
 import java.time.LocalDateTime;
 import java.util.List;
