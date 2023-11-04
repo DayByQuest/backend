@@ -2,7 +2,7 @@ package daybyquest.image.domain;
 
 import static lombok.AccessLevel.PROTECTED;
 
-import daybyquest.global.error.exception.InvalidFileException;
+import daybyquest.global.error.exception.InvalidDomainException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.util.Objects;
@@ -26,7 +26,7 @@ public class Image {
 
     private void validateIdentifier() {
         if (identifier == null || identifier.isEmpty() || identifier.length() > MAX_IDENTIFIER_LENGTH) {
-            throw new InvalidFileException();
+            throw new InvalidDomainException();
         }
     }
 
