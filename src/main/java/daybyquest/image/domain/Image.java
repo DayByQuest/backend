@@ -2,6 +2,7 @@ package daybyquest.image.domain;
 
 import static lombok.AccessLevel.PROTECTED;
 
+import daybyquest.global.error.exception.InvalidFileException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.util.Objects;
@@ -13,11 +14,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = PROTECTED)
 public class Image {
 
+    private static final int MAX_IDENTIFIER_LENGTH = 255;
+
     @Column(nullable = false)
     private String identifier;
 
     public Image(String identifier) {
         this.identifier = identifier;
+        validateIdentifier();
+    }
+
+    private void validateIdentifier() {
+        if (identifier == null || identifier.isEmpty() || identifier.length() > MAX_IDENTIFIER_LENGTH) {
+            throw new InvalidFileException();
+        }
     }
 
     @Override
