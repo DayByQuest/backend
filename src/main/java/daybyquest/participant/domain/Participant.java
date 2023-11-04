@@ -37,13 +37,13 @@ public class Participant {
     @Enumerated(EnumType.STRING)
     private ParticipantState state;
 
-    private int linkedCount;
+    private Long linkedCount;
 
     public Participant(Long userId, Quest quest) {
         this.userId = userId;
         this.quest = quest;
         this.state = DOING;
-        this.linkedCount = 0;
+        this.linkedCount = 0L;
     }
 
     public Long getQuestId() {
@@ -64,8 +64,8 @@ public class Participant {
     }
 
     private void validateRewardCount() {
-        if (quest.getRewardCount() != null && quest.getRewardCount() != 0
-                && linkedCount < quest.getRewardCount()) {
+        if (quest.getRewardCount() == null || quest.getRewardCount() == 0
+                || linkedCount < quest.getRewardCount()) {
             throw new InvalidDomainException(NOT_FINISHABLE_QUEST);
         }
     }
@@ -85,6 +85,9 @@ public class Participant {
     }
 
     public void increaseLinkedCount() {
+        if (state != DOING && state != CONTINUE) {
+            throw new InvalidDomainException();
+        }
         linkedCount += 1;
     }
 }
