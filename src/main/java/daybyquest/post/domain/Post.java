@@ -6,7 +6,7 @@ import static daybyquest.post.domain.PostState.SUCCESS;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import daybyquest.global.error.exception.InvalidDomainException;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;

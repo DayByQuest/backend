@@ -1,6 +1,6 @@
 package daybyquest.support.fixture;
 
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import daybyquest.interest.domain.Interest;
 
 public enum InterestFixtures {

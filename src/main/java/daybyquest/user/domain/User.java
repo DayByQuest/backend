@@ -3,7 +3,7 @@ package daybyquest.user.domain;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import daybyquest.global.error.exception.InvalidDomainException;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -78,7 +78,7 @@ public class User {
     }
 
     public String getImageIdentifier() {
-        return image.getImageIdentifier();
+        return image.getIdentifier();
     }
 
     private void validate() {

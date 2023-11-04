@@ -1,6 +1,6 @@
 package daybyquest.group.query;
 
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import lombok.Getter;
 
 @Getter
@@ -32,6 +32,6 @@ public class GroupData {
     }
 
     public String getImageIdentifier() {
-        return image.getImageIdentifier();
+        return image.getIdentifier();
     }
 }

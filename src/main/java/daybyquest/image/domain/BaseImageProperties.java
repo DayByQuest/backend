@@ -1,4 +1,4 @@
-package daybyquest.image.vo;
+package daybyquest.image.domain;
 
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

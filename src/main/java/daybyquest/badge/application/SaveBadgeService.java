@@ -3,9 +3,9 @@ package daybyquest.badge.application;
 import daybyquest.badge.domain.Badge;
 import daybyquest.badge.domain.Badges;
 import daybyquest.global.utils.MultipartFileUtils;
-import daybyquest.image.vo.Image;
-import daybyquest.image.vo.ImageIdentifierGenerator;
-import daybyquest.image.vo.Images;
+import daybyquest.image.domain.Image;
+import daybyquest.image.domain.ImageIdentifierGenerator;
+import daybyquest.image.domain.Images;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,9 +30,9 @@ public class SaveBadgeService {
 
     @Transactional
     public void invoke(final String name, final MultipartFile file) {
-        final String identifier = generator.generateIdentifier(CATEGORY, file.getOriginalFilename());
-        images.upload(identifier, MultipartFileUtils.getInputStream(file));
-        final Badge badge = new Badge(name, new Image(identifier));
+        final String identifier = generator.generate(CATEGORY, file.getOriginalFilename());
+        final Image image = images.upload(identifier, MultipartFileUtils.getInputStream(file));
+        final Badge badge = new Badge(name, image);
         badges.save(badge);
     }
 }

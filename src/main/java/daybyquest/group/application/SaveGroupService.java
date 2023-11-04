@@ -4,9 +4,9 @@ import daybyquest.global.utils.MultipartFileUtils;
 import daybyquest.group.domain.Group;
 import daybyquest.group.domain.Groups;
 import daybyquest.group.dto.request.SaveGroupRequest;
-import daybyquest.image.vo.Image;
-import daybyquest.image.vo.ImageIdentifierGenerator;
-import daybyquest.image.vo.Images;
+import daybyquest.image.domain.Image;
+import daybyquest.image.domain.ImageIdentifierGenerator;
+import daybyquest.image.domain.Images;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,14 +31,14 @@ public class SaveGroupService {
 
     @Transactional
     public Long invoke(final Long loginId, final SaveGroupRequest request, final MultipartFile file) {
-        final String identifier = generator.generateIdentifier(CATEGORY, file.getOriginalFilename());
-        images.upload(identifier, MultipartFileUtils.getInputStream(file));
-        final Group group = toEntity(request, identifier);
+        final String identifier = generator.generate(CATEGORY, file.getOriginalFilename());
+        final Image image = images.upload(identifier, MultipartFileUtils.getInputStream(file));
+        final Group group = toEntity(request, image);
         return groups.save(loginId, group);
     }
 
-    public Group toEntity(final SaveGroupRequest request, final String imageIdentifier) {
+    public Group toEntity(final SaveGroupRequest request, final Image image) {
         return new Group(request.getInterest(), request.getName(), request.getDescription(),
-                new Image(imageIdentifier));
+                image);
     }
 }

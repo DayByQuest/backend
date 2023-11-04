@@ -2,7 +2,7 @@ package daybyquest.quest.query;
 
 import daybyquest.badge.domain.Badge;
 import daybyquest.group.domain.Group;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import daybyquest.participant.domain.ParticipantState;
 import daybyquest.quest.domain.QuestCategory;
 import java.time.LocalDateTime;
@@ -53,7 +53,7 @@ public class QuestData {
     }
 
     public String getImageIdentifier() {
-        return image.getImageIdentifier();
+        return image.getIdentifier();
     }
 
     public void setState(final ParticipantState state) {

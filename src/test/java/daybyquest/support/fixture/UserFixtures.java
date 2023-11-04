@@ -1,6 +1,6 @@
 package daybyquest.support.fixture;
 
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import daybyquest.user.domain.User;
 import org.springframework.test.util.ReflectionTestUtils;
 

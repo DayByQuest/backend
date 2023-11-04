@@ -2,7 +2,7 @@ package daybyquest.post.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import daybyquest.post.domain.PostState;
 import daybyquest.post.query.PostData;
 import daybyquest.user.dto.response.ProfileResponse;
@@ -50,7 +50,7 @@ public class PostWithQuestResponse {
         return new PostWithQuestResponse(
                 ProfileResponse.of(profile),
                 postData.getId(), postData.getContent(), postData.getUpdatedAt(), postData.isLiked(),
-                postData.getImages().stream().map(Image::getImageIdentifier).toList(),
+                postData.getImages().stream().map(Image::getIdentifier).toList(),
                 new SimpleQuestResponse(postData.getQuestId(), postData.getQuestTitle(), postData.getState())
         );
     }

@@ -5,7 +5,7 @@ import static daybyquest.support.util.StringUtils.문자열을_만든다;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import daybyquest.global.error.exception.InvalidDomainException;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Nested;

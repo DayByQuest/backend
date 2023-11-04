@@ -1,6 +1,6 @@
 package daybyquest.badge.query;
 
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
@@ -23,6 +23,6 @@ public class BadgeData {
     }
 
     public String getImageIdentifier() {
-        return image.getImageIdentifier();
+        return image.getIdentifier();
     }
 }

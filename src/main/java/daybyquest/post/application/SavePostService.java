@@ -1,9 +1,9 @@
 package daybyquest.post.application;
 
 import daybyquest.global.utils.MultipartFileUtils;
-import daybyquest.image.vo.Image;
-import daybyquest.image.vo.ImageIdentifierGenerator;
-import daybyquest.image.vo.Images;
+import daybyquest.image.domain.Image;
+import daybyquest.image.domain.ImageIdentifierGenerator;
+import daybyquest.image.domain.Images;
 import daybyquest.post.domain.Post;
 import daybyquest.post.domain.Posts;
 import daybyquest.post.dto.request.SavePostRequest;
@@ -39,9 +39,8 @@ public class SavePostService {
 
     private List<Image> toImageList(final List<MultipartFile> files) {
         return files.stream().map((file) -> {
-            final String identifier = generator.generateIdentifier(CATEGORY, file.getOriginalFilename());
-            images.upload(identifier, MultipartFileUtils.getInputStream(file));
-            return new Image(identifier);
+            final String identifier = generator.generate(CATEGORY, file.getOriginalFilename());
+            return images.upload(identifier, MultipartFileUtils.getInputStream(file));
         }).toList();
     }
 

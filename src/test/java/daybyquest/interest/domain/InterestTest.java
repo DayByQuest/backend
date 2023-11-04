@@ -3,7 +3,7 @@ package daybyquest.interest.domain;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import daybyquest.global.error.exception.InvalidDomainException;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 

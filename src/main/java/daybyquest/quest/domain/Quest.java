@@ -5,7 +5,7 @@ import static daybyquest.quest.domain.QuestState.NEED_LABEL;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import daybyquest.global.error.exception.InvalidDomainException;
-import daybyquest.image.vo.Image;
+import daybyquest.image.domain.Image;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
