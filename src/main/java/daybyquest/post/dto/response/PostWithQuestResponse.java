@@ -50,7 +50,7 @@ public class PostWithQuestResponse {
         return new PostWithQuestResponse(
                 ProfileResponse.of(profile),
                 postData.getId(), postData.getContent(), postData.getUpdatedAt(), postData.isLiked(),
-                postData.getImages().stream().map(Image::getImageIdentifier).toList(),
+                postData.getImages().stream().map(Image::getIdentifier).toList(),
                 new SimpleQuestResponse(postData.getQuestId(), postData.getQuestTitle(), postData.getState())
         );
     }

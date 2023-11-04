@@ -78,7 +78,7 @@ public class User {
     }
 
     public String getImageIdentifier() {
-        return image.getImageIdentifier();
+        return image.getIdentifier();
     }
 
     private void validate() {

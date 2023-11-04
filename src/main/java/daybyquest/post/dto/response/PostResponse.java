@@ -42,7 +42,7 @@ public class PostResponse {
     public static PostResponse of(final PostData postData, final Profile profile) {
         return new PostResponse(ProfileResponse.of(profile), postData.getId(), postData.getContent(),
                 postData.getUpdatedAt(), postData.isLiked(),
-                postData.getImages().stream().map(Image::getImageIdentifier).toList()
+                postData.getImages().stream().map(Image::getIdentifier).toList()
         );
     }
 }

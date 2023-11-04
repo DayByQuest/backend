@@ -23,6 +23,6 @@ public class BadgeData {
     }
 
     public String getImageIdentifier() {
-        return image.getImageIdentifier();
+        return image.getIdentifier();
     }
 }

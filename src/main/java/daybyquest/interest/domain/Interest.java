@@ -31,7 +31,7 @@ public class Interest {
     }
 
     public String getImageIdentifier() {
-        return image.getImageIdentifier();
+        return image.getIdentifier();
     }
 
     private void validateName() {

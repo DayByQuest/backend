@@ -32,6 +32,6 @@ public class GroupData {
     }
 
     public String getImageIdentifier() {
-        return image.getImageIdentifier();
+        return image.getIdentifier();
     }
 }

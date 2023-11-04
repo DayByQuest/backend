@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 public class Image {
 
     @Column(nullable = false)
-    private String imageIdentifier;
+    private String identifier;
 
-    public Image(String imageIdentifier) {
-        this.imageIdentifier = imageIdentifier;
+    public Image(String identifier) {
+        this.identifier = identifier;
     }
 
     @Override
@@ -25,12 +25,11 @@ public class Image {
         if (!(o instanceof Image image)) {
             return false;
         }
-        return this.imageIdentifier.equals(image.imageIdentifier);
+        return this.identifier.equals(image.identifier);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(imageIdentifier);
+        return Objects.hashCode(identifier);
     }
-
 }
