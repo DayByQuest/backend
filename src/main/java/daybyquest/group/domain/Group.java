@@ -1,5 +1,7 @@
 package daybyquest.group.domain;
 
+import static daybyquest.global.error.ExceptionCode.INVALID_GROUP_DESCRIPTION;
+import static daybyquest.global.error.ExceptionCode.INVALID_GROUP_NAME;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -57,13 +59,13 @@ public class Group {
 
     private void validateName() {
         if (name.isEmpty() || name.length() > MAX_NAME_LENGTH) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_GROUP_NAME);
         }
     }
 
     private void validateDescription() {
         if (description != null && description.length() > MAX_DESCRIPTION_LENGTH) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_GROUP_DESCRIPTION);
         }
     }
 }

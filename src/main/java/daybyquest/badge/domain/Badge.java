@@ -1,5 +1,6 @@
 package daybyquest.badge.domain;
 
+import static daybyquest.global.error.ExceptionCode.INVALID_BADGE_NAME;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import daybyquest.global.error.exception.InvalidDomainException;
@@ -38,7 +39,7 @@ public class Badge {
 
     private void validateName() {
         if (name.isEmpty() || name.length() > MAX_NAME_LENGTH) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_BADGE_NAME);
         }
     }
 }

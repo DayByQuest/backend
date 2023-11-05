@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-public class CustomException extends RuntimeException {
+public abstract class CustomException extends RuntimeException {
 
     private final ExceptionCode exceptionCode;
 
@@ -14,13 +14,13 @@ public class CustomException extends RuntimeException {
     private final List<String> fields;
 
     public CustomException(ExceptionCode exceptionCode, List<String> fields) {
+        super(exceptionCode.getMessage());
         this.exceptionCode = exceptionCode;
         this.fields = fields;
     }
 
     public CustomException(ExceptionCode exceptionCode) {
-        this.exceptionCode = exceptionCode;
-        this.fields = Collections.emptyList();
+        this(exceptionCode, Collections.emptyList());
     }
 
     public String getCode() {

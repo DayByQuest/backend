@@ -1,5 +1,14 @@
 package daybyquest.quest.domain;
 
+import static daybyquest.global.error.ExceptionCode.ALREADY_LABELED;
+import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_CONTENT;
+import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_EXPIRED_AT;
+import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_IMAGE;
+import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_IMAGE_DESCRIPTION;
+import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_NAME;
+import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_REWARD;
+import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_REWARD_COUNT;
+import static daybyquest.global.error.ExceptionCode.NOT_EXIST_GROUP;
 import static daybyquest.quest.domain.QuestState.ACTIVE;
 import static daybyquest.quest.domain.QuestState.NEED_LABEL;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -117,7 +126,7 @@ public class Quest {
 
     private static void validateGroupId(final Long groupId) {
         if (groupId == null) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(NOT_EXIST_GROUP);
         }
     }
 
@@ -133,19 +142,19 @@ public class Quest {
 
     private void validateTitle() {
         if (title.isEmpty() || title.length() > MAX_TITLE_LENGTH) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_QUEST_NAME);
         }
     }
 
     private void validateContent() {
         if (content.length() > MAX_CONTENT_LENGTH) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_QUEST_CONTENT);
         }
     }
 
     private void validateImageDescription() {
         if (imageDescription.isEmpty() || imageDescription.length() > MAX_IMAGE_DESCRIPTION_LENGTH) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_QUEST_IMAGE_DESCRIPTION);
         }
     }
 
@@ -154,31 +163,31 @@ public class Quest {
             return;
         }
         if (rewardCount < MIN_REWARD_COUNT || rewardCount > MAX_REWARD_COUNT) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_QUEST_REWARD_COUNT);
         }
     }
 
     private void validateImageCount() {
         if (images.size() != IMAGE_COUNT) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_QUEST_IMAGE);
         }
     }
 
     private void validateReward() {
         if (rewardCount == null ^ badgeId == null) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_QUEST_REWARD);
         }
     }
 
     private void validateExpiredAt() {
         if (expiredAt != null && expiredAt.isBefore(LocalDateTime.now())) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_QUEST_EXPIRED_AT);
         }
     }
 
     public void setLabel(final String label) {
         if (this.state != NEED_LABEL) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(ALREADY_LABELED);
         }
         this.label = label;
         this.state = ACTIVE;

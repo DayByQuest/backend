@@ -1,5 +1,6 @@
 package daybyquest.image.domain;
 
+import static daybyquest.global.error.ExceptionCode.INVALID_IMAGE_IDENTIFIER;
 import static lombok.AccessLevel.PROTECTED;
 
 import daybyquest.global.error.exception.InvalidDomainException;
@@ -26,7 +27,7 @@ public class Image {
 
     private void validateIdentifier() {
         if (identifier == null || identifier.isEmpty() || identifier.length() > MAX_IDENTIFIER_LENGTH) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_IMAGE_IDENTIFIER);
         }
     }
 
