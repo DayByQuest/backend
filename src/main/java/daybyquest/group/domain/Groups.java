@@ -1,5 +1,7 @@
 package daybyquest.group.domain;
 
+import static daybyquest.global.error.ExceptionCode.ALREADY_MEMBER;
+
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.global.error.exception.NotExistGroupException;
 import daybyquest.interest.domain.Interests;
@@ -63,7 +65,7 @@ public class Groups {
 
     private void validateNotMember(final Long userId, final Long groupId) {
         if (groupUserRepository.existsByUserIdAndGroupId(userId, groupId)) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(ALREADY_MEMBER);
         }
     }
 }

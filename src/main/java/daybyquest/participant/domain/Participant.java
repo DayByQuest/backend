@@ -2,6 +2,7 @@ package daybyquest.participant.domain;
 
 import static daybyquest.global.error.ExceptionCode.ALREADY_REWARDED_QUEST;
 import static daybyquest.global.error.ExceptionCode.NOT_CONTINUABLE_QUEST;
+import static daybyquest.global.error.ExceptionCode.NOT_DOING_QUEST;
 import static daybyquest.global.error.ExceptionCode.NOT_FINISHABLE_QUEST;
 import static daybyquest.participant.domain.ParticipantState.CONTINUE;
 import static daybyquest.participant.domain.ParticipantState.DOING;
@@ -86,7 +87,7 @@ public class Participant {
 
     public void increaseLinkedCount() {
         if (state != DOING && state != CONTINUE) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(NOT_DOING_QUEST);
         }
         linkedCount += 1;
     }

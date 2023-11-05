@@ -1,5 +1,6 @@
 package daybyquest.comment.domain;
 
+import static daybyquest.global.error.ExceptionCode.INVALID_COMMENT_CONTENT;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import daybyquest.global.error.exception.InvalidDomainException;
@@ -48,7 +49,7 @@ public class Comment {
 
     private void validateContent() {
         if (content.isEmpty() || content.length() > MAX_CONTENT_SIZE) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_COMMENT_CONTENT);
         }
     }
 }

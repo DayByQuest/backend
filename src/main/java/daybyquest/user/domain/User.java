@@ -1,5 +1,10 @@
 package daybyquest.user.domain;
 
+import static daybyquest.global.error.ExceptionCode.INVALID_USER_EMAIL;
+import static daybyquest.global.error.ExceptionCode.INVALID_USER_INTEREST;
+import static daybyquest.global.error.ExceptionCode.INVALID_USER_NAME;
+import static daybyquest.global.error.ExceptionCode.INVALID_USER_USERNAME;
+import static daybyquest.global.error.ExceptionCode.NOT_UPDATABLE_USER;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import daybyquest.global.error.exception.InvalidDomainException;
@@ -89,19 +94,19 @@ public class User {
 
     private void validateUsername() {
         if (username.isEmpty() || username.length() > MAX_USERNAME_LENGTH) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_USER_USERNAME);
         }
     }
 
     private void validateName() {
         if (name.isEmpty() || name.length() > MAX_NAME_LENGTH) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_USER_NAME);
         }
     }
 
     private void validateEmail() {
         if (email.isEmpty() || email.length() > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.matcher(email).matches()) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_USER_EMAIL);
         }
     }
 
@@ -113,7 +118,7 @@ public class User {
 
     private void validateUpdatable() {
         if (!isUser()) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(NOT_UPDATABLE_USER);
         }
     }
 
@@ -137,7 +142,7 @@ public class User {
 
     private void validateInterests() {
         if (this.interests.size() > MAX_INTEREST_SIZE) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_USER_INTEREST);
         }
     }
 

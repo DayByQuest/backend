@@ -1,5 +1,7 @@
 package daybyquest.interest.domain;
 
+import static daybyquest.global.error.ExceptionCode.INVALID_INTEREST_NAME;
+
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.image.domain.Image;
 import jakarta.persistence.Column;
@@ -36,7 +38,7 @@ public class Interest {
 
     private void validateName() {
         if (name.isEmpty() || name.length() > MAX_NAME_LENGTH) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_INTEREST_NAME);
         }
     }
 }

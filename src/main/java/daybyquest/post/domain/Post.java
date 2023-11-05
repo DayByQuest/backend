@@ -1,5 +1,9 @@
 package daybyquest.post.domain;
 
+import static daybyquest.global.error.ExceptionCode.ALREADY_JUDGED_POST;
+import static daybyquest.global.error.ExceptionCode.INVALID_POST_CONTENT;
+import static daybyquest.global.error.ExceptionCode.INVALID_POST_IMAGE;
+import static daybyquest.global.error.ExceptionCode.NOT_EXIST_USER;
 import static daybyquest.post.domain.PostState.NEED_CHECK;
 import static daybyquest.post.domain.PostState.NOT_DECIDED;
 import static daybyquest.post.domain.PostState.SUCCESS;
@@ -77,32 +81,32 @@ public class Post {
 
     private void validateUserId() {
         if (userId == null) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(NOT_EXIST_USER);
         }
     }
 
     private void validateImages() {
         if (images.isEmpty() || images.size() > MAX_IMAGE_SIZE) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_POST_IMAGE);
         }
     }
 
     private void validateContent() {
         if (content.length() > MAX_CONTENT_SIZE) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(INVALID_POST_CONTENT);
         }
     }
 
     public void success() {
         if (state != NOT_DECIDED) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(ALREADY_JUDGED_POST);
         }
         state = SUCCESS;
     }
 
     public void needCheck() {
         if (state != NOT_DECIDED) {
-            throw new InvalidDomainException();
+            throw new InvalidDomainException(ALREADY_JUDGED_POST);
         }
         state = NEED_CHECK;
     }
