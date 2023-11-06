@@ -8,25 +8,10 @@ import daybyquest.user.dto.response.ProfileResponse;
 import daybyquest.user.query.Profile;
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor
-public class PostResponse {
-
-    private ProfileResponse author;
-
-    private Long id;
-
-    private String content;
-
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime updatedAt;
-
-    private boolean liked;
-
-    private List<String> imageIdentifiers;
+public record PostResponse(ProfileResponse author, Long id, String content,
+                           @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm") LocalDateTime updatedAt,
+                           boolean liked, List<String> imageIdentifiers) {
 
     public PostResponse(final ProfileResponse author, final Long id, final String content,
             final LocalDateTime updatedAt, final boolean liked,

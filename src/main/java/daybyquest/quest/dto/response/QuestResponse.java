@@ -4,37 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import daybyquest.quest.query.QuestData;
 import java.time.LocalDateTime;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor
-public class QuestResponse {
+public record QuestResponse(Long id, String category, String title, String content, String interest,
+                            @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm") LocalDateTime expiredAt,
+                            String imageIdentifier, String state, Long rewardCount, Long currentCount,
+                            String groupName) {
 
-    private Long id;
-
-    private String title;
-
-    private String content;
-
-    private String interest;
-
-    private String category;
-
-    private String state;
-
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime expiredAt;
-
-    private String imageIdentifier;
-
-    private Long rewardCount;
-
-    private Long currentCount;
-
-    private String groupName;
-
-    private QuestResponse(final Long id, final String category, final String title, final String content,
+    public QuestResponse(final Long id, final String category, final String title, final String content,
             final String interest, final LocalDateTime expiredAt, final String imageIdentifier,
             final String state, final Long rewardCount, final Long currentCount, final String groupName) {
         this.id = id;
