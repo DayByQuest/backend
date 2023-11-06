@@ -9,6 +9,9 @@ image:
   base:
     user-identifier: base.png
 
+tracker:
+  days: 60
+
 spring:
   servlet:
     multipart:

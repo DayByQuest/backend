@@ -12,28 +12,31 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GetTrackerService {
 
-    private static final long TRACKER_DAYS = 60L;
-
     private final Users users;
 
     private final PostDao postDao;
 
-    public GetTrackerService(final Users users, final PostDao postDao) {
+    private final long trackerDays;
+
+    public GetTrackerService(final Users users, final PostDao postDao,
+            @Value("${tracker.days}") final long trackerDays) {
         this.users = users;
         this.postDao = postDao;
+        this.trackerDays = trackerDays;
     }
 
     @Transactional(readOnly = true)
     public TrackerResponse invoke(final Long loginId, final String username) {
         final Long userId = users.getUserIdByUsername(username);
         final List<SimplePostData> simplePostData = postDao
-                .findAllBySuccessAndUploadedAtAfter(userId, now().minusDays(TRACKER_DAYS));
+                .findAllBySuccessAndUploadedAtAfter(userId, now().minusDays(trackerDays));
         return new TrackerResponse(calculateTracker(simplePostData));
     }
 
@@ -42,7 +45,7 @@ public class GetTrackerService {
                 .collect(groupingBy((time) -> time.uploadedAt().toLocalDate(), counting()));
 
         return Stream.iterate(LocalDate.now(), date -> date.minusDays(1))
-                .limit(TRACKER_DAYS)
+                .limit(trackerDays)
                 .map(time -> counts.getOrDefault(time, 0L)
                 ).toList();
     }
