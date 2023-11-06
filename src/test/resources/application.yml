@@ -34,3 +34,6 @@ aws:
 image:
   base:
     user-identifier: base.png
+
+tracker:
+  days: 60
