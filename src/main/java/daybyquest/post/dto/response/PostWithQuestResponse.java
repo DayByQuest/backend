@@ -9,27 +9,11 @@ import daybyquest.user.dto.response.ProfileResponse;
 import daybyquest.user.query.Profile;
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor
-public class PostWithQuestResponse {
-
-    private ProfileResponse author;
-
-    private Long id;
-
-    private String content;
-
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime updatedAt;
-
-    private boolean liked;
-
-    private List<String> imageIdentifiers;
-
-    private SimpleQuestResponse quest;
+public record PostWithQuestResponse(ProfileResponse author, Long id, String content,
+                                    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm") LocalDateTime updatedAt,
+                                    boolean liked, List<String> imageIdentifiers,
+                                    daybyquest.post.dto.response.PostWithQuestResponse.SimpleQuestResponse quest) {
 
     public PostWithQuestResponse(final ProfileResponse author, final Long id, final String content,
             final LocalDateTime updatedAt, final boolean liked,
@@ -40,10 +24,11 @@ public class PostWithQuestResponse {
         this.updatedAt = updatedAt;
         this.liked = liked;
         this.imageIdentifiers = imageIdentifiers;
-        this.quest = quest;
-        if (quest.getQuestId() == null) {
+        if (quest.questId() == null) {
             this.quest = null;
+            return;
         }
+        this.quest = quest;
     }
 
     public static PostWithQuestResponse of(final PostData postData, final Profile profile) {
@@ -55,20 +40,7 @@ public class PostWithQuestResponse {
         );
     }
 
-    @Getter
-    @NoArgsConstructor
-    private static class SimpleQuestResponse {
+    public record SimpleQuestResponse(Long questId, String title, PostState state) {
 
-        private Long questId;
-
-        private String title;
-
-        private PostState state;
-
-        public SimpleQuestResponse(final Long questId, final String title, final PostState state) {
-            this.questId = questId;
-            this.title = title;
-            this.state = state;
-        }
     }
 }
