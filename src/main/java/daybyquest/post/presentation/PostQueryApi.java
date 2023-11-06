@@ -6,8 +6,10 @@ import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.post.application.GetPostByUsernameService;
 import daybyquest.post.application.GetPostFromFollowingService;
 import daybyquest.post.application.GetPostService;
+import daybyquest.post.application.GetTrackerService;
 import daybyquest.post.dto.response.PagePostsResponse;
 import daybyquest.post.dto.response.PostWithQuestResponse;
+import daybyquest.post.dto.response.TrackerResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +24,16 @@ public class PostQueryApi {
 
     private final GetPostByUsernameService getPostByUsernameService;
 
+    private final GetTrackerService getTrackerService;
+
     public PostQueryApi(final GetPostService getPostService,
             final GetPostFromFollowingService getPostFromFollowingService,
-            final GetPostByUsernameService getPostByUsernameService) {
+            final GetPostByUsernameService getPostByUsernameService,
+            final GetTrackerService getTrackerService) {
         this.getPostService = getPostService;
         this.getPostFromFollowingService = getPostFromFollowingService;
         this.getPostByUsernameService = getPostByUsernameService;
+        this.getTrackerService = getTrackerService;
     }
 
     @GetMapping("/post/{postId}")
@@ -52,6 +58,14 @@ public class PostQueryApi {
             @PathVariable final String username, final NoOffsetIdPage page) {
         final PagePostsResponse response = getPostByUsernameService.invoke(accessUser.getId(), username,
                 page);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/profile/{username}/tracker")
+    @Authorization
+    public ResponseEntity<TrackerResponse> getTracker(final AccessUser accessUser,
+            @PathVariable final String username) {
+        final TrackerResponse response = getTrackerService.invoke(accessUser.getId(), username);
         return ResponseEntity.ok(response);
     }
 }

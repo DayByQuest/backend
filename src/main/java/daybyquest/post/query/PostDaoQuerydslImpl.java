@@ -4,6 +4,7 @@ import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
 import static daybyquest.image.domain.QImage.image;
 import static daybyquest.like.domain.QPostLike.postLike;
+import static daybyquest.post.domain.PostState.SUCCESS;
 import static daybyquest.post.domain.QPost.post;
 import static daybyquest.quest.domain.QQuest.quest;
 import static daybyquest.relation.domain.QFollow.follow;
@@ -17,6 +18,7 @@ import daybyquest.global.error.exception.NotExistPostException;
 import daybyquest.global.query.LongIdList;
 import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.image.domain.Image;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -106,5 +108,16 @@ public class PostDaoQuerydslImpl implements PostDao {
                 .transform(groupBy(post.id).as(list(image)));
         postDataMap.forEach((id, postData) -> postData.setImages(imageMap.get(id)));
         return postDataMap.values().stream().toList();
+    }
+
+    @Override
+    public List<SimplePostData> findAllBySuccessAndUploadedAtAfter(final Long userId,
+            final LocalDateTime time) {
+        return factory.select(Projections.constructor(SimplePostData.class,
+                        post.id,
+                        post.uploadedAt))
+                .from(post)
+                .where(post.userId.eq(userId), post.uploadedAt.after(time), post.state.eq(SUCCESS))
+                .fetch();
     }
 }
