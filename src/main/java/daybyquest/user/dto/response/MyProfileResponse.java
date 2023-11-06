@@ -2,23 +2,21 @@ package daybyquest.user.dto.response;
 
 import daybyquest.user.query.Profile;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class MyProfileResponse {
 
-    private String username;
+    private final String username;
 
-    private String name;
+    private final String name;
 
-    private String imageIdentifier;
+    private final String imageIdentifier;
 
-    private Long postCount;
+    private final Long postCount;
 
-    private Long followingCount;
+    private final Long followingCount;
 
-    private Long followerCount;
+    private final Long followerCount;
 
     private MyProfileResponse(final String username, final String name, final String imageIdentifier,
             final Long postCount, final Long followingCount, final Long followerCount) {

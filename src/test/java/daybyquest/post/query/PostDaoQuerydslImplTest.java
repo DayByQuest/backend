@@ -8,6 +8,7 @@ import static daybyquest.support.fixture.PostFixtures.POST_WITH_3_IMAGES;
 import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
 import static daybyquest.support.fixture.UserFixtures.CHARLIE;
+import static daybyquest.support.util.PostUtils.n일_전에_업로드;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -17,6 +18,7 @@ import daybyquest.post.domain.Post;
 import daybyquest.relation.domain.Follow;
 import daybyquest.support.test.QuerydslTest;
 import daybyquest.user.domain.User;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,5 +119,31 @@ public class PostDaoQuerydslImplTest extends QuerydslTest {
 
         // then
         assertThat(postData).hasSize(3);
+    }
+
+    @Test
+    void 특정_날짜_이후에_업로드하고_성공한_게시물들을_조회한다() {
+        // given
+        final User bob = 저장한다(BOB.생성());
+        final Post post1 = 저장한다(POST_1.생성(bob));
+        final Post post2 = 저장한다(POST_2.생성(bob));
+        final Post post3 = 저장한다(POST_3.생성(bob));
+        final Post post4 = 저장한다(POST_4.생성(bob));
+        n일_전에_업로드(post2, 1);
+        n일_전에_업로드(post3, 2);
+        n일_전에_업로드(post4, 6);
+
+        final List<Long> expected = List.of(post1.getId(), post2.getId(), post3.getId());
+        final LocalDateTime time = LocalDateTime.now().minusDays(5);
+
+        // when
+        final List<SimplePostData> postData = postDao.findAllBySuccessAndUploadedAtAfter(bob.getId(), time);
+        final List<Long> actual = postData.stream().map(SimplePostData::id).toList();
+
+        // then
+        assertAll(() -> {
+            assertThat(postData).hasSize(3);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        });
     }
 }

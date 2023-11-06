@@ -2,15 +2,13 @@ package daybyquest.user.dto.response;
 
 import java.util.List;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class PageProfilesResponse {
 
-    private List<ProfileResponse> users;
+    private final List<ProfileResponse> users;
 
-    private Long lastId;
+    private final Long lastId;
 
     public PageProfilesResponse(final List<ProfileResponse> users, final Long lastId) {
         this.users = users;
