@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Converter
-public class ProfileBadgeListConverter implements AttributeConverter<List<Long>, String> {
+public class ProfileBadgeIdsConverter implements AttributeConverter<List<Long>, String> {
 
     @Override
     public String convertToDatabaseColumn(List<Long> attribute) {

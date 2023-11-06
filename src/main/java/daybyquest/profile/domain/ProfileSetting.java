@@ -24,25 +24,25 @@ public class ProfileSetting {
     private Long userId;
 
     @Column
-    @Convert(converter = ProfileBadgeListConverter.class)
-    private List<Long> badgeList;
+    @Convert(converter = ProfileBadgeIdsConverter.class)
+    private List<Long> badgeIds;
 
     public ProfileSetting(final Long userId) {
         this.userId = userId;
-        this.badgeList = Collections.emptyList();
+        this.badgeIds = Collections.emptyList();
     }
 
-    public void updateBadgeList(final List<Long> badgeList) {
-        if (badgeList == null) {
-            this.badgeList = Collections.emptyList();
+    public void updateBadgeList(final List<Long> badgeIds) {
+        if (badgeIds == null) {
+            this.badgeIds = Collections.emptyList();
             return;
         }
-        this.badgeList = badgeList;
+        this.badgeIds = badgeIds;
         validateBadgeList();
     }
 
     private void validateBadgeList() {
-        if (badgeList.size() > MAX_BADGE_LIST_SIZE) {
+        if (badgeIds.size() > MAX_BADGE_LIST_SIZE) {
             throw new InvalidDomainException(EXCEED_BADGE);
         }
     }
