@@ -10,8 +10,8 @@ public class ProfileBadgeListConverter implements AttributeConverter<List<Long>,
 
     @Override
     public String convertToDatabaseColumn(List<Long> attribute) {
-        if (attribute == null) {
-            return null;
+        if (attribute == null || attribute.isEmpty()) {
+            return "";
         }
         final List<String> attributeStrings = attribute.stream().map(String::valueOf).toList();
         return String.join(",", attributeStrings);
@@ -19,7 +19,7 @@ public class ProfileBadgeListConverter implements AttributeConverter<List<Long>,
 
     @Override
     public List<Long> convertToEntityAttribute(String dbData) {
-        if (dbData == null) {
+        if (dbData == null || dbData.isEmpty()) {
             return Collections.emptyList();
         }
         final List<String> attributeStrings = List.of(dbData.split(","));
