@@ -84,4 +84,28 @@ public class BadgeDaoQuerydslImplTest extends QuerydslTest {
             assertThat(actual.getImageIdentifier()).isEqualTo(BADGE_1.imageIdentifier);
         });
     }
+
+    @Test
+    void 컬렉션으로_뱃지를_조회한다() {
+        // given
+        final User bob = 저장한다(BOB.생성());
+        final Badge badge1 = 저장한다(BADGE_1.생성());
+        final Badge badge2 = 저장한다(BADGE_2.생성());
+        저장한다(BADGE_3.생성());
+
+        저장한다(new Owning(bob.getId(), badge1));
+        저장한다(new Owning(bob.getId(), badge2));
+
+        final List<Long> ids = List.of(badge1.getId(), badge2.getId());
+
+        // when
+        final List<BadgeData> badgeData = badgeDao.findAllByIdIn(ids);
+        final List<Long> actualIds = badgeData.stream().map(BadgeData::getId).toList();
+
+        // then
+        assertAll(() -> {
+            assertThat(badgeData).hasSize(ids.size());
+            assertThat(actualIds).containsExactlyElementsOf(ids);
+        });
+    }
 }
