@@ -1,6 +1,11 @@
 package daybyquest.badge.domain;
 
+import static daybyquest.global.error.ExceptionCode.NOT_OWNING_BADGE;
+
+import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.user.domain.Users;
+import java.util.Collection;
+import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,5 +30,21 @@ public class Ownings {
 
     private void save(final Owning owning) {
         owningRepository.save(owning);
+    }
+
+    public void validateOwningByBadgeIds(final Long userId, final List<Long> badgeIds) {
+        final List<Owning> ownings = owningRepository.findAllByUserIdAndBadgeIdIn(userId, badgeIds);
+        if (ownings.size() != badgeIds.size()) {
+            throw new InvalidDomainException(NOT_OWNING_BADGE);
+        }
+        ownings.forEach(
+                owning -> validateContainOwning(badgeIds, owning)
+        );
+    }
+
+    private void validateContainOwning(final Collection<Long> badgeIds, final Owning owning) {
+        if (!badgeIds.contains(owning.getBadgeId())) {
+            throw new InvalidDomainException(NOT_OWNING_BADGE);
+        }
     }
 }

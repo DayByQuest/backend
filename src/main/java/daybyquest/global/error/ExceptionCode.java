@@ -80,7 +80,7 @@ public enum ExceptionCode {
     // Badge
     NOT_EXIST_BADGE("BDE-00", BAD_REQUEST, "존재하지 않는 뱃지입니다"),
     NOT_OWNING_BADGE("BDE-01", BAD_REQUEST, "보유하지 않은 뱃지는 프로필에 배치할 수 없습니다"),
-    EXCEED_BADGE("BDE-02", BAD_REQUEST, "뱃지는 최대 15개만 지정가능합니다"),
+    EXCEED_BADGE("BDE-02", BAD_REQUEST, "뱃지는 최대 10개만 지정가능합니다"),
     INVALID_BADGE_NAME("BDE-03", BAD_REQUEST, "뱃지 이름은 1~15글자여야 합니다."),
 
     // Interest

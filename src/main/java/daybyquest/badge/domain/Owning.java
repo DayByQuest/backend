@@ -35,4 +35,8 @@ public class Owning {
         this.userId = userId;
         this.badge = badge;
     }
+
+    public Long getBadgeId() {
+        return badge.getId();
+    }
 }
