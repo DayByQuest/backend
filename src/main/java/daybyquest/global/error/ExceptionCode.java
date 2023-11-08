@@ -61,10 +61,11 @@ public enum ExceptionCode {
     INVALID_QUEST_CONTENT("QUE-10", BAD_REQUEST, "퀘스트 내용은 300자 이하여야 합니다"),
     INVALID_QUEST_IMAGE_DESCRIPTION("QUE-11", BAD_REQUEST, "퀘스트 사진 설명은 1~100자여야 합니다"),
     INVALID_QUEST_REWARD_COUNT("QUE-12", BAD_REQUEST, "목표 횟수는 1~365이어야 합니다"),
-    INVALID_QUEST_IMAGE("QUE-13", BAD_REQUEST, "퀘스트 사진은 3장이어야 합니다"),
+    INVALID_QUEST_IMAGES("QUE-13", BAD_REQUEST, "퀘스트 사진은 3장이어야 합니다"),
     INVALID_QUEST_REWARD("QUE-14", BAD_REQUEST, "보상과 목표 횟수는 둘 중 하나만 존재할 수 없습니다"),
     INVALID_QUEST_EXPIRED_AT("QUE-15", BAD_REQUEST, "만료일자는 현재보다 미래여야 합니다"),
     ALREADY_LABELED("QUE-16", BAD_REQUEST, "이미 라벨링된 퀘스트입니다"),
+    INVALID_QUEST_IMAGE("QUE-17", BAD_REQUEST, "퀘스트 사진이 없습니다"),
 
     // Group
     NOT_EXIST_GROUP("GRP-00", BAD_REQUEST, "존재하지 않는 그룹입니다"),
