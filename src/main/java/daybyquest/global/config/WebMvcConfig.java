@@ -3,6 +3,7 @@ package daybyquest.global.config;
 import daybyquest.auth.AccessUserArgumentResolver;
 import daybyquest.global.query.NoOffsetIdPageArgumentResolver;
 import daybyquest.global.query.NoOffsetTimePageArgumentResolver;
+import daybyquest.participant.presentation.ParticipantStateArgumentResolver;
 import daybyquest.user.domain.Users;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
@@ -25,5 +26,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         resolvers.add(new AccessUserArgumentResolver(users));
         resolvers.add(new NoOffsetIdPageArgumentResolver());
         resolvers.add(new NoOffsetTimePageArgumentResolver());
+        resolvers.add(new ParticipantStateArgumentResolver());
     }
 }
