@@ -12,6 +12,8 @@ import static daybyquest.support.fixture.PostFixtures.POST_1;
 import static daybyquest.support.fixture.PostFixtures.POST_2;
 import static daybyquest.support.fixture.PostFixtures.POST_3;
 import static daybyquest.support.fixture.QuestFixtures.QUEST_1;
+import static daybyquest.support.fixture.QuestFixtures.QUEST_2;
+import static daybyquest.support.fixture.QuestFixtures.QUEST_3;
 import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
 import static daybyquest.support.fixture.UserFixtures.CHARLIE;
@@ -29,6 +31,7 @@ import daybyquest.participant.domain.Participant;
 import daybyquest.quest.domain.Quest;
 import daybyquest.support.test.QuerydslTest;
 import daybyquest.user.domain.User;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -109,6 +112,7 @@ public class QuestDaoQuerydslImplTest extends QuerydslTest {
         assertAll(() -> {
             assertThat(questData.getGroupId()).isEqualTo(group.getId());
             assertThat(questData.getImage()).isEqualTo(group.getImage());
+            assertThat(questData.getGroupName()).isEqualTo(group.getName());
         });
     }
 
@@ -161,5 +165,28 @@ public class QuestDaoQuerydslImplTest extends QuerydslTest {
         // given & when & then
         assertThatThrownBy(() -> questDao.getById(1L, 2L))
                 .isInstanceOf(NotExistQuestException.class);
+    }
+
+    @Test
+    void 컬렉션으로_퀘스트를_조회한다() {
+        // given
+        final Long userId = 1L;
+        final Badge badge = 저장한다(BADGE_1.생성());
+        final Group group = 저장한다(GROUP_1.생성());
+        final Quest quest1 = 저장한다(QUEST_1.일반_퀘스트_생성());
+        final Quest quest2 = 저장한다(QUEST_2.일반_퀘스트_생성(badge));
+        final Quest quest3 = 저장한다(QUEST_3.그룹_퀘스트_생성(group));
+        final Quest quest4 = 저장한다(QUEST_1.일반_퀘스트_생성());
+        final List<Long> expected = List.of(quest1.getId(), quest2.getId(), quest3.getId());
+
+        // when
+        final List<QuestData> questData = questDao.findAllByIdIn(userId, expected);
+        final List<Long> actual = questData.stream().map(QuestData::getId).toList();
+
+        // then
+        assertAll(() -> {
+            assertThat(questData).hasSize(3);
+            assertThat(actual).containsExactlyElementsOf(expected);
+        });
     }
 }
