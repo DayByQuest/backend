@@ -28,7 +28,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createNormalQuest(null, QUEST_1.interest, title,
-                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -39,7 +39,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createNormalQuest(null, QUEST_1.interest, title,
-                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -50,7 +50,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createNormalQuest(null, QUEST_1.interest, QUEST_1.title,
-                    content, null, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    content, null, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -61,7 +61,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createNormalQuest(null, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, null, imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, null, imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -72,7 +72,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createNormalQuest(null, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, null, imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, null, imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -81,7 +81,7 @@ public class QuestTest {
         void 목표치가_1보다_작으면_예외를_던진다(final Long rewardCount) {
             // given & when & then
             assertThatThrownBy(() -> Quest.createNormalQuest(null, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, rewardCount, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, rewardCount, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -90,7 +90,7 @@ public class QuestTest {
         void 목표치가_365보다_크면_예외를_던진다(final Long rewardCount) {
             // given & when & then
             assertThatThrownBy(() -> Quest.createNormalQuest(null, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, rewardCount, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, rewardCount, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -102,7 +102,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createNormalQuest(null, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, null, QUEST_1.imageDescription, images))
+                    QUEST_1.content, null, QUEST_1.imageDescription, images, QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -113,7 +113,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createNormalQuest(null, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, null, QUEST_1.imageDescription, images))
+                    QUEST_1.content, null, QUEST_1.imageDescription, images, QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -121,7 +121,7 @@ public class QuestTest {
         void 보상이_없는데_목표치가_있으면_예외를_던진다() {
             // given & when & then
             assertThatThrownBy(() -> Quest.createNormalQuest(null, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, 1L, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, 1L, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -129,7 +129,7 @@ public class QuestTest {
         void 보상이_있는데_목표치가_없으면_예외를_던진다() {
             // given & when & then
             assertThatThrownBy(() -> Quest.createNormalQuest(1L, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
     }
@@ -141,7 +141,7 @@ public class QuestTest {
         void 그룹_ID가_없으면_예외를_던진다() {
             // given & when & then
             assertThatThrownBy(() -> Quest.createGroupQuest(null, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -152,7 +152,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createGroupQuest(1L, QUEST_1.interest, title,
-                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -163,7 +163,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createGroupQuest(1L, QUEST_1.interest, title,
-                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, null, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -174,7 +174,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createGroupQuest(1L, QUEST_1.interest, QUEST_1.title,
-                    content, null, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    content, null, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -185,7 +185,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createGroupQuest(1L, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, null, imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, null, imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -196,7 +196,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createGroupQuest(1L, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, null, imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, null, imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -208,7 +208,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createGroupQuest(1L, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, null, QUEST_1.imageDescription, images))
+                    QUEST_1.content, null, QUEST_1.imageDescription, images, QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -219,7 +219,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createGroupQuest(1L, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, null, QUEST_1.imageDescription, images))
+                    QUEST_1.content, null, QUEST_1.imageDescription, images, QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
 
@@ -230,7 +230,7 @@ public class QuestTest {
 
             // when & then
             assertThatThrownBy(() -> Quest.createGroupQuest(1L, QUEST_1.interest, QUEST_1.title,
-                    QUEST_1.content, expiredAt, QUEST_1.imageDescription, QUEST_1.사진_목록()))
+                    QUEST_1.content, expiredAt, QUEST_1.imageDescription, QUEST_1.사진_목록(), QUEST_1.사진()))
                     .isInstanceOf(InvalidDomainException.class);
         }
     }
