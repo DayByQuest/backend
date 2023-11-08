@@ -1,6 +1,9 @@
 package daybyquest.quest.domain;
 
+import static daybyquest.global.error.ExceptionCode.ALREADY_EXIST_REWARD;
+
 import daybyquest.badge.domain.Badges;
+import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.global.error.exception.NotExistQuestException;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +22,18 @@ public class Quests {
     public Long save(final Quest quest) {
         if (quest.getBadgeId() != null) {
             badges.validateExistentById(quest.getBadgeId());
+            validateNotExistentByBadgeId(quest.getBadgeId());
         }
         return questRepository.save(quest).getId();
     }
 
     public Quest getById(final Long id) {
         return questRepository.findById(id).orElseThrow(NotExistQuestException::new);
+    }
+
+    private void validateNotExistentByBadgeId(final Long badgeId) {
+        if (questRepository.existsByBadgeId(badgeId)) {
+            throw new InvalidDomainException(ALREADY_EXIST_REWARD);
+        }
     }
 }
