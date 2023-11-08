@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 import daybyquest.badge.domain.Badges;
+import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.global.error.exception.NotExistQuestException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,7 @@ public class QuestsTest {
         // then
         assertAll(() -> {
             then(badges).should().validateExistentById(badgeId);
+            then(questRepository).should().existsByBadgeId(badgeId);
             then(questRepository).should().save(any(Quest.class));
         });
     }
@@ -57,6 +59,17 @@ public class QuestsTest {
 
         // then
         then(questRepository).should().save(any(Quest.class));
+    }
+
+    @Test
+    void 동일한_뱃지가_보상인_퀘스트가_이미_있다면_예외를_던진다() {
+        // given
+        final Long badgeId = 1L;
+        given(questRepository.existsByBadgeId(badgeId)).willReturn(true);
+
+        // when & then
+        assertThatThrownBy(() -> quests.save(QUEST_1.일반_퀘스트_생성(badgeId)))
+                .isInstanceOf(InvalidDomainException.class);
     }
 
     @Test

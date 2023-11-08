@@ -3,7 +3,7 @@ package daybyquest.quest.domain;
 import static daybyquest.global.error.ExceptionCode.ALREADY_LABELED;
 import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_CONTENT;
 import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_EXPIRED_AT;
-import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_IMAGE;
+import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_IMAGES;
 import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_IMAGE_DESCRIPTION;
 import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_NAME;
 import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_REWARD;
@@ -18,6 +18,7 @@ import daybyquest.image.domain.Image;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -92,9 +93,13 @@ public class Quest {
     @CollectionTable(name = "quest_image", joinColumns = @JoinColumn(name = "quest_id"))
     private List<Image> images;
 
+    @Embedded
+    private Image image;
+
     private Quest(final Long groupId, final Long badgeId, final String interestName, final String title,
             final String content, final QuestCategory category, final Long rewardCount,
-            final LocalDateTime expiredAt, final String imageDescription, final List<Image> images) {
+            final LocalDateTime expiredAt, final String imageDescription, final List<Image> images,
+            final Image image) {
         this.groupId = groupId;
         this.badgeId = badgeId;
         this.interestName = interestName;
@@ -106,22 +111,23 @@ public class Quest {
         this.state = NEED_LABEL;
         this.imageDescription = imageDescription;
         this.images = images;
+        this.image = image;
         validate();
     }
 
     public static Quest createNormalQuest(final Long badgeId, final String interestName, final String title,
             final String content, final Long rewardCount, final String imageDescription,
-            final List<Image> images) {
+            final List<Image> images, final Image image) {
         return new Quest(null, badgeId, interestName, title, content, QuestCategory.NORMAL, rewardCount
-                , null, imageDescription, images);
+                , null, imageDescription, images, image);
     }
 
     public static Quest createGroupQuest(final Long groupId, final String interestName, final String title,
             final String content, final LocalDateTime expiredAt, final String imageDescription,
-            final List<Image> images) {
+            final List<Image> images, final Image image) {
         validateGroupId(groupId);
         return new Quest(groupId, null, interestName, title, content, QuestCategory.GROUP, null
-                , expiredAt, imageDescription, images);
+                , expiredAt, imageDescription, images, image);
     }
 
     private static void validateGroupId(final Long groupId) {
@@ -169,7 +175,7 @@ public class Quest {
 
     private void validateImageCount() {
         if (images.size() != IMAGE_COUNT) {
-            throw new InvalidDomainException(INVALID_QUEST_IMAGE);
+            throw new InvalidDomainException(INVALID_QUEST_IMAGES);
         }
     }
 

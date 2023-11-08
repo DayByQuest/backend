@@ -1,5 +1,7 @@
 package daybyquest.quest.application;
 
+import daybyquest.badge.domain.Badge;
+import daybyquest.badge.domain.Badges;
 import daybyquest.global.utils.MultipartFileUtils;
 import daybyquest.image.domain.Image;
 import daybyquest.image.domain.ImageIdentifierGenerator;
@@ -19,13 +21,16 @@ public class SaveQuestService {
 
     private final Quests quests;
 
+    private final Badges badges;
+
     private final Images images;
 
     private final ImageIdentifierGenerator generator;
 
-    public SaveQuestService(final Quests quests, final Images images,
+    public SaveQuestService(final Quests quests, final Badges badges, final Images images,
             final ImageIdentifierGenerator generator) {
         this.quests = quests;
+        this.badges = badges;
         this.images = images;
         this.generator = generator;
     }
@@ -44,7 +49,9 @@ public class SaveQuestService {
     }
 
     private Quest toEntity(final SaveQuestRequest request, final List<Image> images) {
-        return Quest.createNormalQuest(request.getBadgeId(), request.getInterest(), request.getTitle(),
-                request.getContent(), request.getRewardCount(), request.getImageDescription(), images);
+        final Badge badge = badges.getById(request.getBadgeId());
+        return Quest.createNormalQuest(badge.getId(), request.getInterest(), request.getTitle(),
+                request.getContent(), request.getRewardCount(), request.getImageDescription(), images,
+                badge.getImage());
     }
 }

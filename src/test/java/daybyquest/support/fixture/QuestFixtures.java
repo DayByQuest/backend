@@ -10,13 +10,13 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 public enum QuestFixtures {
     QUEST_1("일반퀘스트1", "퀘스트1입니다", "관심사", 5L, null,
-            "퀘스트1 사진 설명입니다", List.of("퀘스트사진1_1", "퀘스트사진1_2", "퀘스트사진1_3"), "라벨1"),
+            "퀘스트1 사진 설명입니다", List.of("퀘스트사진1_1", "퀘스트사진1_2", "퀘스트사진1_3"), "라벨1", "퀘스트사진1"),
     QUEST_2("일반퀘스트2", "퀘스트2입니다", "관심사", 10L, null,
-            "퀘스트2 사진 설명입니다", List.of("퀘스트사진2_1", "퀘스트사진2_2", "퀘스트사진2_3"), "라벨2"),
+            "퀘스트2 사진 설명입니다", List.of("퀘스트사진2_1", "퀘스트사진2_2", "퀘스트사진2_3"), "라벨2", "퀘스트사진2"),
     QUEST_3("일반퀘스트3", "퀘스트3입니다", "관심사", 15L, null,
-            "퀘스트3 사진 설명입니다", List.of("퀘스트사진3_1", "퀘스트사진3_2", "퀘스트사진3_3"), "라벨3"),
+            "퀘스트3 사진 설명입니다", List.of("퀘스트사진3_1", "퀘스트사진3_2", "퀘스트사진3_3"), "라벨3", "퀘스트사진3"),
     QUEST_WITHOUT_REWARD("일반퀘스트", "퀘스트입니다", "관심사", null, null,
-            "퀘스트 사진 설명입니다", List.of("퀘스트사진_1", "퀘스트사진_2", "퀘스트사진_3"), "라벨4");
+            "퀘스트 사진 설명입니다", List.of("퀘스트사진_1", "퀘스트사진_2", "퀘스트사진_3"), "라벨4", "퀘스트사진4");
 
     public final String title;
 
@@ -34,9 +34,11 @@ public enum QuestFixtures {
 
     public final String label;
 
+    public final String imageIdentifier;
+
     QuestFixtures(final String title, final String content, final String interest,
-            final Long rewardCount, final LocalDateTime expiredAt,
-            final String imageDescription, final List<String> imageIdentifiers, final String label) {
+            final Long rewardCount, final LocalDateTime expiredAt, final String imageDescription,
+            final List<String> imageIdentifiers, final String label, final String imageIdentifier) {
         this.title = title;
         this.content = content;
         this.interest = interest;
@@ -45,6 +47,7 @@ public enum QuestFixtures {
         this.imageDescription = imageDescription;
         this.imageIdentifiers = imageIdentifiers;
         this.label = label;
+        this.imageIdentifier = imageIdentifier;
     }
 
     public Quest 일반_퀘스트_생성(final Long id, final Long badgeId) {
@@ -53,7 +56,7 @@ public enum QuestFixtures {
             rewardCount = null;
         }
         final Quest quest = Quest.createNormalQuest(badgeId, interest, title, content, rewardCount,
-                imageDescription, 사진_목록());
+                imageDescription, 사진_목록(), 사진());
         ReflectionTestUtils.setField(quest, "id", id);
         return quest;
     }
@@ -67,12 +70,13 @@ public enum QuestFixtures {
     }
 
     public Quest 일반_퀘스트_생성(final Badge badge) {
-        return 일반_퀘스트_생성(badge.getId());
+        return Quest.createNormalQuest(badge.getId(), interest, title, content, rewardCount,
+                imageDescription, 사진_목록(), badge.getImage());
     }
 
     public Quest 그룹_퀘스트_생성(final Long id, final Long groupId) {
         final Quest quest = Quest.createGroupQuest(groupId, interest, title, content, expiredAt,
-                imageDescription, 사진_목록());
+                imageDescription, 사진_목록(), 사진());
         ReflectionTestUtils.setField(quest, "id", id);
         return quest;
     }
@@ -82,10 +86,15 @@ public enum QuestFixtures {
     }
 
     public Quest 그룹_퀘스트_생성(final Group group) {
-        return 그룹_퀘스트_생성(group.getId());
+        return Quest.createGroupQuest(group.getId(), interest, title, content, expiredAt,
+                imageDescription, 사진_목록(), group.getImage());
     }
 
     public List<Image> 사진_목록() {
         return imageIdentifiers.stream().map(Image::new).toList();
+    }
+
+    public Image 사진() {
+        return new Image(imageIdentifier);
     }
 }

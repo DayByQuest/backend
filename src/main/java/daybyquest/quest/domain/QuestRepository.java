@@ -10,4 +10,6 @@ interface QuestRepository extends Repository<Quest, Long> {
     Optional<Quest> findById(final Long id);
 
     boolean existsById(final Long id);
+
+    boolean existsByBadgeId(final Long badgeId);
 }

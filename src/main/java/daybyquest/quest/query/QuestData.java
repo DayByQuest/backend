@@ -39,7 +39,8 @@ public class QuestData {
 
     public QuestData(final Long id, final Long groupId, final Long badgeId, final String title,
             final String content, final String interestName, final QuestCategory category,
-            final LocalDateTime expiredAt, final Long rewardCount, final Long currentCount) {
+            final ParticipantState state, final LocalDateTime expiredAt, final Image image,
+            final Long rewardCount, final Long currentCount, final String groupName) {
         this.id = id;
         this.groupId = groupId;
         this.badgeId = badgeId;
@@ -48,8 +49,15 @@ public class QuestData {
         this.interestName = interestName;
         this.category = category;
         this.expiredAt = expiredAt;
+        this.image = image;
         this.rewardCount = rewardCount;
         this.currentCount = currentCount;
+        this.groupName = groupName;
+        if (state == null) {
+            this.state = ParticipantState.NOT;
+            return;
+        }
+        this.state = state;
     }
 
     public String getImageIdentifier() {
