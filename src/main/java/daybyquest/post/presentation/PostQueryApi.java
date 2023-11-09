@@ -3,6 +3,7 @@ package daybyquest.post.presentation;
 import daybyquest.auth.Authorization;
 import daybyquest.auth.domain.AccessUser;
 import daybyquest.global.query.NoOffsetIdPage;
+import daybyquest.post.application.GetPostByQuestIdService;
 import daybyquest.post.application.GetPostByUsernameService;
 import daybyquest.post.application.GetPostFromFollowingService;
 import daybyquest.post.application.GetPostService;
@@ -26,14 +27,18 @@ public class PostQueryApi {
 
     private final GetTrackerService getTrackerService;
 
+    private final GetPostByQuestIdService getPostByQuestIdService;
+
     public PostQueryApi(final GetPostService getPostService,
             final GetPostFromFollowingService getPostFromFollowingService,
             final GetPostByUsernameService getPostByUsernameService,
-            final GetTrackerService getTrackerService) {
+            final GetTrackerService getTrackerService,
+            final GetPostByQuestIdService getPostByQuestIdService) {
         this.getPostService = getPostService;
         this.getPostFromFollowingService = getPostFromFollowingService;
         this.getPostByUsernameService = getPostByUsernameService;
         this.getTrackerService = getTrackerService;
+        this.getPostByQuestIdService = getPostByQuestIdService;
     }
 
     @GetMapping("/post/{postId}")
@@ -66,6 +71,15 @@ public class PostQueryApi {
     public ResponseEntity<TrackerResponse> getTracker(final AccessUser accessUser,
             @PathVariable final String username) {
         final TrackerResponse response = getTrackerService.invoke(accessUser.getId(), username);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/quest/{questId}/post")
+    @Authorization
+    public ResponseEntity<PagePostsResponse> getPostByQuestId(final AccessUser accessUser,
+            @PathVariable final Long questId, final NoOffsetIdPage page) {
+        final PagePostsResponse response = getPostByQuestIdService.invoke(accessUser.getId(), questId,
+                page);
         return ResponseEntity.ok(response);
     }
 }
