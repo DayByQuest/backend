@@ -98,6 +98,18 @@ public class PostDaoQuerydslImpl implements PostDao {
     }
 
     @Override
+    public LongIdList findPostIdsByQuestId(final Long userId, final Long questId, final NoOffsetIdPage page) {
+        return new LongIdList(factory.select(post.id)
+                .from(post)
+                .where(post.questId.eq(questId)
+                        , ltPostId(page.lastId())
+                )
+                .orderBy(post.id.desc())
+                .limit(page.limit())
+                .fetch());
+    }
+
+    @Override
     public List<PostData> findAllByIdIn(final Long userId, final Collection<Long> postIds) {
         final Map<Long, PostData> postDataMap = factory.from(post)
                 .where(post.id.in(postIds))
