@@ -12,6 +12,9 @@ image:
 tracker:
   days: 60
 
+ai:
+  domain: http://localhost:8080
+
 spring:
   servlet:
     multipart:
