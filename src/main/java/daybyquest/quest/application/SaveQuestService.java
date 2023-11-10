@@ -27,18 +27,23 @@ public class SaveQuestService {
 
     private final ImageIdentifierGenerator generator;
 
+    private final QuestClient questClient;
+
     public SaveQuestService(final Quests quests, final Badges badges, final Images images,
-            final ImageIdentifierGenerator generator) {
+            final ImageIdentifierGenerator generator, final QuestClient questClient) {
         this.quests = quests;
         this.badges = badges;
         this.images = images;
         this.generator = generator;
+        this.questClient = questClient;
     }
 
     @Transactional
     public Long invoke(final SaveQuestRequest request, final List<MultipartFile> files) {
         final Quest quest = toEntity(request, toImageList(files));
-        return quests.save(quest);
+        final Long questId = quests.save(quest);
+        questClient.requestLabels(questId, quest.getImages().stream().map(Image::getIdentifier).toList());
+        return questId;
     }
 
     private List<Image> toImageList(final List<MultipartFile> files) {
