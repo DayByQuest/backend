@@ -1,0 +1,7 @@
+aws:
+  credentials:
+    access-key: access_key
+    secret-key: secret_key
+  region: us-east-1
+  bucket: test-bucket
+  endpoint: http://127.0.0.1:4566
