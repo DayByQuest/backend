@@ -1,6 +1,8 @@
 package daybyquest.group.query;
 
 import static daybyquest.support.fixture.GroupFixtures.GROUP_1;
+import static daybyquest.support.fixture.GroupFixtures.GROUP_2;
+import static daybyquest.support.fixture.GroupFixtures.GROUP_3;
 import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
 import static daybyquest.support.fixture.UserFixtures.CHARLIE;
@@ -115,5 +117,28 @@ public class GroupDaoQuerydslImplTest extends QuerydslTest {
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    void 사용자_ID로_가입한_그룹_목록을_조회한다() {
+        // given
+        final User user = 저장한다(BOB.생성());
+        final Group group1 = 저장한다(GROUP_1.생성());
+        final Group group2 = 저장한다(GROUP_2.생성());
+        저장한다(GROUP_3.생성());
+        저장한다(GroupUser.createGroupMember(user.getId(), group1));
+        저장한다(GroupUser.createGroupMember(user.getId(), group2));
+
+        final List<Long> expected = List.of(group1.getId(), group2.getId());
+
+        // when
+        final List<GroupData> groupData = groupDao.findAllByUserId(user.getId());
+        final List<Long> actual = groupData.stream().map(GroupData::getId).toList();
+
+        // then
+        assertAll(() -> {
+            assertThat(groupData).hasSize(2);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        });
     }
 }
