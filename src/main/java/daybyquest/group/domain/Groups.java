@@ -68,4 +68,8 @@ public class Groups {
             throw new InvalidDomainException(ALREADY_MEMBER);
         }
     }
+    
+    public Group getById(final Long id) {
+        return groupRepository.findById(id).orElseThrow(NotExistGroupException::new);
+    }
 }

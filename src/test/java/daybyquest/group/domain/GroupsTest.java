@@ -12,6 +12,7 @@ import static org.mockito.BDDMockito.then;
 import daybyquest.global.error.exception.NotExistGroupException;
 import daybyquest.interest.domain.Interests;
 import daybyquest.user.domain.Users;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -138,6 +139,30 @@ public class GroupsTest {
     void 게시물_ID_존재_여부를_검증_시_없다면_예외를_던진다() {
         // given & when & then
         assertThatThrownBy(() -> groups.validateExistentById(1L))
+                .isInstanceOf(NotExistGroupException.class);
+    }
+
+    @Test
+    void ID로_그룹을_조회한다() {
+        // given
+        final Long groupId = 1L;
+        final Group expected = GROUP_1.생성(groupId);
+        given(groupRepository.findById(groupId)).willReturn(Optional.of(expected));
+
+        // when
+        final Group actual = groups.getById(groupId);
+
+        // then
+        assertAll(() -> {
+            then(groupRepository).should().findById(groupId);
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+        });
+    }
+
+    @Test
+    void ID로_조회_시_없다면_예외를_던진다() {
+        // given & when & then
+        assertThatThrownBy(() -> groups.getById(1L))
                 .isInstanceOf(NotExistGroupException.class);
     }
 }

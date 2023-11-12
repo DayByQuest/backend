@@ -74,10 +74,11 @@ public enum ExceptionCode {
     EXCEED_MAX_GROUP("GRP-02", BAD_REQUEST, "최대 그룹 가입 횟수를 초과하였습니다"),
     NOT_GROUP_QUEST("GRP-03", BAD_REQUEST, "그룹 퀘스트와 관련없는 게시물입니다"),
     ALREADY_MEMBER("GRP-04", BAD_REQUEST, "이미 가입한 그룹입니다"),
-    NOT_MEMBER("GRP-05", BAD_REQUEST, "가입하지 않은 그룹은 탈퇴할 수 없습니다"),
+    NOT_EXIST_GROUP_USER("GRP-05", BAD_REQUEST, "가입하지 않은 그룹입니다."),
     NO_RECOMMENDED_GROUP("GRP-06", BAD_REQUEST, "추천 할 그룹이 없습니다"),
     INVALID_GROUP_NAME("GRP-07", BAD_REQUEST, "그룹 이름은 1~15자여야 합니다"),
     INVALID_GROUP_DESCRIPTION("GRP-08", BAD_REQUEST, "그룹 설명은 200자 이하여야 합니다"),
+    NOT_DELETABLE_GROUP_USER("GRP-09", BAD_REQUEST, "매니저는 탈퇴할 수 없습니다"),
 
     // Badge
     NOT_EXIST_BADGE("BDE-00", BAD_REQUEST, "존재하지 않는 뱃지입니다"),
