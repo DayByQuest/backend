@@ -10,6 +10,8 @@ import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_NAME;
 import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_REWARD;
 import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_REWARD_COUNT;
 import static daybyquest.global.error.ExceptionCode.NOT_EXIST_GROUP;
+import static daybyquest.quest.domain.QuestCategory.GROUP;
+import static daybyquest.quest.domain.QuestCategory.NORMAL;
 import static daybyquest.quest.domain.QuestState.ACTIVE;
 import static daybyquest.quest.domain.QuestState.NEED_LABEL;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -112,13 +114,13 @@ public class Quest {
 
     public static Quest createNormalQuest(final Long badgeId, final String imageDescription,
             final List<Image> images, final Image image) {
-        return new Quest(null, badgeId, QuestCategory.GROUP, imageDescription, images, image);
+        return new Quest(null, badgeId, NORMAL, imageDescription, images, image);
     }
 
     public static Quest createGroupQuest(final Long groupId, final String imageDescription,
             final List<Image> images, final Image image) {
         validateGroupId(groupId);
-        return new Quest(groupId, null, QuestCategory.GROUP, imageDescription, images, image);
+        return new Quest(groupId, null, GROUP, imageDescription, images, image);
     }
 
     private static void validateGroupId(final Long groupId) {
