@@ -70,6 +70,7 @@ public class ParticipantTest {
         final Long badgeId = 1L;
         final Long userId = 1L;
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
         final Participant participant = new Participant(userId, quest);
         게시물_연결_횟수를_지정한다(participant, QUEST_1.rewardCount);
 

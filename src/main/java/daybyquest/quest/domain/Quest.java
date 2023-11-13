@@ -204,4 +204,8 @@ public class Quest {
             throw new InvalidDomainException(CANNOT_PARTICIPATE);
         }
     }
+
+    public boolean isGroupQuest() {
+        return category == GROUP;
+    }
 }

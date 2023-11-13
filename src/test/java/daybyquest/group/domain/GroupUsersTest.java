@@ -26,7 +26,7 @@ public class GroupUsersTest {
     private GroupUsers groupUsers;
 
     @Test
-    void 사용자_ID_와_그룹_ID_로_조회한다() {
+    void 사용자_ID와_그룹_ID로_조회한다() {
         // given
         final Long userId = 1L;
         final Long groupId = 2L;
@@ -45,7 +45,7 @@ public class GroupUsersTest {
     }
 
     @Test
-    void 사용자_ID_와_그룹_ID_로_조회_시_없다면_예외를_던진다() {
+    void 사용자_ID와_그룹_ID로_조회_시_없다면_예외를_던진다() {
         // given & when & then
         assertThatThrownBy(() -> groupUsers.getByUserIdAndGroupId(1L, 2L))
                 .isInstanceOf(NotExistGroupUserException.class);
@@ -77,5 +77,26 @@ public class GroupUsersTest {
         // when
         assertThatThrownBy(() -> groupUsers.delete(groupUser))
                 .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 사용자_ID와_그룹_ID로_그룹에_속했는지를_검증한다() {
+        // given
+        final Long userId = 1L;
+        final Long groupId = 2L;
+        given(groupUserRepository.existsByUserIdAndGroupId(userId, groupId)).willReturn(true);
+
+        // when
+        groupUsers.validateExistentByUserIdAndGroupId(userId, groupId);
+
+        // then
+        then(groupUserRepository).should().existsByUserIdAndGroupId(userId, groupId);
+    }
+
+    @Test
+    void 사용자_ID_와_그룹_ID로_그룹_가입_검증_시_없다면_예외를_던진다() {
+        // given & when & then
+        assertThatThrownBy(() -> groupUsers.validateExistentByUserIdAndGroupId(1L, 2L))
+                .isInstanceOf(NotExistGroupUserException.class);
     }
 }

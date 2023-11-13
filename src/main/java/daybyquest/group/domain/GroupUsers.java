@@ -16,6 +16,12 @@ public class GroupUsers {
         this.groupUserRepository = groupUserRepository;
     }
 
+    public void validateExistentByUserIdAndGroupId(final Long userId, final Long groupId) {
+        if (!groupUserRepository.existsByUserIdAndGroupId(userId, groupId)) {
+            throw new NotExistGroupUserException();
+        }
+    }
+
     public GroupUser getByUserIdAndGroupId(final Long userId, final Long groupId) {
         return groupUserRepository.findByUserIdAndGroupId(userId, groupId)
                 .orElseThrow(NotExistGroupUserException::new);
