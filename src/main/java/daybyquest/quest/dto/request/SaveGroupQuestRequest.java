@@ -5,9 +5,9 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class SaveQuestRequest {
+public class SaveGroupQuestRequest {
 
-    private Long badgeId;
+    private Long groupId;
 
     private String imageDescription;
 }

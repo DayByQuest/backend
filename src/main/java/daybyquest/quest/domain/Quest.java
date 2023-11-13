@@ -1,6 +1,7 @@
 package daybyquest.quest.domain;
 
 import static daybyquest.global.error.ExceptionCode.ALREADY_LABELED;
+import static daybyquest.global.error.ExceptionCode.CANNOT_PARTICIPATE;
 import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_CONTENT;
 import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_EXPIRED_AT;
 import static daybyquest.global.error.ExceptionCode.INVALID_QUEST_IMAGES;
@@ -62,7 +63,7 @@ public class Quest {
 
     private String interestName;
 
-    @Column(nullable = false, length = MAX_TITLE_LENGTH)
+    @Column(length = MAX_TITLE_LENGTH)
     private String title;
 
     @Column(length = MAX_CONTENT_LENGTH)
@@ -96,38 +97,28 @@ public class Quest {
     @Embedded
     private Image image;
 
-    private Quest(final Long groupId, final Long badgeId, final String interestName, final String title,
-            final String content, final QuestCategory category, final Long rewardCount,
-            final LocalDateTime expiredAt, final String imageDescription, final List<Image> images,
-            final Image image) {
+    private Quest(final Long groupId, final Long badgeId, final QuestCategory category,
+            final String imageDescription, final List<Image> images, final Image image) {
         this.groupId = groupId;
         this.badgeId = badgeId;
-        this.interestName = interestName;
-        this.title = title;
-        this.content = content;
         this.category = category;
-        this.rewardCount = rewardCount;
-        this.expiredAt = expiredAt;
         this.state = NEED_LABEL;
         this.imageDescription = imageDescription;
         this.images = images;
         this.image = image;
-        validate();
+        validateImageDescription();
+        validateImageCount();
     }
 
-    public static Quest createNormalQuest(final Long badgeId, final String interestName, final String title,
-            final String content, final Long rewardCount, final String imageDescription,
+    public static Quest createNormalQuest(final Long badgeId, final String imageDescription,
             final List<Image> images, final Image image) {
-        return new Quest(null, badgeId, interestName, title, content, QuestCategory.NORMAL, rewardCount
-                , null, imageDescription, images, image);
+        return new Quest(null, badgeId, QuestCategory.GROUP, imageDescription, images, image);
     }
 
-    public static Quest createGroupQuest(final Long groupId, final String interestName, final String title,
-            final String content, final LocalDateTime expiredAt, final String imageDescription,
+    public static Quest createGroupQuest(final Long groupId, final String imageDescription,
             final List<Image> images, final Image image) {
         validateGroupId(groupId);
-        return new Quest(groupId, null, interestName, title, content, QuestCategory.GROUP, null
-                , expiredAt, imageDescription, images, image);
+        return new Quest(groupId, null, QuestCategory.GROUP, imageDescription, images, image);
     }
 
     private static void validateGroupId(final Long groupId) {
@@ -191,11 +182,24 @@ public class Quest {
         }
     }
 
-    public void setLabel(final String label) {
+    public void setDetail(final String title, final String content, final String interestName,
+            final LocalDateTime expiredAt, final String label, final Long rewardCount) {
         if (this.state != NEED_LABEL) {
             throw new InvalidDomainException(ALREADY_LABELED);
         }
+        this.title = title;
+        this.content = content;
+        this.interestName = interestName;
+        this.expiredAt = expiredAt;
         this.label = label;
+        this.rewardCount = rewardCount;
         this.state = ACTIVE;
+        validate();
+    }
+
+    public void validateCanParticipate() {
+        if (this.state != ACTIVE) {
+            throw new InvalidDomainException(CANNOT_PARTICIPATE);
+        }
     }
 }
