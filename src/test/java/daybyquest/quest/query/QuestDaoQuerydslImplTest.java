@@ -47,6 +47,7 @@ public class QuestDaoQuerydslImplTest extends QuerydslTest {
         // given
         final Long userId = 1L;
         final Quest quest = 저장한다(QUEST_1.일반_퀘스트_생성());
+        QUEST_1.보상_없이_세부사항을_설정한다(quest);
 
         // when
         final QuestData questData = questDao.getById(userId, quest.getId());
@@ -66,6 +67,7 @@ public class QuestDaoQuerydslImplTest extends QuerydslTest {
         final Long userId = 1L;
         final Badge badge = 저장한다(BADGE_1.생성());
         final Quest quest = 저장한다(QUEST_1.일반_퀘스트_생성(badge));
+        QUEST_1.세부사항을_설정한다(quest);
 
         // when
         final QuestData questData = questDao.getById(userId, quest.getId());
@@ -84,6 +86,7 @@ public class QuestDaoQuerydslImplTest extends QuerydslTest {
         final Long userId = 1L;
         final Long groupId = 2L;
         final Quest quest = 저장한다(QUEST_1.그룹_퀘스트_생성(groupId));
+        QUEST_1.보상_없이_세부사항을_설정한다(quest);
 
         // when
         final QuestData questData = questDao.getById(userId, quest.getId());
