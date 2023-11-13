@@ -28,6 +28,7 @@ public class Participants {
     public void saveWithUserIdAndQuestId(final Long userId, final Long questId) {
         users.validateExistentById(userId);
         final Quest quest = quests.getById(questId);
+        quest.validateCanParticipate();
         final Participant participant = new Participant(userId, quest);
         validateNotExistent(participant);
         participantRepository.save(participant);
