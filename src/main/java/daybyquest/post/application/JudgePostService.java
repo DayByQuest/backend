@@ -1,6 +1,5 @@
 package daybyquest.post.application;
 
-import daybyquest.global.error.exception.BadRequestException;
 import daybyquest.post.domain.Judgement;
 import daybyquest.post.domain.Post;
 import daybyquest.post.domain.Posts;
@@ -25,9 +24,6 @@ public class JudgePostService {
     @Transactional
     public void invoke(final Long postId, final JudgePostRequest request) {
         final Post post = posts.getById(postId);
-        if (post.getQuestId() == null) {
-            throw new BadRequestException();
-        }
         final Judgement judgement = Judgement.valueOf(request.getJudgement());
         if (judgement == Judgement.SUCCESS) {
             post.success();

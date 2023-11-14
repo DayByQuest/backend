@@ -68,12 +68,22 @@ public class PostTest {
     }
 
     @Test
-    void 퀘스트_링크를_성공_처리_시_이미_판정된_퀘스트라면_예외를_던진다() {
+    void 퀘스트_링크_성공_처리_시_이미_판정된_퀘스트라면_예외를_던진다() {
         // given
         final Post post = POST_1.생성(1L, 2L);
         post.needCheck();
 
-        // when
+        // when & then
+        assertThatThrownBy(post::success)
+                .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 퀘스트_링크_성공_처리_시_퀘스트와_연관이_없다면_예외를_던진다() {
+        // given
+        final Post post = POST_1.생성(1L);
+
+        // when & then
         assertThatThrownBy(post::success)
                 .isInstanceOf(InvalidDomainException.class);
     }
@@ -91,12 +101,22 @@ public class PostTest {
     }
 
     @Test
-    void 퀘스트_링크를_확인_필요_처리_시_이미_판정된_퀘스트라면_예외를_던진다() {
+    void 퀘스트_링크_확인_필요_처리_시_이미_판정된_퀘스트라면_예외를_던진다() {
         // given
         final Post post = POST_1.생성(1L, 2L);
         post.success();
 
-        // when
+        // when & then
+        assertThatThrownBy(post::needCheck)
+                .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 퀘스트_링크_확인_필요_처리_시_퀘스트와_연관이_없다면_예외를_던진다() {
+        // given
+        final Post post = POST_1.생성(1L);
+
+        // when & then
         assertThatThrownBy(post::needCheck)
                 .isInstanceOf(InvalidDomainException.class);
     }

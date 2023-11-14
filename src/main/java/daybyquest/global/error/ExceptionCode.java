@@ -42,6 +42,7 @@ public enum ExceptionCode {
     INVALID_POST_IMAGE("POT-05", BAD_REQUEST, "게시물 사진은 1~5장이어야 합니다"),
     INVALID_POST_CONTENT("POT-06", BAD_REQUEST, "게시물 내용은 500자 이하여야 합니다"),
     ALREADY_JUDGED_POST("POT-07", BAD_REQUEST, "이미 판정된 게시물 입니다"),
+    NOT_LINKED_POST("POT-08", BAD_REQUEST, "퀘스트와 관련이 없는 게시물 입니다"),
 
     // Comment
     NOT_EXIST_COMMENT("COM-00", BAD_REQUEST, "존재하지 않는 댓글입니다"),
