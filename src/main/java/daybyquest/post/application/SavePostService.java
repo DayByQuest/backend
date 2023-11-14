@@ -7,6 +7,7 @@ import daybyquest.image.domain.Images;
 import daybyquest.post.domain.Post;
 import daybyquest.post.domain.Posts;
 import daybyquest.post.dto.request.SavePostRequest;
+import daybyquest.quest.domain.Quests;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,18 +24,25 @@ public class SavePostService {
 
     private final ImageIdentifierGenerator generator;
 
+    private final PostClient postClient;
+
+    private final Quests quests;
+
     public SavePostService(final Posts posts, final Images images,
-            final ImageIdentifierGenerator generator) {
+            final ImageIdentifierGenerator generator, final PostClient postClient, final Quests quests) {
         this.posts = posts;
         this.images = images;
         this.generator = generator;
+        this.postClient = postClient;
+        this.quests = quests;
     }
 
     @Transactional
     public Long invoke(final Long loginId, final SavePostRequest request,
             final List<MultipartFile> files) {
-        final Post post = toEntity(loginId, request, toImageList(files));
-        return posts.save(post);
+        final Post post = posts.save(toEntity(loginId, request, toImageList(files)));
+        requestJudge(post);
+        return post.getId();
     }
 
     private List<Image> toImageList(final List<MultipartFile> files) {
@@ -46,5 +54,12 @@ public class SavePostService {
 
     private Post toEntity(final Long loginId, final SavePostRequest request, final List<Image> images) {
         return new Post(loginId, request.getQuestId(), request.getContent(), images);
+    }
+
+    private void requestJudge(final Post post) {
+        if (post.isQuestLinked()) {
+            postClient.requestJudge(post.getId(), quests.getLabelById(post.getQuestId()),
+                    post.getImages().stream().map(Image::getIdentifier).toList());
+        }
     }
 }

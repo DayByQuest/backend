@@ -114,4 +114,8 @@ public class Post {
         }
         state = NEED_CHECK;
     }
+
+    public boolean isQuestLinked() {
+        return questId != null;
+    }
 }

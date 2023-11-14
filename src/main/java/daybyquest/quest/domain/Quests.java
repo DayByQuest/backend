@@ -42,4 +42,8 @@ public class Quests {
             throw new InvalidDomainException(ALREADY_EXIST_REWARD);
         }
     }
+
+    public String getLabelById(final Long id) {
+        return getById(id).getLabel();
+    }
 }

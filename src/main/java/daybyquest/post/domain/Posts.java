@@ -20,12 +20,12 @@ public class Posts {
         this.participants = participants;
     }
 
-    public Long save(final Post post) {
+    public Post save(final Post post) {
         users.validateExistentById(post.getUserId());
         if (post.getQuestId() != null) {
             participants.validateExistent(post.getUserId(), post.getQuestId());
         }
-        return postRepository.save(post).getId();
+        return postRepository.save(post);
     }
 
     public Post getById(final Long id) {

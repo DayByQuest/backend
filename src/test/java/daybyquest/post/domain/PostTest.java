@@ -2,7 +2,9 @@ package daybyquest.post.domain;
 
 import static daybyquest.support.fixture.PostFixtures.POST_1;
 import static daybyquest.support.util.StringUtils.문자열을_만든다;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.image.domain.Image;
@@ -51,5 +53,68 @@ public class PostTest {
             assertThatThrownBy(() -> new Post(1L, null, content, POST_1.사진_목록()))
                     .isInstanceOf(InvalidDomainException.class);
         }
+    }
+
+    @Test
+    void 퀘스트_링크를_성공_처리한다() {
+        // given
+        final Post post = POST_1.생성(1L, 2L);
+
+        // when
+        post.success();
+
+        // then
+        assertThat(post.getState()).isEqualTo(PostState.SUCCESS);
+    }
+
+    @Test
+    void 퀘스트_링크를_성공_처리_시_이미_판정된_퀘스트라면_예외를_던진다() {
+        // given
+        final Post post = POST_1.생성(1L, 2L);
+        post.needCheck();
+
+        // when
+        assertThatThrownBy(post::success)
+                .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 퀘스트_링크를_확인_필요_처리_한다() {
+        // given
+        final Post post = POST_1.생성(1L, 2L);
+
+        // when
+        post.needCheck();
+
+        // then
+        assertThat(post.getState()).isEqualTo(PostState.NEED_CHECK);
+    }
+
+    @Test
+    void 퀘스트_링크를_확인_필요_처리_시_이미_판정된_퀘스트라면_예외를_던진다() {
+        // given
+        final Post post = POST_1.생성(1L, 2L);
+        post.success();
+
+        // when
+        assertThatThrownBy(post::needCheck)
+                .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 퀘스트가_링크_되었는지_확인한다() {
+        // given
+        final Post linkedPost = POST_1.생성(1L, 2L);
+        final Post notLinkedPost = POST_1.생성(1L);
+
+        // when
+        final boolean linkedActual = linkedPost.isQuestLinked();
+        final boolean notLinkedActual = notLinkedPost.isQuestLinked();
+
+        // then
+        assertAll(() -> {
+            assertThat(linkedActual).isTrue();
+            assertThat(notLinkedActual).isFalse();
+        });
     }
 }
