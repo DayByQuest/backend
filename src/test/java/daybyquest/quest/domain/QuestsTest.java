@@ -96,4 +96,24 @@ public class QuestsTest {
         assertThatThrownBy(() -> quests.getById(1L))
                 .isInstanceOf(NotExistQuestException.class);
     }
+
+    @Test
+    void ID를_통해_퀘스트_존재를_검증한다() {
+        // given
+        final Long questId = 1L;
+        given(questRepository.existsById(questId)).willReturn(true);
+
+        // when
+        quests.validateExistentById(questId);
+
+        // then
+        then(questRepository).should().existsById(questId);
+    }
+
+    @Test
+    void ID를_통한_퀘스트_존재_검증_시_없다면_예외를_던진다() {
+        // given & when & then
+        assertThatThrownBy(() -> quests.validateExistentById(1L))
+                .isInstanceOf(NotExistQuestException.class);
+    }
 }

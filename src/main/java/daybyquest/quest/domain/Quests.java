@@ -31,6 +31,12 @@ public class Quests {
         return questRepository.findById(id).orElseThrow(NotExistQuestException::new);
     }
 
+    public void validateExistentById(final Long id) {
+        if (!questRepository.existsById(id)) {
+            throw new NotExistQuestException();
+        }
+    }
+
     private void validateNotExistentByBadgeId(final Long badgeId) {
         if (questRepository.existsByBadgeId(badgeId)) {
             throw new InvalidDomainException(ALREADY_EXIST_REWARD);
