@@ -143,6 +143,7 @@ public class QuestDaoQuerydslImplTest extends QuerydslTest {
         final User charlie = 저장한다(CHARLIE.생성());
         final User david = 저장한다(DAVID.생성());
         final Quest quest = 저장한다(QUEST_1.일반_퀘스트_생성());
+        QUEST_1.보상_없이_세부사항을_설정한다(quest);
 
         저장한다(new Participant(alice.getId(), quest));
         저장한다(퀘스트를_끝낸다(new Participant(bob.getId(), quest)));
