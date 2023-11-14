@@ -6,11 +6,18 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class SaveQuestRequest {
+public class SaveQuestDetailRequest {
 
     @NotBlank
-    private Long badgeId;
+    private String title;
+
+    private String content;
 
     @NotBlank
-    private String imageDescription;
+    private String interest;
+
+    @NotBlank
+    private String label;
+
+    private Long rewardCount;
 }

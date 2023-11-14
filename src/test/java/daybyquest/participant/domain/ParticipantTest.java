@@ -25,6 +25,7 @@ public class ParticipantTest {
         final Long badgeId = 1L;
         final Long userId = 1L;
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
 
         // when
         final Participant participant = new Participant(userId, quest);
@@ -40,6 +41,7 @@ public class ParticipantTest {
         final Long badgeId = 1L;
         final Long userId = 1L;
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
 
         // when
         final Participant participant = new Participant(userId, quest);
@@ -49,12 +51,26 @@ public class ParticipantTest {
     }
 
     @Test
+    void 퀘스트_참여_시_활성화된_퀘스트가_아니라면_예외를_던진다() {
+        // given
+        final Long questId = 1L;
+        final Long badgeId = 1L;
+        final Long userId = 1L;
+        final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+
+        // when & then
+        assertThatThrownBy(() -> new Participant(userId, quest))
+                .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
     void 퀘스트_ID를_조회한다() {
         // given
         final Long questId = 1L;
         final Long badgeId = 1L;
         final Long userId = 1L;
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
 
         // when
         final Participant participant = new Participant(userId, quest);
@@ -70,6 +86,7 @@ public class ParticipantTest {
         final Long badgeId = 1L;
         final Long userId = 1L;
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
         final Participant participant = new Participant(userId, quest);
         게시물_연결_횟수를_지정한다(participant, QUEST_1.rewardCount);
 
@@ -90,6 +107,8 @@ public class ParticipantTest {
         final Long badgeId = 1L;
         final Long userId = 1L;
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
+
         final Participant participant = new Participant(userId, quest);
         게시물_연결_횟수를_지정한다(participant, QUEST_1.rewardCount - 1);
 
@@ -104,6 +123,8 @@ public class ParticipantTest {
         final Long questId = 1L;
         final Long userId = 1L;
         final Quest quest = QUEST_WITHOUT_REWARD.일반_퀘스트_생성(questId, null);
+        QUEST_1.보상_없이_세부사항을_설정한다(quest);
+
         final Participant participant = new Participant(userId, quest);
         게시물_연결_횟수를_지정한다(participant, QUEST_1.rewardCount);
 
@@ -121,6 +142,8 @@ public class ParticipantTest {
         final Long aliceId = 4L;
 
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
+
         final Participant bob = new Participant(bobId, quest);
         final Participant alice = new Participant(aliceId, quest);
 
@@ -142,6 +165,8 @@ public class ParticipantTest {
         final Long bobId = 3L;
 
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
+
         final Participant participant = new Participant(bobId, quest);
 
         퀘스트를_계속한다(participant);
@@ -162,6 +187,8 @@ public class ParticipantTest {
         final Long aliceId = 4L;
 
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
+
         final Participant bob = new Participant(bobId, quest);
         final Participant alice = new Participant(aliceId, quest);
 
@@ -182,6 +209,8 @@ public class ParticipantTest {
         final Long bobId = 3L;
 
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
+
         final Participant participant = new Participant(bobId, quest);
 
         퀘스트를_끝낸다(participant);
@@ -202,6 +231,8 @@ public class ParticipantTest {
         final Long aliceId = 4L;
 
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
+
         final Participant bob = new Participant(bobId, quest);
         final Participant alice = new Participant(aliceId, quest);
 
@@ -222,6 +253,8 @@ public class ParticipantTest {
         final Long bobId = 3L;
 
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
+
         final Participant participant = new Participant(bobId, quest);
 
         // when
@@ -239,6 +272,8 @@ public class ParticipantTest {
         final Long bobId = 3L;
 
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
+
         final Participant participant = new Participant(bobId, quest);
         퀘스트를_계속한다(participant);
 
@@ -257,6 +292,8 @@ public class ParticipantTest {
         final Long bobId = 3L;
 
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
+
         final Participant participant = new Participant(bobId, quest);
         퀘스트를_끝낸다(participant);
 

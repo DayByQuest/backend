@@ -51,12 +51,7 @@ public enum QuestFixtures {
     }
 
     public Quest 일반_퀘스트_생성(final Long id, final Long badgeId) {
-        Long rewardCount = this.rewardCount;
-        if (badgeId == null) {
-            rewardCount = null;
-        }
-        final Quest quest = Quest.createNormalQuest(badgeId, interest, title, content, rewardCount,
-                imageDescription, 사진_목록(), 사진());
+        final Quest quest = Quest.createNormalQuest(badgeId, imageDescription, 사진_목록(), 사진());
         ReflectionTestUtils.setField(quest, "id", id);
         return quest;
     }
@@ -70,13 +65,11 @@ public enum QuestFixtures {
     }
 
     public Quest 일반_퀘스트_생성(final Badge badge) {
-        return Quest.createNormalQuest(badge.getId(), interest, title, content, rewardCount,
-                imageDescription, 사진_목록(), badge.getImage());
+        return Quest.createNormalQuest(badge.getId(), imageDescription, 사진_목록(), badge.getImage());
     }
 
     public Quest 그룹_퀘스트_생성(final Long id, final Long groupId) {
-        final Quest quest = Quest.createGroupQuest(groupId, interest, title, content, expiredAt,
-                imageDescription, 사진_목록(), 사진());
+        final Quest quest = Quest.createGroupQuest(groupId, imageDescription, 사진_목록(), 사진());
         ReflectionTestUtils.setField(quest, "id", id);
         return quest;
     }
@@ -86,8 +79,15 @@ public enum QuestFixtures {
     }
 
     public Quest 그룹_퀘스트_생성(final Group group) {
-        return Quest.createGroupQuest(group.getId(), interest, title, content, expiredAt,
-                imageDescription, 사진_목록(), group.getImage());
+        return Quest.createGroupQuest(group.getId(), imageDescription, 사진_목록(), group.getImage());
+    }
+
+    public void 세부사항을_설정한다(final Quest quest) {
+        quest.setDetail(title, content, interest, expiredAt, label, rewardCount);
+    }
+
+    public void 보상_없이_세부사항을_설정한다(final Quest quest) {
+        quest.setDetail(title, content, interest, expiredAt, label, null);
     }
 
     public List<Image> 사진_목록() {

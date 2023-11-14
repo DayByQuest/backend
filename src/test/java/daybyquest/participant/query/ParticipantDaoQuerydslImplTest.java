@@ -32,6 +32,10 @@ public class ParticipantDaoQuerydslImplTest extends QuerydslTest {
         final Quest 끝난_퀘스트 = 저장한다(QUEST_2.일반_퀘스트_생성());
         final Quest 계속하는_퀘스트 = 저장한다(QUEST_2.일반_퀘스트_생성());
         final Quest 진행중인_퀘스트_2 = 저장한다(QUEST_2.일반_퀘스트_생성());
+        QUEST_1.보상_없이_세부사항을_설정한다(진행중인_퀘스트_1);
+        QUEST_2.보상_없이_세부사항을_설정한다(끝난_퀘스트);
+        QUEST_2.보상_없이_세부사항을_설정한다(계속하는_퀘스트);
+        QUEST_2.보상_없이_세부사항을_설정한다(진행중인_퀘스트_2);
 
         저장한다(new Participant(userId, 진행중인_퀘스트_1));
         퀘스트를_끝낸다(저장한다(new Participant(userId, 끝난_퀘스트)));
@@ -57,6 +61,10 @@ public class ParticipantDaoQuerydslImplTest extends QuerydslTest {
         final Quest 계속하는_퀘스트_2 = 저장한다(QUEST_2.일반_퀘스트_생성());
         final Quest 끝난_퀘스트 = 저장한다(QUEST_2.일반_퀘스트_생성());
         final Quest 진행중인_퀘스트 = 저장한다(QUEST_2.일반_퀘스트_생성());
+        QUEST_1.보상_없이_세부사항을_설정한다(계속하는_퀘스트_1);
+        QUEST_2.보상_없이_세부사항을_설정한다(끝난_퀘스트);
+        QUEST_2.보상_없이_세부사항을_설정한다(계속하는_퀘스트_2);
+        QUEST_2.보상_없이_세부사항을_설정한다(진행중인_퀘스트);
 
         퀘스트를_계속한다(저장한다(new Participant(userId, 계속하는_퀘스트_1)));
         퀘스트를_계속한다(저장한다(new Participant(userId, 계속하는_퀘스트_2)));
@@ -82,7 +90,11 @@ public class ParticipantDaoQuerydslImplTest extends QuerydslTest {
         final Quest 끝난_퀘스트_2 = 저장한다(QUEST_2.일반_퀘스트_생성());
         final Quest 계속하는_퀘스트 = 저장한다(QUEST_2.일반_퀘스트_생성());
         final Quest 진행_중인_퀘스트 = 저장한다(QUEST_2.일반_퀘스트_생성());
-        
+        QUEST_1.보상_없이_세부사항을_설정한다(끝난_퀘스트_1);
+        QUEST_2.보상_없이_세부사항을_설정한다(끝난_퀘스트_2);
+        QUEST_2.보상_없이_세부사항을_설정한다(계속하는_퀘스트);
+        QUEST_2.보상_없이_세부사항을_설정한다(진행_중인_퀘스트);
+
         퀘스트를_끝낸다(저장한다(new Participant(userId, 끝난_퀘스트_1)));
         퀘스트를_끝낸다(저장한다(new Participant(userId, 끝난_퀘스트_2)));
         퀘스트를_계속한다(저장한다(new Participant(userId, 계속하는_퀘스트)));

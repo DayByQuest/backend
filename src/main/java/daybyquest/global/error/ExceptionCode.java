@@ -67,6 +67,7 @@ public enum ExceptionCode {
     ALREADY_LABELED("QUE-16", BAD_REQUEST, "이미 라벨링된 퀘스트입니다"),
     INVALID_QUEST_IMAGE("QUE-17", BAD_REQUEST, "퀘스트 사진이 없습니다"),
     ALREADY_EXIST_REWARD("QUE-18", BAD_REQUEST, "이미 보상으로 설정된 뱃지입니다"),
+    CANNOT_PARTICIPATE("QUE-19", BAD_REQUEST, "수락할 수 없는 퀘스트입니다"),
 
     // Group
     NOT_EXIST_GROUP("GRP-00", BAD_REQUEST, "존재하지 않는 그룹입니다"),
@@ -79,6 +80,7 @@ public enum ExceptionCode {
     INVALID_GROUP_NAME("GRP-07", BAD_REQUEST, "그룹 이름은 1~15자여야 합니다"),
     INVALID_GROUP_DESCRIPTION("GRP-08", BAD_REQUEST, "그룹 설명은 200자 이하여야 합니다"),
     NOT_DELETABLE_GROUP_USER("GRP-09", BAD_REQUEST, "매니저는 탈퇴할 수 없습니다"),
+    NOT_GROUP_MANAGER("GRP-10", BAD_REQUEST, "그룹 매니저만 가능한 권한입니다"),
 
     // Badge
     NOT_EXIST_BADGE("BDE-00", BAD_REQUEST, "존재하지 않는 뱃지입니다"),

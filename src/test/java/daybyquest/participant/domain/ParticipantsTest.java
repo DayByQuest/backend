@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 import daybyquest.global.error.exception.InvalidDomainException;
+import daybyquest.group.domain.GroupUsers;
 import daybyquest.quest.domain.Quest;
 import daybyquest.quest.domain.Quests;
 import daybyquest.user.domain.Users;
@@ -31,6 +32,9 @@ public class ParticipantsTest {
     @Mock
     private Quests quests;
 
+    @Mock
+    private GroupUsers groupUsers;
+
     @InjectMocks
     private Participants participants;
 
@@ -41,6 +45,7 @@ public class ParticipantsTest {
         final Long badgeId = 2L;
         final Long userId = 3L;
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
         given(quests.getById(questId)).willReturn(quest);
 
         // when
@@ -62,12 +67,30 @@ public class ParticipantsTest {
         final Long badgeId = 2L;
         final Long userId = 3L;
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
         given(quests.getById(questId)).willReturn(quest);
         given(participantRepository.existsByUserIdAndQuestId(userId, questId)).willReturn(true);
 
         // when & then
         assertThatThrownBy(() -> participants.saveWithUserIdAndQuestId(userId, questId))
                 .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 참여_시_그룹_퀘스트_라면_그룹에_속했는지를_검사한다() {
+        // given
+        final Long questId = 1L;
+        final Long groupId = 2L;
+        final Long userId = 3L;
+        final Quest quest = QUEST_1.그룹_퀘스트_생성(questId, groupId);
+        QUEST_1.보상_없이_세부사항을_설정한다(quest);
+        given(quests.getById(questId)).willReturn(quest);
+
+        // when
+        participants.saveWithUserIdAndQuestId(userId, questId);
+
+        // then
+        then(groupUsers).should().validateExistentByUserIdAndGroupId(userId, groupId);
     }
 
     @Test
@@ -102,6 +125,8 @@ public class ParticipantsTest {
         final Long badgeId = 2L;
         final Long userId = 3L;
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
+
         final Participant expected = new Participant(userId, quest);
         given(participantRepository.findByUserIdAndQuestId(userId, questId)).willReturn(
                 Optional.of(expected));
@@ -136,6 +161,8 @@ public class ParticipantsTest {
         final Long badgeId = 2L;
         final Long userId = 3L;
         final Quest quest = QUEST_1.일반_퀘스트_생성(questId, badgeId);
+        QUEST_1.세부사항을_설정한다(quest);
+
         final Participant expected = new Participant(userId, quest);
         given(participantRepository.findByUserIdAndQuestId(userId, questId)).willReturn(
                 Optional.of(expected));

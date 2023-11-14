@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class SaveQuestRequest {
+public class SaveGroupQuestRequest {
 
     @NotBlank
-    private Long badgeId;
+    private Long groupId;
 
     @NotBlank
     private String imageDescription;

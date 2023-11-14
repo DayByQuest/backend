@@ -45,6 +45,7 @@ public class Participant {
         this.quest = quest;
         this.state = DOING;
         this.linkedCount = 0L;
+        quest.validateCanParticipate();
     }
 
     public Long getQuestId() {

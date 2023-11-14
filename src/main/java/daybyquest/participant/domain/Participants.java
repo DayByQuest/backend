@@ -4,6 +4,7 @@ import static daybyquest.global.error.ExceptionCode.ALREADY_ACCEPTED_QUEST;
 import static daybyquest.global.error.ExceptionCode.NOT_ACCEPTED_QUEST;
 
 import daybyquest.global.error.exception.InvalidDomainException;
+import daybyquest.group.domain.GroupUsers;
 import daybyquest.quest.domain.Quest;
 import daybyquest.quest.domain.Quests;
 import daybyquest.user.domain.Users;
@@ -18,19 +19,29 @@ public class Participants {
 
     private final Quests quests;
 
+    private final GroupUsers groupUsers;
+
     Participants(final ParticipantRepository participantRepository, final Users users,
-            final Quests quests) {
+            final Quests quests, final GroupUsers groupUsers) {
         this.participantRepository = participantRepository;
         this.users = users;
         this.quests = quests;
+        this.groupUsers = groupUsers;
     }
 
     public void saveWithUserIdAndQuestId(final Long userId, final Long questId) {
         users.validateExistentById(userId);
         final Quest quest = quests.getById(questId);
+        validateGroupQuest(userId, quest);
         final Participant participant = new Participant(userId, quest);
         validateNotExistent(participant);
         participantRepository.save(participant);
+    }
+
+    private void validateGroupQuest(final Long userId, final Quest quest) {
+        if (quest.isGroupQuest()) {
+            groupUsers.validateExistentByUserIdAndGroupId(userId, quest.getGroupId());
+        }
     }
 
     private void validateNotExistent(final Participant participant) {
