@@ -4,9 +4,9 @@ import static org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE;
 
 import daybyquest.auth.Authorization;
 import daybyquest.auth.domain.AccessUser;
-import daybyquest.quest.application.SaveGroupQuestDetailService;
-import daybyquest.quest.application.SaveGroupQuestService;
-import daybyquest.quest.application.SubscribeGroupQuestLabelsService;
+import daybyquest.quest.application.group.SaveGroupQuestDetailService;
+import daybyquest.quest.application.group.SaveGroupQuestService;
+import daybyquest.quest.application.group.SubscribeGroupQuestLabelsService;
 import daybyquest.quest.dto.request.SaveGroupQuestDetailRequest;
 import daybyquest.quest.dto.request.SaveGroupQuestRequest;
 import daybyquest.quest.dto.response.SaveQuestResponse;

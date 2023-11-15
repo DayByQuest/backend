@@ -1,5 +1,6 @@
-package daybyquest.quest.application;
+package daybyquest.quest.application.group;
 
+import daybyquest.quest.application.QuestSseEmitters;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 

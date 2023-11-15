@@ -1,4 +1,4 @@
-package daybyquest.quest.application;
+package daybyquest.quest.application.group;
 
 import daybyquest.global.utils.MultipartFileUtils;
 import daybyquest.group.domain.Group;
@@ -7,6 +7,7 @@ import daybyquest.group.domain.Groups;
 import daybyquest.image.domain.Image;
 import daybyquest.image.domain.ImageIdentifierGenerator;
 import daybyquest.image.domain.Images;
+import daybyquest.quest.application.QuestClient;
 import daybyquest.quest.domain.Quest;
 import daybyquest.quest.domain.Quests;
 import daybyquest.quest.dto.request.SaveGroupQuestRequest;

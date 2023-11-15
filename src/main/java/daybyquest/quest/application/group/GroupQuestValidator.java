@@ -1,4 +1,4 @@
-package daybyquest.quest.application;
+package daybyquest.quest.application.group;
 
 import daybyquest.group.domain.GroupUsers;
 import daybyquest.quest.domain.Quest;
