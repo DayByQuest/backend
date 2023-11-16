@@ -32,7 +32,7 @@ public class RecommendQuestsService {
     @Transactional(readOnly = true)
     public MultipleQuestsResponse invoke(final Long loginId) {
         final User user = users.getById(loginId);
-        final List<Long> ids = recommendDao.findTopNNormalQuestIdsByInterestIn(MAX_RECOMMENDATION_COUNT,
+        final List<Long> ids = recommendDao.getRecommendIds(MAX_RECOMMENDATION_COUNT,
                 user.getInterests());
         final List<QuestData> questData = questDao.findAllByIdIn(loginId, ids);
         final List<QuestResponse> responses = questData.stream().map(QuestResponse::of).toList();

@@ -12,5 +12,5 @@ public interface QuestRecommendDao extends Repository<Quest, Long> {
             + "and q.id >= FLOOR(1 + RAND() * (select MAX(quest.id) from quest)) "
             + "ORDER BY q.id limit :topN",
             nativeQuery = true)
-    List<Long> findTopNNormalQuestIdsByInterestIn(final int topN, final Collection<String> interests);
+    List<Long> getRecommendIds(final int topN, final Collection<String> interests);
 }
