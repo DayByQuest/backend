@@ -8,10 +8,13 @@ import static daybyquest.user.domain.QUser.user;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import daybyquest.global.error.exception.NotExistUserException;
+import daybyquest.global.query.LongIdList;
+import daybyquest.global.query.NoOffsetIdPage;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +94,19 @@ public class ProfileDaoQuerydslImpl implements ProfileDao {
             throw new NotExistUserException();
         }
         return profile;
+    }
+
+    @Override
+    public LongIdList findIdsByUsernameLike(final String keyword, final NoOffsetIdPage page) {
+        return new LongIdList(factory.select(user.id)
+                .from(user)
+                .where(user.username.contains(keyword), gtUserId(page.lastId()))
+                .limit(page.limit())
+                .fetch());
+    }
+
+    private BooleanExpression gtUserId(final Long userId) {
+        return userId == null ? null : user.id.gt(userId);
     }
 
     @Override
