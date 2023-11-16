@@ -7,6 +7,7 @@ import daybyquest.group.application.CheckGroupNameService;
 import daybyquest.group.application.GetGroupProfileService;
 import daybyquest.group.application.GetGroupUsersService;
 import daybyquest.group.application.GetGroupsService;
+import daybyquest.group.application.RecommendGroupsService;
 import daybyquest.group.application.SearchGroupService;
 import daybyquest.group.dto.response.GroupResponse;
 import daybyquest.group.dto.response.MultipleGroupsResponse;
@@ -29,16 +30,20 @@ public class GroupQueryApi {
 
     private final GetGroupsService getGroupsService;
 
+    private final RecommendGroupsService recommendGroupsService;
+
     private final SearchGroupService searchGroupService;
 
     public GroupQueryApi(final CheckGroupNameService checkGroupNameService,
             final GetGroupProfileService getGroupProfileService,
             final GetGroupUsersService getGroupUsersService, final GetGroupsService getGroupsService,
+            final RecommendGroupsService recommendGroupsService,
             final SearchGroupService searchGroupService) {
         this.checkGroupNameService = checkGroupNameService;
         this.getGroupProfileService = getGroupProfileService;
         this.getGroupUsersService = getGroupUsersService;
         this.getGroupsService = getGroupsService;
+        this.recommendGroupsService = recommendGroupsService;
         this.searchGroupService = searchGroupService;
     }
 
@@ -68,6 +73,13 @@ public class GroupQueryApi {
     @Authorization
     public ResponseEntity<MultipleGroupsResponse> getGroups(final AccessUser accessUser) {
         final MultipleGroupsResponse response = getGroupsService.invoke(accessUser.getId());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/group/recommendation")
+    @Authorization
+    public ResponseEntity<MultipleGroupsResponse> recommendGroups(final AccessUser accessUser) {
+        final MultipleGroupsResponse response = recommendGroupsService.invoke(accessUser.getId());
         return ResponseEntity.ok(response);
     }
 
