@@ -10,4 +10,6 @@ interface GroupRepository extends Repository<Group, Long> {
     Optional<Group> findById(final Long id);
 
     boolean existsById(final Long id);
+
+    boolean existsByName(final String name);
 }
