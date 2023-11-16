@@ -5,13 +5,17 @@ import static daybyquest.participant.domain.QParticipant.participant;
 import static daybyquest.post.domain.PostState.SUCCESS;
 import static daybyquest.post.domain.QPost.post;
 import static daybyquest.quest.domain.QQuest.quest;
+import static daybyquest.quest.domain.QuestState.ACTIVE;
 
 import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import daybyquest.global.error.exception.NotExistQuestException;
+import daybyquest.global.query.LongIdList;
+import daybyquest.global.query.NoOffsetIdPage;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -75,5 +79,19 @@ public class QuestDaoQuerydslImpl implements QuestDao {
                 .leftJoin(group).on(group.id.eq(quest.groupId))
                 .where(quest.id.in(ids))
                 .fetch();
+    }
+
+    @Override
+    public LongIdList findIdsByTitleLike(final String keyword, final NoOffsetIdPage page) {
+        return new LongIdList(factory.select(quest.id)
+                .from(quest)
+                .where(quest.title.contains(keyword), gtQuestId(page.lastId()), quest.state.eq(ACTIVE))
+                .limit(page.limit())
+                .orderBy(quest.id.asc())
+                .fetch());
+    }
+
+    private BooleanExpression gtQuestId(final Long questId) {
+        return questId == null ? null : quest.id.gt(questId);
     }
 }

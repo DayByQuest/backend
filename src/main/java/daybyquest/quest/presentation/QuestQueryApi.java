@@ -2,15 +2,19 @@ package daybyquest.quest.presentation;
 
 import daybyquest.auth.Authorization;
 import daybyquest.auth.domain.AccessUser;
+import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.quest.application.GetQuestByIdService;
 import daybyquest.quest.application.GetQuestImagesService;
 import daybyquest.quest.application.RecommendQuestsService;
+import daybyquest.quest.application.SearchQuestService;
 import daybyquest.quest.dto.response.MultipleQuestsResponse;
+import daybyquest.quest.dto.response.PageQuestsResponse;
 import daybyquest.quest.dto.response.QuestImagesResponse;
 import daybyquest.quest.dto.response.QuestResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,12 +26,16 @@ public class QuestQueryApi {
 
     private final RecommendQuestsService recommendQuestsService;
 
+    private final SearchQuestService searchQuestService;
+
     public QuestQueryApi(final GetQuestByIdService getQuestByIdService,
             final GetQuestImagesService getQuestImagesService,
-            final RecommendQuestsService recommendQuestsService) {
+            final RecommendQuestsService recommendQuestsService,
+            final SearchQuestService searchQuestService) {
         this.getQuestByIdService = getQuestByIdService;
         this.getQuestImagesService = getQuestImagesService;
         this.recommendQuestsService = recommendQuestsService;
+        this.searchQuestService = searchQuestService;
     }
 
     @GetMapping("/quest/{questId}")
@@ -48,6 +56,14 @@ public class QuestQueryApi {
     @Authorization
     public ResponseEntity<MultipleQuestsResponse> recommendQuests(final AccessUser accessUser) {
         final MultipleQuestsResponse response = recommendQuestsService.invoke(accessUser.getId());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/search/quest")
+    @Authorization
+    public ResponseEntity<PageQuestsResponse> searchQuest(final AccessUser accessUser,
+            @RequestParam final String keyword, final NoOffsetIdPage page) {
+        final PageQuestsResponse response = searchQuestService.invoke(accessUser.getId(), keyword, page);
         return ResponseEntity.ok(response);
     }
 }
