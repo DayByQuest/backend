@@ -11,8 +11,11 @@ public class AiServerProperties {
 
     private final String domain;
 
+    private final String port;
+
     @ConstructorBinding
-    public AiServerProperties(final String domain) {
+    public AiServerProperties(final String domain, final String port) {
         this.domain = domain;
+        this.port = port;
     }
 }
