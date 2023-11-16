@@ -8,6 +8,7 @@ import static daybyquest.quest.domain.QuestCategory.GROUP;
 import static daybyquest.quest.domain.QuestCategory.NORMAL;
 import static daybyquest.support.fixture.BadgeFixtures.BADGE_1;
 import static daybyquest.support.fixture.GroupFixtures.GROUP_1;
+import static daybyquest.support.fixture.GroupFixtures.GROUP_2;
 import static daybyquest.support.fixture.PostFixtures.POST_1;
 import static daybyquest.support.fixture.PostFixtures.POST_2;
 import static daybyquest.support.fixture.PostFixtures.POST_3;
@@ -169,6 +170,29 @@ public class QuestDaoQuerydslImplTest extends QuerydslTest {
         // given & when & then
         assertThatThrownBy(() -> questDao.getById(1L, 2L))
                 .isInstanceOf(NotExistQuestException.class);
+    }
+
+    @Test
+    void 그룹_ID로_퀘스트를_조회한다() {
+        // given
+        final Long userId = 1L;
+        final Group group1 = 저장한다(GROUP_1.생성());
+        final Group group2 = 저장한다(GROUP_2.생성());
+        final Quest quest1 = 저장한다(QUEST_1.그룹_퀘스트_생성(group1));
+        final Quest quest2 = 저장한다(QUEST_2.그룹_퀘스트_생성(group1));
+        final Quest quest3 = 저장한다(QUEST_1.그룹_퀘스트_생성(group1));
+        저장한다(QUEST_3.그룹_퀘스트_생성(group2));
+        final List<Long> expected = List.of(quest1.getId(), quest2.getId(), quest3.getId());
+
+        // when
+        final List<QuestData> questData = questDao.findAllByGroupId(userId, group1.getId());
+        final List<Long> actual = questData.stream().map(QuestData::getId).toList();
+
+        // then
+        assertAll(() -> {
+            assertThat(questData).hasSize(3);
+            assertThat(actual).containsExactlyElementsOf(expected);
+        });
     }
 
     @Test
