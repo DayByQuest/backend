@@ -71,7 +71,7 @@ public class UserQueryApi {
 
     @GetMapping("/search/user")
     @Authorization
-    public ResponseEntity<PageProfilesResponse> getVisibility(final AccessUser accessUser,
+    public ResponseEntity<PageProfilesResponse> searchUser(final AccessUser accessUser,
             @RequestParam final String keyword, final NoOffsetIdPage page) {
         final PageProfilesResponse response = searchUserService.invoke(accessUser.getId(), keyword, page);
         return ResponseEntity.ok(response);
