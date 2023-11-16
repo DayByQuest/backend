@@ -3,11 +3,13 @@ package daybyquest.post.presentation;
 import daybyquest.auth.Authorization;
 import daybyquest.auth.domain.AccessUser;
 import daybyquest.global.query.NoOffsetIdPage;
+import daybyquest.post.application.GetNeedCheckPostsService;
 import daybyquest.post.application.GetPostByQuestIdService;
 import daybyquest.post.application.GetPostByUsernameService;
 import daybyquest.post.application.GetPostFromFollowingService;
 import daybyquest.post.application.GetPostService;
 import daybyquest.post.application.GetTrackerService;
+import daybyquest.post.dto.response.NeedCheckPostsResponse;
 import daybyquest.post.dto.response.PagePostsResponse;
 import daybyquest.post.dto.response.PostWithQuestResponse;
 import daybyquest.post.dto.response.TrackerResponse;
@@ -29,16 +31,20 @@ public class PostQueryApi {
 
     private final GetPostByQuestIdService getPostByQuestIdService;
 
+    private final GetNeedCheckPostsService getNeedCheckPostsService;
+
     public PostQueryApi(final GetPostService getPostService,
             final GetPostFromFollowingService getPostFromFollowingService,
             final GetPostByUsernameService getPostByUsernameService,
             final GetTrackerService getTrackerService,
-            final GetPostByQuestIdService getPostByQuestIdService) {
+            final GetPostByQuestIdService getPostByQuestIdService,
+            final GetNeedCheckPostsService getNeedCheckPostsService) {
         this.getPostService = getPostService;
         this.getPostFromFollowingService = getPostFromFollowingService;
         this.getPostByUsernameService = getPostByUsernameService;
         this.getTrackerService = getTrackerService;
         this.getPostByQuestIdService = getPostByQuestIdService;
+        this.getNeedCheckPostsService = getNeedCheckPostsService;
     }
 
     @GetMapping("/post/{postId}")
@@ -80,6 +86,14 @@ public class PostQueryApi {
             @PathVariable final Long questId, final NoOffsetIdPage page) {
         final PagePostsResponse response = getPostByQuestIdService.invoke(accessUser.getId(), questId,
                 page);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/group/{questId}/quest/failed")
+    @Authorization
+    public ResponseEntity<NeedCheckPostsResponse> getNeedCheckPosts(final AccessUser accessUser,
+            @PathVariable final Long questId) {
+        final NeedCheckPostsResponse response = getNeedCheckPostsService.invoke(accessUser.getId(), questId);
         return ResponseEntity.ok(response);
     }
 }
