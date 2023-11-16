@@ -7,7 +7,6 @@ import static lombok.AccessLevel.PROTECTED;
 
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.image.domain.Image;
-import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -31,7 +30,7 @@ public class Group {
 
     private String interest;
 
-    @Column(nullable = false, length = MAX_NAME_LENGTH)
+    @Column(nullable = false, length = MAX_NAME_LENGTH, unique = true)
     private String name;
 
     @Column(length = MAX_DESCRIPTION_LENGTH)
@@ -40,7 +39,6 @@ public class Group {
     private boolean deleted;
 
     @Embedded
-    @AttributeOverride(name = "imageUrl", column = @Column(name = "image_url"))
     private Image image;
 
     public Group(String interest, String name, String description, Image image) {

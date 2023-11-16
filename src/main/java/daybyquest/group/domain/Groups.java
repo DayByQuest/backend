@@ -1,6 +1,7 @@
 package daybyquest.group.domain;
 
 import static daybyquest.global.error.ExceptionCode.ALREADY_MEMBER;
+import static daybyquest.global.error.ExceptionCode.DUPLICATED_GROUP_NAME;
 
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.global.error.exception.NotExistGroupException;
@@ -31,9 +32,16 @@ public class Groups {
     public Long save(final Long userId, final Group group) {
         users.validateModeratorById(userId);
         interests.validateInterest(group.getInterest());
+        validateNotExistentByName(group.getName());
         final Group savedGroup = groupRepository.save(group);
         groupUserRepository.save(GroupUser.createGroupManager(userId, savedGroup));
         return savedGroup.getId();
+    }
+
+    public void validateNotExistentByName(final String name) {
+        if (groupRepository.existsByName(name)) {
+            throw new InvalidDomainException(DUPLICATED_GROUP_NAME);
+        }
     }
 
     public void addUser(final GroupUser groupUser) {
@@ -68,7 +76,7 @@ public class Groups {
             throw new InvalidDomainException(ALREADY_MEMBER);
         }
     }
-    
+
     public Group getById(final Long id) {
         return groupRepository.findById(id).orElseThrow(NotExistGroupException::new);
     }
