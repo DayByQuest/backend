@@ -102,6 +102,7 @@ public class ProfileDaoQuerydslImpl implements ProfileDao {
                 .from(user)
                 .where(user.username.contains(keyword), gtUserId(page.lastId()))
                 .limit(page.limit())
+                .orderBy(user.id.asc())
                 .fetch());
     }
 
