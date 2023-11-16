@@ -1,11 +1,13 @@
 package daybyquest.post.query;
 
+import static daybyquest.support.fixture.GroupFixtures.GROUP_1;
 import static daybyquest.support.fixture.PostFixtures.POST_1;
 import static daybyquest.support.fixture.PostFixtures.POST_2;
 import static daybyquest.support.fixture.PostFixtures.POST_3;
 import static daybyquest.support.fixture.PostFixtures.POST_4;
 import static daybyquest.support.fixture.PostFixtures.POST_WITH_3_IMAGES;
 import static daybyquest.support.fixture.QuestFixtures.QUEST_1;
+import static daybyquest.support.fixture.QuestFixtures.QUEST_2;
 import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
 import static daybyquest.support.fixture.UserFixtures.CHARLIE;
@@ -15,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import daybyquest.global.query.LongIdList;
 import daybyquest.global.query.NoOffsetIdPage;
+import daybyquest.group.domain.Group;
 import daybyquest.post.domain.Post;
 import daybyquest.quest.domain.Quest;
 import daybyquest.relation.domain.Follow;
@@ -163,6 +166,27 @@ public class PostDaoQuerydslImplTest extends QuerydslTest {
 
         // when
         final LongIdList ids = postDao.findPostIdsByQuestId(bob.getId(), quest.getId(), page);
+
+        // then
+        assertThat(ids.getIds()).hasSize(3);
+    }
+
+    @Test
+    void 그룹_ID를_통해_게시물_ID_목록을_조회한다() {
+        // given
+        final User bob = 저장한다(BOB.생성());
+        final Group group = 저장한다(GROUP_1.생성());
+        final Quest quest1 = 저장한다(QUEST_1.그룹_퀘스트_생성(group));
+        final Quest quest2 = 저장한다(QUEST_2.그룹_퀘스트_생성(group));
+        저장한다(POST_1.생성(bob, quest1));
+        저장한다(POST_2.생성(bob, quest2));
+        저장한다(POST_3.생성(bob, quest2));
+        저장한다(POST_4.생성(bob));
+
+        final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
+
+        // when
+        final LongIdList ids = postDao.findPostIdsByGroupId(bob.getId(), group.getId(), page);
 
         // then
         assertThat(ids.getIds()).hasSize(3);

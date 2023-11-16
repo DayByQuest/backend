@@ -4,16 +4,11 @@ import static org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE;
 
 import daybyquest.auth.Authorization;
 import daybyquest.auth.domain.AccessUser;
-import daybyquest.quest.application.SaveGroupQuestDetailService;
-import daybyquest.quest.application.SaveGroupQuestService;
 import daybyquest.quest.application.SaveQuestDetailService;
 import daybyquest.quest.application.SaveQuestService;
 import daybyquest.quest.application.SendQuestLabelsService;
-import daybyquest.quest.application.SubscribeGroupQuestLabelsService;
 import daybyquest.quest.application.SubscribeQuestLabelsService;
 import daybyquest.quest.dto.request.QuestLabelsRequest;
-import daybyquest.quest.dto.request.SaveGroupQuestDetailRequest;
-import daybyquest.quest.dto.request.SaveGroupQuestRequest;
 import daybyquest.quest.dto.request.SaveQuestDetailRequest;
 import daybyquest.quest.dto.request.SaveQuestRequest;
 import daybyquest.quest.dto.response.SaveQuestResponse;
@@ -35,31 +30,19 @@ public class QuestCommandApi {
 
     private final SaveQuestService saveQuestService;
 
-    private final SaveGroupQuestService saveGroupQuestService;
-
     private final SaveQuestDetailService saveQuestDetailService;
 
-    private final SaveGroupQuestDetailService saveGroupQuestDetailService;
-
     private final SubscribeQuestLabelsService subscribeQuestLabelsService;
-
-    private final SubscribeGroupQuestLabelsService subscribeGroupQuestLabelsService;
 
     private final SendQuestLabelsService sendQuestLabelsService;
 
     public QuestCommandApi(final SaveQuestService saveQuestService,
-            final SaveGroupQuestService saveGroupQuestService,
             final SaveQuestDetailService saveQuestDetailService,
-            final SaveGroupQuestDetailService saveGroupQuestDetailService,
             final SubscribeQuestLabelsService subscribeQuestLabelsService,
-            final SubscribeGroupQuestLabelsService subscribeGroupQuestLabelsService,
             final SendQuestLabelsService sendQuestLabelsService) {
         this.saveQuestService = saveQuestService;
-        this.saveGroupQuestService = saveGroupQuestService;
         this.saveQuestDetailService = saveQuestDetailService;
-        this.saveGroupQuestDetailService = saveGroupQuestDetailService;
         this.subscribeQuestLabelsService = subscribeQuestLabelsService;
-        this.subscribeGroupQuestLabelsService = subscribeGroupQuestLabelsService;
         this.sendQuestLabelsService = sendQuestLabelsService;
     }
 
@@ -72,15 +55,6 @@ public class QuestCommandApi {
         return ResponseEntity.ok(new SaveQuestResponse(questId));
     }
 
-    @PostMapping("/group/quest")
-    @Authorization
-    public ResponseEntity<SaveQuestResponse> saveGroupQuest(final AccessUser accessUser,
-            @RequestPart SaveGroupQuestRequest request,
-            @RequestPart List<MultipartFile> files) {
-        final Long questId = saveGroupQuestService.invoke(accessUser.getId(), request, files);
-        return ResponseEntity.ok(new SaveQuestResponse(questId));
-    }
-
     @PostMapping("/quest/{questId}/detail")
     @Authorization(admin = true)
     public ResponseEntity<SaveQuestResponse> saveQuestDetail(final AccessUser accessUser,
@@ -89,27 +63,11 @@ public class QuestCommandApi {
         return ResponseEntity.ok(new SaveQuestResponse(questId));
     }
 
-    @PostMapping("/group/{questId}/quest/detail")
-    @Authorization
-    public ResponseEntity<SaveQuestResponse> saveGroupQuestDetail(final AccessUser accessUser,
-            @PathVariable final Long questId, @RequestBody @Valid SaveGroupQuestDetailRequest request) {
-        saveGroupQuestDetailService.invoke(accessUser.getId(), questId, request);
-        return ResponseEntity.ok(new SaveQuestResponse(questId));
-    }
-
     @GetMapping(value = "/quest/{questId}/labels", produces = TEXT_EVENT_STREAM_VALUE)
     @Authorization(admin = true)
     public ResponseEntity<SseEmitter> subscribeQuestLabels(final AccessUser accessUser,
             @PathVariable final Long questId) {
         final SseEmitter emitter = subscribeQuestLabelsService.invoke(questId);
-        return ResponseEntity.ok(emitter);
-    }
-
-    @GetMapping(value = "/group/{questId}/quest/labels", produces = TEXT_EVENT_STREAM_VALUE)
-    @Authorization
-    public ResponseEntity<SseEmitter> subscribeGroupQuestLabels(final AccessUser accessUser,
-            @PathVariable final Long questId) {
-        final SseEmitter emitter = subscribeGroupQuestLabelsService.invoke(accessUser.getId(), questId);
         return ResponseEntity.ok(emitter);
     }
 

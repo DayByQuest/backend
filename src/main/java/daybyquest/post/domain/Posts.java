@@ -1,8 +1,11 @@
 package daybyquest.post.domain;
 
+import static daybyquest.post.domain.PostState.NEED_CHECK;
+
 import daybyquest.global.error.exception.NotExistPostException;
 import daybyquest.participant.domain.Participants;
 import daybyquest.user.domain.Users;
+import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,5 +39,9 @@ public class Posts {
         if (!postRepository.existsById(postId)) {
             throw new NotExistPostException();
         }
+    }
+
+    public List<Post> findTop10NeedCheckPostByQuestId(final Long questId) {
+        return postRepository.findTop10ByQuestIdAndState(questId, NEED_CHECK);
     }
 }

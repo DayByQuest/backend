@@ -5,6 +5,7 @@ import static daybyquest.global.error.ExceptionCode.INVALID_POST_CONTENT;
 import static daybyquest.global.error.ExceptionCode.INVALID_POST_IMAGE;
 import static daybyquest.global.error.ExceptionCode.NOT_EXIST_USER;
 import static daybyquest.global.error.ExceptionCode.NOT_LINKED_POST;
+import static daybyquest.post.domain.PostState.FAIL;
 import static daybyquest.post.domain.PostState.NEED_CHECK;
 import static daybyquest.post.domain.PostState.NOT_DECIDED;
 import static daybyquest.post.domain.PostState.SUCCESS;
@@ -104,7 +105,7 @@ public class Post {
 
     public void success() {
         validateQuestLink();
-        if (state != NOT_DECIDED) {
+        if (state != NOT_DECIDED && state != NEED_CHECK) {
             throw new InvalidDomainException(ALREADY_JUDGED_POST);
         }
         state = SUCCESS;
@@ -116,6 +117,14 @@ public class Post {
             throw new InvalidDomainException(ALREADY_JUDGED_POST);
         }
         state = NEED_CHECK;
+    }
+
+    public void fail() {
+        validateQuestLink();
+        if (state != NEED_CHECK) {
+            throw new InvalidDomainException(ALREADY_JUDGED_POST);
+        }
+        state = FAIL;
     }
 
     public boolean isQuestLinked() {
