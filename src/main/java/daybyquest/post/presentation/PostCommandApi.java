@@ -2,10 +2,12 @@ package daybyquest.post.presentation;
 
 import daybyquest.auth.Authorization;
 import daybyquest.auth.domain.AccessUser;
+import daybyquest.post.application.CheckPostService;
 import daybyquest.post.application.GetPostService;
 import daybyquest.post.application.JudgePostService;
 import daybyquest.post.application.SavePostService;
 import daybyquest.post.application.SwipePostService;
+import daybyquest.post.dto.request.CheckPostRequest;
 import daybyquest.post.dto.request.JudgePostRequest;
 import daybyquest.post.dto.request.SavePostRequest;
 import daybyquest.post.dto.response.PostWithQuestResponse;
@@ -30,12 +32,16 @@ public class PostCommandApi {
 
     private final JudgePostService judgePostService;
 
+    private final CheckPostService checkPostService;
+
     public PostCommandApi(final SavePostService savePostService, final SwipePostService swipePostService,
-            final GetPostService getPostService, final JudgePostService judgePostService) {
+            final GetPostService getPostService, final JudgePostService judgePostService,
+            final CheckPostService checkPostService) {
         this.savePostService = savePostService;
         this.swipePostService = swipePostService;
         this.getPostService = getPostService;
         this.judgePostService = judgePostService;
+        this.checkPostService = checkPostService;
     }
 
     @PostMapping("/post")
@@ -60,6 +66,14 @@ public class PostCommandApi {
     public ResponseEntity<Void> swipePost(final AccessUser accessUser,
             @PathVariable final Long postId, @RequestBody final JudgePostRequest request) {
         judgePostService.invoke(postId, request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/group/{postId}/post")
+    @Authorization
+    public ResponseEntity<Void> checkGroupPost(final AccessUser accessUser,
+            @PathVariable final Long postId, @RequestBody final CheckPostRequest request) {
+        checkPostService.invoke(accessUser.getId(), postId, request);
         return ResponseEntity.ok().build();
     }
 }
