@@ -6,12 +6,15 @@ import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.group.application.GetGroupProfileService;
 import daybyquest.group.application.GetGroupUsersService;
 import daybyquest.group.application.GetGroupsService;
+import daybyquest.group.application.SearchGroupService;
 import daybyquest.group.dto.response.GroupResponse;
 import daybyquest.group.dto.response.MultipleGroupsResponse;
+import daybyquest.group.dto.response.PageGroupsResponse;
 import daybyquest.user.dto.response.PageProfilesResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,11 +26,15 @@ public class GroupQueryApi {
 
     private final GetGroupsService getGroupsService;
 
+    private final SearchGroupService searchGroupService;
+
     public GroupQueryApi(final GetGroupProfileService getGroupProfileService,
-            final GetGroupUsersService getGroupUsersService, final GetGroupsService getGroupsService) {
+            final GetGroupUsersService getGroupUsersService, final GetGroupsService getGroupsService,
+            final SearchGroupService searchGroupService) {
         this.getGroupProfileService = getGroupProfileService;
         this.getGroupUsersService = getGroupUsersService;
         this.getGroupsService = getGroupsService;
+        this.searchGroupService = searchGroupService;
     }
 
     @GetMapping("/group/{groupId}")
@@ -50,6 +57,14 @@ public class GroupQueryApi {
     @Authorization
     public ResponseEntity<MultipleGroupsResponse> getGroups(final AccessUser accessUser) {
         final MultipleGroupsResponse response = getGroupsService.invoke(accessUser.getId());
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/search/group")
+    @Authorization
+    public ResponseEntity<PageGroupsResponse> searchGroup(final AccessUser accessUser,
+            @RequestParam final String keyword, final NoOffsetIdPage page) {
+        final PageGroupsResponse response = searchGroupService.invoke(accessUser.getId(), keyword, page);
         return ResponseEntity.ok(response);
     }
 }
