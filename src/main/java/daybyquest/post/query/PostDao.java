@@ -16,6 +16,8 @@ public interface PostDao {
 
     LongIdList findPostIdsByQuestId(final Long userId, final Long questId, final NoOffsetIdPage page);
 
+    LongIdList findPostIdsByGroupId(final Long userId, final Long groupId, final NoOffsetIdPage page);
+
     List<PostData> findAllByIdIn(final Long userId, final Collection<Long> postIds);
 
     List<SimplePostData> findAllBySuccessAndUploadedAtAfter(final Long userId, final LocalDateTime time);

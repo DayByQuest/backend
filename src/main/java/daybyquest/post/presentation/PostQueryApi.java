@@ -4,6 +4,7 @@ import daybyquest.auth.Authorization;
 import daybyquest.auth.domain.AccessUser;
 import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.post.application.GetNeedCheckPostsService;
+import daybyquest.post.application.GetPostByGroupIdService;
 import daybyquest.post.application.GetPostByQuestIdService;
 import daybyquest.post.application.GetPostByUsernameService;
 import daybyquest.post.application.GetPostFromFollowingService;
@@ -31,6 +32,8 @@ public class PostQueryApi {
 
     private final GetPostByQuestIdService getPostByQuestIdService;
 
+    private final GetPostByGroupIdService getPostByGroupIdService;
+
     private final GetNeedCheckPostsService getNeedCheckPostsService;
 
     public PostQueryApi(final GetPostService getPostService,
@@ -38,12 +41,14 @@ public class PostQueryApi {
             final GetPostByUsernameService getPostByUsernameService,
             final GetTrackerService getTrackerService,
             final GetPostByQuestIdService getPostByQuestIdService,
+            final GetPostByGroupIdService getPostByGroupIdService,
             final GetNeedCheckPostsService getNeedCheckPostsService) {
         this.getPostService = getPostService;
         this.getPostFromFollowingService = getPostFromFollowingService;
         this.getPostByUsernameService = getPostByUsernameService;
         this.getTrackerService = getTrackerService;
         this.getPostByQuestIdService = getPostByQuestIdService;
+        this.getPostByGroupIdService = getPostByGroupIdService;
         this.getNeedCheckPostsService = getNeedCheckPostsService;
     }
 
@@ -85,6 +90,15 @@ public class PostQueryApi {
     public ResponseEntity<PagePostsResponse> getPostByQuestId(final AccessUser accessUser,
             @PathVariable final Long questId, final NoOffsetIdPage page) {
         final PagePostsResponse response = getPostByQuestIdService.invoke(accessUser.getId(), questId,
+                page);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/group/{groupId}/post")
+    @Authorization
+    public ResponseEntity<PagePostsResponse> getPostByGroupId(final AccessUser accessUser,
+            @PathVariable final Long groupId, final NoOffsetIdPage page) {
+        final PagePostsResponse response = getPostByGroupIdService.invoke(accessUser.getId(), groupId,
                 page);
         return ResponseEntity.ok(response);
     }
