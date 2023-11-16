@@ -1,17 +1,7 @@
 package daybyquest.user.dto.response;
 
 import java.util.List;
-import lombok.Getter;
 
-@Getter
-public class PageProfilesResponse {
+public record PageProfilesResponse(List<ProfileResponse> users, Long lastId) {
 
-    private final List<ProfileResponse> users;
-
-    private final Long lastId;
-
-    public PageProfilesResponse(final List<ProfileResponse> users, final Long lastId) {
-        this.users = users;
-        this.lastId = lastId;
-    }
 }
