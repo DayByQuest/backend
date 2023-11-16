@@ -12,6 +12,7 @@ import daybyquest.global.error.exception.NotExistGroupException;
 import daybyquest.global.query.LongIdList;
 import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.group.domain.GroupUserRole;
+import java.util.Collection;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -76,5 +77,26 @@ public class GroupDaoQuerydslImpl implements GroupDao {
                 .innerJoin(groupUser.group, group)
                 .where(groupUser.userId.eq(userId))
                 .fetch();
+    }
+
+    @Override
+    public List<GroupData> findAllByIdsIn(final Long userId, final Collection<Long> ids) {
+        return factory.select(projectGroupData(userId)).from(group)
+                .where(group.id.in(ids))
+                .fetch();
+    }
+
+    @Override
+    public LongIdList findIdsByNameLike(final String keyword, final NoOffsetIdPage page) {
+        return new LongIdList(factory.select(group.id)
+                .from(group)
+                .where(group.name.contains(keyword), gtGroupId(page.lastId()))
+                .limit(page.limit())
+                .orderBy(group.id.asc())
+                .fetch());
+    }
+
+    private BooleanExpression gtGroupId(final Long groupId) {
+        return groupId == null ? null : group.id.gt(groupId);
     }
 }

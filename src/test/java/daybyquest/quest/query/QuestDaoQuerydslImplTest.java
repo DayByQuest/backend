@@ -27,6 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import daybyquest.badge.domain.Badge;
 import daybyquest.global.error.exception.NotExistQuestException;
+import daybyquest.global.query.LongIdList;
+import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.group.domain.Group;
 import daybyquest.participant.domain.Participant;
 import daybyquest.quest.domain.Quest;
@@ -216,5 +218,26 @@ public class QuestDaoQuerydslImplTest extends QuerydslTest {
             assertThat(questData).hasSize(3);
             assertThat(actual).containsExactlyElementsOf(expected);
         });
+    }
+
+    @Test
+    void 퀘스트_제목으로_검색한다() {
+        // given
+        final Quest quest1 = 저장한다(QUEST_1.일반_퀘스트_생성());
+        final Quest quest2 = 저장한다(QUEST_2.일반_퀘스트_생성());
+        final Quest quest3 = 저장한다(QUEST_1.일반_퀘스트_생성());
+        저장한다(QUEST_1.일반_퀘스트_생성());
+        QUEST_1.보상_없이_세부사항을_설정한다(quest1);
+        QUEST_2.보상_없이_세부사항을_설정한다(quest2);
+        QUEST_1.보상_없이_세부사항을_설정한다(quest3);
+        final List<Long> expected = List.of(quest1.getId(), quest3.getId());
+        final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
+
+        // when
+        final LongIdList ids = questDao.findIdsByTitleLike("퀘스트1", page);
+        final List<Long> actual = ids.getIds();
+
+        // then
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 }

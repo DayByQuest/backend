@@ -3,6 +3,7 @@ package daybyquest.group.query;
 import static daybyquest.support.fixture.GroupFixtures.GROUP_1;
 import static daybyquest.support.fixture.GroupFixtures.GROUP_2;
 import static daybyquest.support.fixture.GroupFixtures.GROUP_3;
+import static daybyquest.support.fixture.GroupFixtures.GROUP_4;
 import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
 import static daybyquest.support.fixture.UserFixtures.CHARLIE;
@@ -140,5 +141,42 @@ public class GroupDaoQuerydslImplTest extends QuerydslTest {
             assertThat(groupData).hasSize(2);
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         });
+    }
+
+    @Test
+    void ID_컬렉션으로_그룹_목록을_조회한다() {
+        // given
+        final Long userId = 1L;
+        final Group group1 = 저장한다(GROUP_1.생성());
+        final Group group2 = 저장한다(GROUP_2.생성());
+        final Group group3 = 저장한다(GROUP_3.생성());
+        저장한다(GROUP_4.생성());
+
+        final List<Long> expected = List.of(group1.getId(), group2.getId(), group3.getId());
+
+        // when
+        final List<GroupData> groupData = groupDao.findAllByIdsIn(userId, expected);
+        final List<Long> actual = groupData.stream().map(GroupData::getId).toList();
+
+        // then
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    void 그룹_이름으로_검색한다() {
+        // given
+        final Group group1 = 저장한다(GROUP_1.생성());
+        final Group group2 = 저장한다(new Group(GROUP_1.interest, "그룹11", GROUP_1.description, GROUP_1.대표_사진()));
+        저장한다(GROUP_2.생성());
+
+        final List<Long> expected = List.of(group1.getId(), group2.getId());
+        final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
+
+        // when
+        final LongIdList ids = groupDao.findIdsByNameLike("1", page);
+        final List<Long> actual = ids.getIds();
+
+        // then
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 }

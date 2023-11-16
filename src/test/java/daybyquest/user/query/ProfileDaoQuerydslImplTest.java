@@ -5,11 +5,14 @@ import static daybyquest.support.fixture.PostFixtures.POST_2;
 import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
 import static daybyquest.support.fixture.UserFixtures.CHARLIE;
+import static daybyquest.support.fixture.UserFixtures.DAVID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import daybyquest.global.error.exception.NotExistUserException;
+import daybyquest.global.query.LongIdList;
+import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.relation.domain.Block;
 import daybyquest.relation.domain.Follow;
 import daybyquest.support.test.QuerydslTest;
@@ -121,6 +124,24 @@ public class ProfileDaoQuerydslImplTest extends QuerydslTest {
             assertThat(charlieProfile.isFollowing()).isFalse();
             assertThat(charlieProfile.isBlocking()).isTrue();
         });
+    }
+
+    @Test
+    void 사용자_이름으로_검색한다() {
+        // given
+        저장한다(BOB.생성());
+        final User alice = 저장한다(ALICE.생성());
+        final User charlie = 저장한다(CHARLIE.생성());
+        final User david = 저장한다(DAVID.생성());
+        final List<Long> expected = List.of(david.getId(), alice.getId(), charlie.getId());
+        final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
+
+        // when
+        final LongIdList ids = profileDao.findIdsByUsernameLike("i", page);
+        final List<Long> actual = ids.getIds();
+
+        // then
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
