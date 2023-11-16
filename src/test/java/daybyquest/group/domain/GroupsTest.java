@@ -9,6 +9,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
+import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.global.error.exception.NotExistGroupException;
 import daybyquest.interest.domain.Interests;
 import daybyquest.user.domain.Users;
@@ -54,6 +55,36 @@ public class GroupsTest {
             then(groupRepository).should().save(any(Group.class));
             assertThat(actualId).isEqualTo(groupId);
         });
+    }
+
+    @Test
+    void 그룹을_저장할_때_중복_이름이_있다면_에외를_던진다() {
+        // given
+        final Long userId = 1L;
+        given(groupRepository.existsByName(GROUP_1.name)).willReturn(true);
+
+        // when & then
+        assertThatThrownBy(() -> groups.save(userId, GROUP_1.생성()))
+                .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 그룹_이름_유일성을_검증한다() {
+        // given & when
+        groups.validateNotExistentByName(GROUP_1.name);
+
+        // then
+        then(groupRepository).should().existsByName(GROUP_1.name);
+    }
+
+    @Test
+    void 그룹_이름_유일성을_검증_시_이미_있다면_예외를_던진다() {
+        // given
+        given(groupRepository.existsByName(GROUP_1.name)).willReturn(true);
+
+        // when
+        assertThatThrownBy(() -> groups.validateNotExistentByName(GROUP_1.name))
+                .isInstanceOf(InvalidDomainException.class);
     }
 
     @Test

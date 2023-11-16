@@ -32,13 +32,13 @@ public class Groups {
     public Long save(final Long userId, final Group group) {
         users.validateModeratorById(userId);
         interests.validateInterest(group.getInterest());
-        validateName(group.getName());
+        validateNotExistentByName(group.getName());
         final Group savedGroup = groupRepository.save(group);
         groupUserRepository.save(GroupUser.createGroupManager(userId, savedGroup));
         return savedGroup.getId();
     }
 
-    private void validateName(final String name) {
+    public void validateNotExistentByName(final String name) {
         if (groupRepository.existsByName(name)) {
             throw new InvalidDomainException(DUPLICATED_GROUP_NAME);
         }

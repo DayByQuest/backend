@@ -3,6 +3,7 @@ package daybyquest.group.presentation;
 import daybyquest.auth.Authorization;
 import daybyquest.auth.domain.AccessUser;
 import daybyquest.global.query.NoOffsetIdPage;
+import daybyquest.group.application.CheckGroupNameService;
 import daybyquest.group.application.GetGroupProfileService;
 import daybyquest.group.application.GetGroupUsersService;
 import daybyquest.group.application.GetGroupsService;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GroupQueryApi {
 
+    private final CheckGroupNameService checkGroupNameService;
+
     private final GetGroupProfileService getGroupProfileService;
 
     private final GetGroupUsersService getGroupUsersService;
@@ -28,13 +31,21 @@ public class GroupQueryApi {
 
     private final SearchGroupService searchGroupService;
 
-    public GroupQueryApi(final GetGroupProfileService getGroupProfileService,
+    public GroupQueryApi(final CheckGroupNameService checkGroupNameService,
+            final GetGroupProfileService getGroupProfileService,
             final GetGroupUsersService getGroupUsersService, final GetGroupsService getGroupsService,
             final SearchGroupService searchGroupService) {
+        this.checkGroupNameService = checkGroupNameService;
         this.getGroupProfileService = getGroupProfileService;
         this.getGroupUsersService = getGroupUsersService;
         this.getGroupsService = getGroupsService;
         this.searchGroupService = searchGroupService;
+    }
+
+    @GetMapping("/group/{groupName}/check")
+    public ResponseEntity<Void> checkGroupName(@PathVariable final String groupName) {
+        checkGroupNameService.invoke(groupName);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/group/{groupId}")
@@ -59,7 +70,7 @@ public class GroupQueryApi {
         final MultipleGroupsResponse response = getGroupsService.invoke(accessUser.getId());
         return ResponseEntity.ok(response);
     }
-    
+
     @GetMapping("/search/group")
     @Authorization
     public ResponseEntity<PageGroupsResponse> searchGroup(final AccessUser accessUser,
