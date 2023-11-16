@@ -12,8 +12,9 @@ public class WebClientConfig {
 
     @Bean
     public WebClient webClient(final AiServerProperties properties) {
+        final String url = properties.getDomain() + ":" + properties.getPort();
         return WebClient.builder()
-                .baseUrl(properties.getDomain())
+                .baseUrl(url)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
