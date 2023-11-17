@@ -12,7 +12,6 @@ import static org.mockito.BDDMockito.then;
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.global.error.exception.NotExistGroupException;
 import daybyquest.interest.domain.Interests;
-import daybyquest.user.domain.Users;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,10 +26,7 @@ public class GroupsTest {
     private GroupRepository groupRepository;
 
     @Mock
-    private GroupUserRepository groupUserRepository;
-
-    @Mock
-    private Users users;
+    private GroupUsers groupUsers;
 
     @Mock
     private Interests interests;
@@ -50,7 +46,6 @@ public class GroupsTest {
 
         // then
         assertAll(() -> {
-            then(users).should().validateModeratorById(userId);
             then(interests).should().validateInterest(GROUP_1.interest);
             then(groupRepository).should().save(any(Group.class));
             assertThat(actualId).isEqualTo(groupId);
@@ -98,59 +93,7 @@ public class GroupsTest {
         groups.save(userId, GROUP_1.생성());
 
         // then
-        then(groupUserRepository).should().save(any(GroupUser.class));
-    }
-
-    @Test
-    void 사용자를_추가할_땐_그룹ID의_존재여부와_이미_회원이_아닌지_검증한다() {
-        // given
-        final Long userId = 1L;
-        final Long groupId = 2L;
-        final Group group = GROUP_1.생성(groupId);
-        final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
-        given(groupRepository.existsById(groupId)).willReturn(true);
-
-        // when
-        groups.addUser(groupUser);
-
-        // then
-        assertAll(() -> {
-            then(groupRepository).should().existsById(groupId);
-            then(groupUserRepository).should().existsByUserIdAndGroupId(userId, groupId);
-            then(groupUserRepository).should().save(any(GroupUser.class));
-        });
-    }
-
-    @Test
-    void 사용자를_추가할_때_회원_역할이라면_사용자ID_존재여부를_검증한다() {
-        // given
-        final Long userId = 1L;
-        final Long groupId = 2L;
-        final Group group = GROUP_1.생성(groupId);
-        final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
-        given(groupRepository.existsById(groupId)).willReturn(true);
-
-        // when
-        groups.addUser(groupUser);
-
-        // then
-        then(users).should().validateExistentById(userId);
-    }
-
-    @Test
-    void 사용자를_추가할_때_관리자_역할이라면_MODERATOR_여부를_검증한다() {
-        // given
-        final Long userId = 1L;
-        final Long groupId = 2L;
-        final Group group = GROUP_1.생성(groupId);
-        final GroupUser groupUser = GroupUser.createGroupManager(userId, group);
-        given(groupRepository.existsById(groupId)).willReturn(true);
-
-        // when
-        groups.addUser(groupUser);
-
-        // then
-        then(users).should().validateModeratorById(userId);
+        then(groupUsers).should().addUser(any(GroupUser.class));
     }
 
     @Test

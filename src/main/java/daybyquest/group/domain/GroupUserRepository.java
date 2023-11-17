@@ -15,4 +15,9 @@ interface GroupUserRepository extends Repository<GroupUser, GroupUserId> {
 
     @Query("SELECT count (gu) > 0 FROM GroupUser gu WHERE gu.userId=:userId and gu.group.id = :groupId")
     boolean existsByUserIdAndGroupId(final Long userId, final Long groupId);
+
+    int countByUserId(final Long userId);
+
+    @Query("SELECT count (gu) FROM GroupUser gu WHERE gu.group.id = :groupId")
+    int countByGroupId(final Long groupId);
 }
