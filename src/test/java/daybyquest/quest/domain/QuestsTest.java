@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -69,6 +70,17 @@ public class QuestsTest {
 
         // when & then
         assertThatThrownBy(() -> quests.save(QUEST_1.일반_퀘스트_생성(badgeId)))
+                .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 그룹_내_퀘스트가_10개_이상이면_예외를_던진다() {
+        // given
+        final Long groupId = 1L;
+        given(questRepository.countByGroupIdAndStateIn(eq(groupId), any())).willReturn(10);
+
+        // when & then
+        assertThatThrownBy(() -> quests.save(QUEST_1.그룹_퀘스트_생성(groupId)))
                 .isInstanceOf(InvalidDomainException.class);
     }
 

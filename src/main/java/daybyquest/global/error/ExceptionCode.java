@@ -69,6 +69,7 @@ public enum ExceptionCode {
     INVALID_QUEST_IMAGE("QUE-17", BAD_REQUEST, "퀘스트 사진이 없습니다"),
     ALREADY_EXIST_REWARD("QUE-18", BAD_REQUEST, "이미 보상으로 설정된 뱃지입니다"),
     CANNOT_PARTICIPATE("QUE-19", BAD_REQUEST, "수락할 수 없는 퀘스트입니다"),
+    EXCEED_GROUP_QUEST("QUE-20", BAD_REQUEST, "그룹 퀘스트는 최대 10개 입니다."),
 
     // Group
     NOT_EXIST_GROUP("GRP-00", BAD_REQUEST, "존재하지 않는 그룹입니다"),
