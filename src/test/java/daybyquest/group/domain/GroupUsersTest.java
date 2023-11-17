@@ -97,6 +97,34 @@ public class GroupUsersTest {
     }
 
     @Test
+    void 사용자를_추가할_때_그룹_인원이_100명_이상이면_예외를_던진다() {
+        // given
+        final Long userId = 1L;
+        final Long groupId = 2L;
+        final Group group = GROUP_1.생성(groupId);
+        final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
+        given(groupUserRepository.countByGroupId(groupId)).willReturn(100);
+
+        // when & then
+        assertThatThrownBy(() -> groupUsers.addUser(groupUser))
+                .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 사용자를_추가할_때_가입한_그룹이_10개_이상이면_예외를_던진다() {
+        // given
+        final Long userId = 1L;
+        final Long groupId = 2L;
+        final Group group = GROUP_1.생성(groupId);
+        final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
+        given(groupUserRepository.countByUserId(userId)).willReturn(10);
+
+        // when & then
+        assertThatThrownBy(() -> groupUsers.addUser(groupUser))
+                .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
     void 사용자_ID와_그룹_ID로_조회한다() {
         // given
         final Long userId = 1L;

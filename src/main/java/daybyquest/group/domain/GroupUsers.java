@@ -1,6 +1,8 @@
 package daybyquest.group.domain;
 
 import static daybyquest.global.error.ExceptionCode.ALREADY_MEMBER;
+import static daybyquest.global.error.ExceptionCode.EXCEED_MAX_GROUP;
+import static daybyquest.global.error.ExceptionCode.EXCEED_MAX_GROUP_MEMBER;
 import static daybyquest.global.error.ExceptionCode.NOT_DELETABLE_GROUP_USER;
 import static daybyquest.global.error.ExceptionCode.NOT_GROUP_MANAGER;
 
@@ -11,6 +13,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GroupUsers {
+
+    private static final int MAX_GROUP_MEMBER_COUNT = 100;
+
+    private static final int MAX_REGISTERED_GROUP_COUNT = 10;
 
     private final Users users;
 
@@ -26,28 +32,32 @@ public class GroupUsers {
 
     public void addUser(final GroupUser groupUser) {
         groups.validateExistentById(groupUser.getGroupId());
+        validateUser(groupUser);
+        validateNotMember(groupUser.getUserId(), groupUser.getGroupId());
+        validateMaxCount(groupUser.getUserId(), groupUser.getGroupId());
+        groupUserRepository.save(groupUser);
+    }
+
+    private void validateUser(final GroupUser groupUser) {
         if (groupUser.isManager()) {
-            addManager(groupUser);
+            users.validateModeratorById(groupUser.getUserId());
             return;
         }
-        addMember(groupUser);
-    }
-
-    private void addMember(final GroupUser groupUser) {
         users.validateExistentById(groupUser.getUserId());
-        validateNotMember(groupUser.getUserId(), groupUser.getGroupId());
-        groupUserRepository.save(groupUser);
-    }
-
-    private void addManager(final GroupUser groupUser) {
-        users.validateModeratorById(groupUser.getUserId());
-        validateNotMember(groupUser.getUserId(), groupUser.getGroupId());
-        groupUserRepository.save(groupUser);
     }
 
     private void validateNotMember(final Long userId, final Long groupId) {
         if (groupUserRepository.existsByUserIdAndGroupId(userId, groupId)) {
             throw new InvalidDomainException(ALREADY_MEMBER);
+        }
+    }
+
+    private void validateMaxCount(final Long userId, final Long groupId) {
+        if (groupUserRepository.countByGroupId(groupId) >= MAX_GROUP_MEMBER_COUNT) {
+            throw new InvalidDomainException(EXCEED_MAX_GROUP_MEMBER);
+        }
+        if (groupUserRepository.countByUserId(userId) >= MAX_REGISTERED_GROUP_COUNT) {
+            throw new InvalidDomainException(EXCEED_MAX_GROUP);
         }
     }
 

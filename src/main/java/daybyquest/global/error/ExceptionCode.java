@@ -82,6 +82,7 @@ public enum ExceptionCode {
     INVALID_GROUP_DESCRIPTION("GRP-08", BAD_REQUEST, "그룹 설명은 200자 이하여야 합니다"),
     NOT_DELETABLE_GROUP_USER("GRP-09", BAD_REQUEST, "매니저는 탈퇴할 수 없습니다"),
     NOT_GROUP_MANAGER("GRP-10", BAD_REQUEST, "그룹 매니저만 가능한 권한입니다"),
+    EXCEED_MAX_GROUP_MEMBER("GRP-11", BAD_REQUEST, "그룹의 최대 인원수가 꽉 찼습니다"),
 
     // Badge
     NOT_EXIST_BADGE("BDE-00", BAD_REQUEST, "존재하지 않는 뱃지입니다"),
