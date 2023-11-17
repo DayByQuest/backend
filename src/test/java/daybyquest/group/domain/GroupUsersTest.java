@@ -4,11 +4,13 @@ import static daybyquest.support.fixture.GroupFixtures.GROUP_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.global.error.exception.NotExistGroupUserException;
+import daybyquest.user.domain.Users;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,8 +24,77 @@ public class GroupUsersTest {
     @Mock
     private GroupUserRepository groupUserRepository;
 
+    @Mock
+    private Users users;
+
+    @Mock
+    private Groups groups;
+
     @InjectMocks
     private GroupUsers groupUsers;
+
+    @Test
+    void 사용자를_추가할_땐_그룹ID의_존재여부와_이미_회원이_아닌지_검증한다() {
+        // given
+        final Long userId = 1L;
+        final Long groupId = 2L;
+        final Group group = GROUP_1.생성(groupId);
+        final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
+
+        // when
+        groupUsers.addUser(groupUser);
+
+        // then
+        assertAll(() -> {
+            then(groups).should().validateExistentById(groupId);
+            then(groupUserRepository).should().existsByUserIdAndGroupId(userId, groupId);
+            then(groupUserRepository).should().save(any(GroupUser.class));
+        });
+    }
+
+    @Test
+    void 사용자를_추가할_때_회원_역할이라면_사용자ID_존재여부를_검증한다() {
+        // given
+        final Long userId = 1L;
+        final Long groupId = 2L;
+        final Group group = GROUP_1.생성(groupId);
+        final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
+
+        // when
+        groupUsers.addUser(groupUser);
+
+        // then
+        then(users).should().validateExistentById(userId);
+    }
+
+    @Test
+    void 사용자를_추가할_때_관리자_역할이라면_MODERATOR_여부를_검증한다() {
+        // given
+        final Long userId = 1L;
+        final Long groupId = 2L;
+        final Group group = GROUP_1.생성(groupId);
+        final GroupUser groupUser = GroupUser.createGroupManager(userId, group);
+
+        // when
+        groupUsers.addUser(groupUser);
+
+        // then
+        then(users).should().validateModeratorById(userId);
+    }
+
+    @Test
+    void 사용자를_추가할_때_이미_가입한_그룹이라면_예외를_던진다() {
+        // given
+        final Long userId = 1L;
+        final Long groupId = 2L;
+        final Group group = GROUP_1.생성(groupId);
+        final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
+        given(groupUserRepository.existsByUserIdAndGroupId(userId, groupId)).willReturn(true);
+
+        // when & then
+        assertThatThrownBy(() -> groupUsers.addUser(groupUser))
+                .isInstanceOf(InvalidDomainException.class);
+    }
 
     @Test
     void 사용자_ID와_그룹_ID로_조회한다() {
