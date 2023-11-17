@@ -7,6 +7,7 @@ import static daybyquest.global.error.ExceptionCode.NOT_DELETABLE_GROUP_USER;
 import static daybyquest.global.error.ExceptionCode.NOT_GROUP_MANAGER;
 
 import daybyquest.global.error.exception.InvalidDomainException;
+import daybyquest.global.error.exception.NotExistGroupException;
 import daybyquest.global.error.exception.NotExistGroupUserException;
 import daybyquest.user.domain.Users;
 import org.springframework.stereotype.Component;
@@ -20,22 +21,29 @@ public class GroupUsers {
 
     private final Users users;
 
-    private final Groups groups;
+    private final GroupRepository groupRepository;
 
     private final GroupUserRepository groupUserRepository;
 
-    GroupUsers(final Users users, final Groups groups, final GroupUserRepository groupUserRepository) {
+    GroupUsers(final Users users, final GroupRepository groupRepository,
+            final GroupUserRepository groupUserRepository) {
         this.users = users;
-        this.groups = groups;
+        this.groupRepository = groupRepository;
         this.groupUserRepository = groupUserRepository;
     }
 
     public void addUser(final GroupUser groupUser) {
-        groups.validateExistentById(groupUser.getGroupId());
+        validateGroup(groupUser.getGroupId());
         validateUser(groupUser);
         validateNotMember(groupUser.getUserId(), groupUser.getGroupId());
         validateMaxCount(groupUser.getUserId(), groupUser.getGroupId());
         groupUserRepository.save(groupUser);
+    }
+
+    private void validateGroup(final Long groupId) {
+        if (!groupRepository.existsById(groupId)) {
+            throw new NotExistGroupException();
+        }
     }
 
     private void validateUser(final GroupUser groupUser) {

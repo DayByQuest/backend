@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 import daybyquest.global.error.exception.InvalidDomainException;
+import daybyquest.global.error.exception.NotExistGroupException;
 import daybyquest.global.error.exception.NotExistGroupUserException;
 import daybyquest.user.domain.Users;
 import java.util.Optional;
@@ -28,7 +29,7 @@ public class GroupUsersTest {
     private Users users;
 
     @Mock
-    private Groups groups;
+    private GroupRepository groupRepository;
 
     @InjectMocks
     private GroupUsers groupUsers;
@@ -40,13 +41,14 @@ public class GroupUsersTest {
         final Long groupId = 2L;
         final Group group = GROUP_1.생성(groupId);
         final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
+        given(groupRepository.existsById(groupId)).willReturn(true);
 
         // when
         groupUsers.addUser(groupUser);
 
         // then
         assertAll(() -> {
-            then(groups).should().validateExistentById(groupId);
+            then(groupRepository).should().existsById(groupId);
             then(groupUserRepository).should().existsByUserIdAndGroupId(userId, groupId);
             then(groupUserRepository).should().save(any(GroupUser.class));
         });
@@ -59,6 +61,7 @@ public class GroupUsersTest {
         final Long groupId = 2L;
         final Group group = GROUP_1.생성(groupId);
         final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
+        given(groupRepository.existsById(groupId)).willReturn(true);
 
         // when
         groupUsers.addUser(groupUser);
@@ -74,6 +77,7 @@ public class GroupUsersTest {
         final Long groupId = 2L;
         final Group group = GROUP_1.생성(groupId);
         final GroupUser groupUser = GroupUser.createGroupManager(userId, group);
+        given(groupRepository.existsById(groupId)).willReturn(true);
 
         // when
         groupUsers.addUser(groupUser);
@@ -83,12 +87,26 @@ public class GroupUsersTest {
     }
 
     @Test
+    void 사용자를_추가할_때_그룹이_없다면_예외를_던진다() {
+        // given
+        final Long userId = 1L;
+        final Long groupId = 2L;
+        final Group group = GROUP_1.생성(groupId);
+        final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
+
+        // when & then
+        assertThatThrownBy(() -> groupUsers.addUser(groupUser))
+                .isInstanceOf(NotExistGroupException.class);
+    }
+
+    @Test
     void 사용자를_추가할_때_이미_가입한_그룹이라면_예외를_던진다() {
         // given
         final Long userId = 1L;
         final Long groupId = 2L;
         final Group group = GROUP_1.생성(groupId);
         final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
+        given(groupRepository.existsById(groupId)).willReturn(true);
         given(groupUserRepository.existsByUserIdAndGroupId(userId, groupId)).willReturn(true);
 
         // when & then
@@ -103,6 +121,7 @@ public class GroupUsersTest {
         final Long groupId = 2L;
         final Group group = GROUP_1.생성(groupId);
         final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
+        given(groupRepository.existsById(groupId)).willReturn(true);
         given(groupUserRepository.countByGroupId(groupId)).willReturn(100);
 
         // when & then
@@ -117,6 +136,7 @@ public class GroupUsersTest {
         final Long groupId = 2L;
         final Group group = GROUP_1.생성(groupId);
         final GroupUser groupUser = GroupUser.createGroupMember(userId, group);
+        given(groupRepository.existsById(groupId)).willReturn(true);
         given(groupUserRepository.countByUserId(userId)).willReturn(10);
 
         // when & then
