@@ -27,7 +27,7 @@ services:
       - "./db:/var/lib/mysql"
       - "./config:/etc/mysql/conf.d"
     environment:
-      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_ROOT_PASSWORD=1234            # Temp password for local testing, Never use for production server.
       - MYSQL_DATABASE=dbq
       - TZ=Asia/Seoul
     command:
