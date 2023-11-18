@@ -1,15 +1,21 @@
-<div style="text-align: center;">
+<div align="center">
 
 <h2> DayByQuest Backend Repository </h2>
 
 **DayByQuest**는 과시하는 문화의 SNS에서 벗어나 일상의 소소한 퀘스트를 통해 건강함을 추구하는 SNS 서비스입니다.
 
-
 </div>
 
 ## 소개
 
-Java17, SpringBoot 3.1.2를 사용하는 백엔드 서버 프로젝트입니다.
+사용한 기술 스택은 다음과 같습니다.
+
+- Java17
+- SpringBoot
+- Spring WebMVC
+- JPA
+- Querydsl
+- **TEST** JUnit5, AssertJ, MockMVC
 
 ## 실행
 
