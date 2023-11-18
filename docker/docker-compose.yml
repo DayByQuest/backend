@@ -1,0 +1,50 @@
+version: "3.8"
+
+name: "dbq"
+services:
+  localstack:
+    container_name: "localstack"
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      - DEBUG=${DEBUG-}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_ACCESS_KEY_ID=access_key
+      - AWS_SECRET_ACCESS_KEY=secret_key
+      - AWS_DEFAULT_REGION=us-east-1
+    volumes:
+      - "./volume:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  mariadb:
+    container_name: "dbq_mariadb"
+    image: mariadb:10.6
+    expose:
+      - "3306"
+    volumes:
+      - "./db:/var/lib/mysql"
+      - "./config:/etc/mysql/conf.d"
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=dbq
+      - TZ=Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+  application:
+    container_name: "dbq_application"
+    image: dbq:latest
+    depends_on:
+      - localstack
+      - mariadb
+    environment:
+      - DB_URL=jdbc:mariadb://dbq_mariadb:3306/dbq
+      - DB_USERNAME=root
+      - DB_PASSWORD=1234
+      - AWS_ENDPOINT=http://localstack:4566
+      - JAVA_OPTS=-Dspring.profiles.active=local
+    ports:
+      - "8080:8080"

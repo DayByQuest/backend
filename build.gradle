@@ -73,3 +73,7 @@ asciidoctor {
     configurations 'asciidoctorExt'
     dependsOn test
 }
+
+bootBuildImage {
+    imageName = "dbq"
+}

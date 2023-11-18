@@ -44,6 +44,7 @@ public class LocalS3Config {
                 .standard()
                 .withEndpointConfiguration(endpoint)
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .withPathStyleAccessEnabled(true)
                 .build();
         amazonS3.createBucket(bucket);
         return amazonS3;
