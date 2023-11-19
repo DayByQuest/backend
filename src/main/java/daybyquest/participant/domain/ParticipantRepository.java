@@ -15,4 +15,6 @@ interface ParticipantRepository extends Repository<Participant, ParticipantId> {
     boolean existsByUserIdAndQuestId(final Long userId, final Long questId);
 
     void delete(final Participant participant);
+
+    int countByUserIdAndState(final Long userId, final ParticipantState state);
 }
