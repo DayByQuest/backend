@@ -1,7 +1,10 @@
 package daybyquest.participant.domain;
 
 import static daybyquest.global.error.ExceptionCode.ALREADY_ACCEPTED_QUEST;
+import static daybyquest.global.error.ExceptionCode.EXCEED_MAX_QUEST;
 import static daybyquest.global.error.ExceptionCode.NOT_ACCEPTED_QUEST;
+import static daybyquest.participant.domain.ParticipantState.CONTINUE;
+import static daybyquest.participant.domain.ParticipantState.DOING;
 
 import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.group.domain.GroupUsers;
@@ -12,6 +15,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Participants {
+
+    private static final int MAX_DOING_COUNT = 15;
+
+    private static final int MAX_CONTINUE_COUNT = 15;
 
     private final ParticipantRepository participantRepository;
 
@@ -66,5 +73,12 @@ public class Participants {
     public void deleteByUserIdAndQuestId(final Long userId, final Long questId) {
         final Participant participant = getByUserIdAndQuestId(userId, questId);
         participantRepository.delete(participant);
+    }
+
+    public void validateCountByUserId(final Long userId) {
+        if (participantRepository.countByUserIdAndState(userId, DOING) > MAX_DOING_COUNT
+                || participantRepository.countByUserIdAndState(userId, CONTINUE) > MAX_CONTINUE_COUNT) {
+            throw new InvalidDomainException(EXCEED_MAX_QUEST);
+        }
     }
 }

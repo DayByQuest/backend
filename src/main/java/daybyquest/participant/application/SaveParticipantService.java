@@ -16,6 +16,7 @@ public class SaveParticipantService {
     @Transactional
     public void invoke(final Long loginId, final Long questId) {
         participants.saveWithUserIdAndQuestId(loginId, questId);
+        participants.validateCountByUserId(loginId);
     }
 }
 

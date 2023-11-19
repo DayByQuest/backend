@@ -18,5 +18,6 @@ public class ContinueQuestService {
     public void invoke(final Long loginId, final Long questId) {
         final Participant participant = participants.getByUserIdAndQuestId(loginId, questId);
         participant.doContinue();
+        participants.validateCountByUserId(loginId);
     }
 }

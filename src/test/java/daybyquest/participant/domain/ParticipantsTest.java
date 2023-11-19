@@ -1,5 +1,7 @@
 package daybyquest.participant.domain;
 
+import static daybyquest.participant.domain.ParticipantState.CONTINUE;
+import static daybyquest.participant.domain.ParticipantState.DOING;
 import static daybyquest.support.fixture.QuestFixtures.QUEST_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -184,6 +186,46 @@ public class ParticipantsTest {
 
         // when & then
         assertThatThrownBy(() -> participants.deleteByUserIdAndQuestId(userId, questId))
+                .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 수행_중이거나_계속_중인_퀘스트_수를_검증한다() {
+        // given
+        final Long userId = 1L;
+        given(participantRepository.countByUserIdAndState(userId, DOING)).willReturn(15);
+        given(participantRepository.countByUserIdAndState(userId, CONTINUE)).willReturn(15);
+
+        // when
+        participants.validateCountByUserId(userId);
+
+        // then
+        assertAll(() -> {
+            then(participantRepository).should().countByUserIdAndState(userId, DOING);
+            then(participantRepository).should().countByUserIdAndState(userId, CONTINUE);
+        });
+    }
+
+    @Test
+    void 수행_중인_퀘스트가_15개를_초과하면_예외를_던진다() {
+        // given
+        final Long userId = 1L;
+        given(participantRepository.countByUserIdAndState(userId, DOING)).willReturn(16);
+
+        // when & then
+        assertThatThrownBy(() -> participants.validateCountByUserId(userId))
+                .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 계속_중인_퀘스트가_15개를_초과하면_예외를_던진다() {
+        // given
+        final Long userId = 1L;
+        given(participantRepository.countByUserIdAndState(userId, DOING)).willReturn(15);
+        given(participantRepository.countByUserIdAndState(userId, CONTINUE)).willReturn(16);
+
+        // when & then
+        assertThatThrownBy(() -> participants.validateCountByUserId(userId))
                 .isInstanceOf(InvalidDomainException.class);
     }
 }
