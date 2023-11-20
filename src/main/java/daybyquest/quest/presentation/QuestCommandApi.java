@@ -50,7 +50,7 @@ public class QuestCommandApi {
     @Authorization(admin = true)
     public ResponseEntity<SaveQuestResponse> saveQuest(final AccessUser accessUser,
             @RequestPart SaveQuestRequest request,
-            @RequestPart List<MultipartFile> files) {
+            @RequestPart("images") List<MultipartFile> files) {
         final Long questId = saveQuestService.invoke(request, files);
         return ResponseEntity.ok(new SaveQuestResponse(questId));
     }

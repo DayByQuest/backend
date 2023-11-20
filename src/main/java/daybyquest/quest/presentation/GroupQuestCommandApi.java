@@ -43,7 +43,7 @@ public class GroupQuestCommandApi {
     @Authorization
     public ResponseEntity<SaveQuestResponse> saveGroupQuest(final AccessUser accessUser,
             @RequestPart SaveGroupQuestRequest request,
-            @RequestPart List<MultipartFile> files) {
+            @RequestPart("images") List<MultipartFile> files) {
         final Long questId = saveGroupQuestService.invoke(accessUser.getId(), request, files);
         return ResponseEntity.ok(new SaveQuestResponse(questId));
     }

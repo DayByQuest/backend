@@ -48,7 +48,7 @@ public class PostCommandApi {
     @Authorization
     public ResponseEntity<PostWithQuestResponse> savePost(final AccessUser accessUser,
             @RequestPart SavePostRequest request,
-            @RequestPart List<MultipartFile> files) {
+            @RequestPart("images") List<MultipartFile> files) {
         final Long postId = savePostService.invoke(accessUser.getId(), request, files);
         final PostWithQuestResponse response = getPostService.invoke(accessUser.getId(), postId);
         return ResponseEntity.ok(response);
