@@ -1,10 +1,8 @@
 package daybyquest.user.application;
 
-import daybyquest.global.utils.MultipartFileUtils;
+import daybyquest.image.application.ImageService;
 import daybyquest.image.domain.BaseImageProperties;
 import daybyquest.image.domain.Image;
-import daybyquest.image.domain.ImageIdentifierGenerator;
-import daybyquest.image.domain.Images;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
 import org.springframework.stereotype.Service;
@@ -18,17 +16,14 @@ public class UpdateUserImageService {
 
     private final Users users;
 
-    private final Images images;
-
-    private final ImageIdentifierGenerator generator;
+    private final ImageService imageService;
 
     private final BaseImageProperties properties;
 
-    public UpdateUserImageService(final Users users, final Images images,
-            final ImageIdentifierGenerator generator, final BaseImageProperties properties) {
+    public UpdateUserImageService(final Users users, final ImageService imageService,
+            final BaseImageProperties properties) {
         this.users = users;
-        this.images = images;
-        this.generator = generator;
+        this.imageService = imageService;
         this.properties = properties;
     }
 
@@ -36,11 +31,10 @@ public class UpdateUserImageService {
     public void invoke(final Long loginId, final MultipartFile file) {
         final User user = users.getById(loginId);
         final String oldIdentifier = user.getImageIdentifier();
-        final String identifier = generator.generate(CATEGORY, file.getOriginalFilename());
-        final Image image = images.upload(identifier, MultipartFileUtils.getInputStream(file));
+        final Image image = imageService.convertToImage(CATEGORY, file);
         user.updateImage(image);
         if (properties.isNotBase(oldIdentifier)) {
-            images.remove(oldIdentifier);
+            imageService.remove(oldIdentifier);
         }
     }
 }
