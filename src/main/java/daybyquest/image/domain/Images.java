@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 public interface Images {
 
-    Image upload(final String identifier, final InputStream imageStream);
+    void upload(final String identifier, final InputStream imageStream);
 
     void remove(final String identifier);
 }
