@@ -2,10 +2,8 @@ package daybyquest.quest.application;
 
 import daybyquest.badge.domain.Badge;
 import daybyquest.badge.domain.Badges;
-import daybyquest.global.utils.MultipartFileUtils;
+import daybyquest.image.application.ImageService;
 import daybyquest.image.domain.Image;
-import daybyquest.image.domain.ImageIdentifierGenerator;
-import daybyquest.image.domain.Images;
 import daybyquest.quest.domain.Quest;
 import daybyquest.quest.domain.Quests;
 import daybyquest.quest.dto.request.SaveQuestRequest;
@@ -23,18 +21,15 @@ public class SaveQuestService {
 
     private final Badges badges;
 
-    private final Images images;
-
-    private final ImageIdentifierGenerator generator;
+    private final ImageService imageService;
 
     private final QuestClient questClient;
 
-    public SaveQuestService(final Quests quests, final Badges badges, final Images images,
-            final ImageIdentifierGenerator generator, final QuestClient questClient) {
+    public SaveQuestService(final Quests quests, final Badges badges, final ImageService imageService,
+            final QuestClient questClient) {
         this.quests = quests;
         this.badges = badges;
-        this.images = images;
-        this.generator = generator;
+        this.imageService = imageService;
         this.questClient = questClient;
     }
 
@@ -47,10 +42,7 @@ public class SaveQuestService {
     }
 
     private List<Image> toImageList(final List<MultipartFile> files) {
-        return files.stream().map((file) -> {
-            final String identifier = generator.generate(CATEGORY, file.getOriginalFilename());
-            return images.upload(identifier, MultipartFileUtils.getInputStream(file));
-        }).toList();
+        return files.stream().map((file) -> imageService.convertToImage(CATEGORY, file)).toList();
     }
 
     private Quest toEntity(final SaveQuestRequest request, final List<Image> images) {

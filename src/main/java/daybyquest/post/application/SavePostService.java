@@ -1,9 +1,7 @@
 package daybyquest.post.application;
 
-import daybyquest.global.utils.MultipartFileUtils;
+import daybyquest.image.application.ImageService;
 import daybyquest.image.domain.Image;
-import daybyquest.image.domain.ImageIdentifierGenerator;
-import daybyquest.image.domain.Images;
 import daybyquest.post.domain.Post;
 import daybyquest.post.domain.Posts;
 import daybyquest.post.dto.request.SavePostRequest;
@@ -20,19 +18,16 @@ public class SavePostService {
 
     private final Posts posts;
 
-    private final Images images;
-
-    private final ImageIdentifierGenerator generator;
+    private final ImageService imageService;
 
     private final PostClient postClient;
 
     private final Quests quests;
 
-    public SavePostService(final Posts posts, final Images images,
-            final ImageIdentifierGenerator generator, final PostClient postClient, final Quests quests) {
+    public SavePostService(final Posts posts, final ImageService imageService, final PostClient postClient,
+            final Quests quests) {
         this.posts = posts;
-        this.images = images;
-        this.generator = generator;
+        this.imageService = imageService;
         this.postClient = postClient;
         this.quests = quests;
     }
@@ -46,10 +41,7 @@ public class SavePostService {
     }
 
     private List<Image> toImageList(final List<MultipartFile> files) {
-        return files.stream().map((file) -> {
-            final String identifier = generator.generate(CATEGORY, file.getOriginalFilename());
-            return images.upload(identifier, MultipartFileUtils.getInputStream(file));
-        }).toList();
+        return files.stream().map((file) -> imageService.convertToImage(CATEGORY, file)).toList();
     }
 
     private Post toEntity(final Long loginId, final SavePostRequest request, final List<Image> images) {
