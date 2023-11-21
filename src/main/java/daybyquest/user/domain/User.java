@@ -5,6 +5,9 @@ import static daybyquest.global.error.ExceptionCode.INVALID_USER_INTEREST;
 import static daybyquest.global.error.ExceptionCode.INVALID_USER_NAME;
 import static daybyquest.global.error.ExceptionCode.INVALID_USER_USERNAME;
 import static daybyquest.global.error.ExceptionCode.NOT_UPDATABLE_USER;
+import static daybyquest.user.domain.UserState.ADMIN;
+import static daybyquest.user.domain.UserState.MODERATOR;
+import static daybyquest.user.domain.UserState.USER;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import daybyquest.global.error.exception.InvalidDomainException;
@@ -76,7 +79,7 @@ public class User {
         this.email = email;
         this.name = name;
         this.image = image;
-        this.state = UserState.USER;
+        this.state = USER;
         this.visibility = UserVisibility.PUBLIC;
         this.interests = new ArrayList<>();
         validate();
@@ -152,14 +155,20 @@ public class User {
     }
 
     public boolean isUser() {
-        return state == UserState.USER || state == UserState.MODERATOR;
+        return state == USER || state == MODERATOR;
     }
 
     public boolean isAdmin() {
-        return state == UserState.ADMIN;
+        return state == ADMIN;
     }
 
     public boolean isModerator() {
-        return state == UserState.MODERATOR;
+        return state == MODERATOR;
+    }
+
+    public void promote() {
+        if (state == USER) {
+            this.state = MODERATOR;
+        }
     }
 }

@@ -10,11 +10,14 @@ import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.group.domain.GroupUsers;
 import daybyquest.quest.domain.Quest;
 import daybyquest.quest.domain.Quests;
+import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Participants {
+
+    public static final int PROMOTE_THRESHOLD = 50;
 
     private static final int MAX_DOING_COUNT = 15;
 
@@ -79,6 +82,15 @@ public class Participants {
         if (participantRepository.countByUserIdAndState(userId, DOING) > MAX_DOING_COUNT
                 || participantRepository.countByUserIdAndState(userId, CONTINUE) > MAX_CONTINUE_COUNT) {
             throw new InvalidDomainException(EXCEED_MAX_QUEST);
+        }
+    }
+
+    public void increaseLinkedCount(final Long userId, final Long questId) {
+        final Participant participant = getByUserIdAndQuestId(userId, questId);
+        participant.increaseLinkedCount();
+        if (participant.getLinkedCount() == PROMOTE_THRESHOLD) {
+            final User user = users.getById(userId);
+            user.promote();
         }
     }
 }

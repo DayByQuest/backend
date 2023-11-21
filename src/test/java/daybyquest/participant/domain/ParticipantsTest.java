@@ -3,6 +3,9 @@ package daybyquest.participant.domain;
 import static daybyquest.participant.domain.ParticipantState.CONTINUE;
 import static daybyquest.participant.domain.ParticipantState.DOING;
 import static daybyquest.support.fixture.QuestFixtures.QUEST_1;
+import static daybyquest.support.fixture.UserFixtures.BOB;
+import static daybyquest.support.util.ParticipantUtils.게시물_연결_횟수를_지정한다;
+import static daybyquest.user.domain.UserState.MODERATOR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -14,6 +17,7 @@ import daybyquest.global.error.exception.InvalidDomainException;
 import daybyquest.group.domain.GroupUsers;
 import daybyquest.quest.domain.Quest;
 import daybyquest.quest.domain.Quests;
+import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -227,5 +231,47 @@ public class ParticipantsTest {
         // when & then
         assertThatThrownBy(() -> participants.validateCountByUserId(userId))
                 .isInstanceOf(InvalidDomainException.class);
+    }
+
+    @Test
+    void 링크된_게시물_수를_증가시킨다() {
+        // given
+        final Long userId = 1L;
+        final Long questId = 2L;
+        final Quest quest = QUEST_1.일반_퀘스트_생성(questId, null);
+        QUEST_1.보상_없이_세부사항을_설정한다(quest);
+        final Participant participant = new Participant(userId, quest);
+        given(participantRepository.findByUserIdAndQuestId(userId, questId))
+                .willReturn(Optional.of(participant));
+
+        // when
+        participants.increaseLinkedCount(userId, questId);
+
+        // then
+        assertAll(() -> {
+            then(participantRepository).should().findByUserIdAndQuestId(userId, questId);
+            assertThat(participant.getLinkedCount()).isEqualTo(1L);
+        });
+    }
+
+    @Test
+    void 링크된_게시물_수가_50개가_되면_사용자를_승급시킨다() {
+        // given
+        final Long userId = 1L;
+        final Long questId = 2L;
+        final User user = BOB.생성(userId);
+        final Quest quest = QUEST_1.일반_퀘스트_생성(questId, null);
+        QUEST_1.보상_없이_세부사항을_설정한다(quest);
+        final Participant participant = new Participant(userId, quest);
+        게시물_연결_횟수를_지정한다(participant, 49L);
+        given(participantRepository.findByUserIdAndQuestId(userId, questId))
+                .willReturn(Optional.of(participant));
+        given(users.getById(userId)).willReturn(user);
+
+        // when
+        participants.increaseLinkedCount(userId, questId);
+
+        // then
+        assertThat(user.getState()).isEqualTo(MODERATOR);
     }
 }
