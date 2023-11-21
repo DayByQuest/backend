@@ -1,6 +1,5 @@
 package daybyquest.participant.listener;
 
-import daybyquest.participant.domain.Participant;
 import daybyquest.participant.domain.Participants;
 import daybyquest.post.domain.SuccessfullyPostLinkedEvent;
 import org.springframework.context.event.EventListener;
@@ -19,8 +18,6 @@ public class IncreaseLinkedCountListener {
     @Transactional
     @EventListener
     public void listenSuccessfullyPostLinkedEvent(final SuccessfullyPostLinkedEvent event) {
-        final Participant participant = participants.getByUserIdAndQuestId(event.getUserId(),
-                event.getQuestId());
-        participant.increaseLinkedCount();
+        participants.increaseLinkedCount(event.getUserId(), event.getQuestId());
     }
 }
