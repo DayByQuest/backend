@@ -7,6 +7,7 @@ import daybyquest.group.query.GroupData;
 import daybyquest.group.query.GroupRecommendDao;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
+import java.util.Collection;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +33,16 @@ public class RecommendGroupsService {
     @Transactional(readOnly = true)
     public MultipleGroupsResponse invoke(final Long loginId) {
         final User user = users.getById(loginId);
-        final List<Long> ids = recommendDao.getRecommendIds(MAX_RECOMMENDATION_COUNT,
-                user.getInterests());
+        final List<Long> ids = getRecommendIds(user.getInterests());
         final List<GroupData> groupData = groupDao.findAllByIdsIn(loginId, ids);
         final List<GroupResponse> responses = groupData.stream().map(GroupResponse::of).toList();
         return new MultipleGroupsResponse(responses);
+    }
+
+    private List<Long> getRecommendIds(final Collection<String> interests) {
+        if (interests.isEmpty()) {
+            return recommendDao.getRecommendIds(MAX_RECOMMENDATION_COUNT);
+        }
+        return recommendDao.getRecommendIds(MAX_RECOMMENDATION_COUNT, interests);
     }
 }

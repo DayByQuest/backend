@@ -13,4 +13,10 @@ public interface GroupRecommendDao extends Repository<Group, Long> {
             + "ORDER BY g.id limit :topN",
             nativeQuery = true)
     List<Long> getRecommendIds(final int topN, final Collection<String> interests);
+
+    @Query(value = "select g.id from `group` g "
+            + "where g.id >= FLOOR(1 + RAND() * (select MAX(`group`.id) from `group`)) "
+            + "ORDER BY g.id limit :topN",
+            nativeQuery = true)
+    List<Long> getRecommendIds(final int topN);
 }
