@@ -13,4 +13,10 @@ public interface QuestRecommendDao extends Repository<Quest, Long> {
             + "ORDER BY q.id limit :topN",
             nativeQuery = true)
     List<Long> getRecommendIds(final int topN, final Collection<String> interests);
+
+    @Query(value = "select q.id from quest q where q.category='NORMAL' "
+            + "and q.id >= FLOOR(1 + RAND() * (select MAX(quest.id) from quest)) "
+            + "ORDER BY q.id limit :topN",
+            nativeQuery = true)
+    List<Long> getRecommendIds(final int topN);
 }
