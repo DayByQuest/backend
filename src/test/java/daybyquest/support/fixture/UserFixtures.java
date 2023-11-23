@@ -2,6 +2,7 @@ package daybyquest.support.fixture;
 
 import daybyquest.image.domain.Image;
 import daybyquest.user.domain.User;
+import daybyquest.user.query.Profile;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public enum UserFixtures {
@@ -38,5 +39,9 @@ public enum UserFixtures {
 
     public Image 프로필_사진() {
         return new Image(imageIdentifier);
+    }
+
+    public Profile 프로필(final Long id) {
+        return new Profile(id, username, name, imageIdentifier, 0L, false, false);
     }
 }

@@ -4,15 +4,19 @@ import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.user.domain.UserVisibility.PRIVATE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,6 +35,7 @@ import daybyquest.user.dto.request.UpdateUserRequest;
 import daybyquest.user.dto.request.UpdateUserVisibilityRequest;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -39,6 +44,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.multipart.MultipartFile;
 
+@WebMvcTest({UserCommandApi.class})
 public class UserCommandApiTest extends ApiTest {
 
     @MockBean
@@ -66,7 +72,9 @@ public class UserCommandApiTest extends ApiTest {
         final SaveUserRequest request = 회원가입_요청(ALICE.생성());
 
         // when
-        final ResultActions resultActions = POST_요청을_보낸다("/profile", request);
+        final ResultActions resultActions = mockMvc.perform(post("/profile")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -81,13 +89,16 @@ public class UserCommandApiTest extends ApiTest {
         final UpdateUserRequest request = 사용자_수정_요청(ALICE.생성());
 
         // when
-        final ResultActions resultActions = 인증_상태로_PATCH_요청을_보낸다("/profile", request);
+        final ResultActions resultActions = mockMvc.perform(patch("/profile")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .header("Authorization", "UserId 1"));
 
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(인증_상태로_문서화한다("user/update"));
-        then(updateUserService).should().invoke(anyLong(), any(UpdateUserRequest.class));
+        then(updateUserService).should().invoke(eq(로그인_ID), any(UpdateUserRequest.class));
     }
 
     @Test
@@ -96,13 +107,16 @@ public class UserCommandApiTest extends ApiTest {
         final UpdateUserVisibilityRequest request = 사용자_가시성_수정_요청();
 
         // when
-        final ResultActions resultActions = 인증_상태로_PATCH_요청을_보낸다("/profile/visibility", request);
+        final ResultActions resultActions = mockMvc.perform(patch("/profile/visibility")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .header("Authorization", "UserId 1"));
 
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(인증_상태로_문서화한다("user/update/visibility"));
-        then(updateVisibilityService).should().invoke(anyLong(), any(UpdateUserVisibilityRequest.class));
+                .andDo(인증_상태로_문서화한다("user/updateVisibility"));
+        then(updateVisibilityService).should().invoke(eq(로그인_ID), any(UpdateUserVisibilityRequest.class));
     }
 
     @Test
@@ -111,20 +125,24 @@ public class UserCommandApiTest extends ApiTest {
         final UpdateUserInterestRequest request = 사용자_관심사_수정_요청();
 
         // when
-        final ResultActions resultActions = 인증_상태로_PATCH_요청을_보낸다("/profile/interest", request);
+        final ResultActions resultActions = mockMvc.perform(patch("/profile/interest")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .header("Authorization", "UserId 1"));
 
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(인증_상태로_문서화한다("user/update/interest"));
-        then(updateUserInterestService).should().invoke(anyLong(), any(UpdateUserInterestRequest.class));
+                .andDo(인증_상태로_문서화한다("user/updateInterest"));
+        then(updateUserInterestService).should().invoke(eq(로그인_ID), any(UpdateUserInterestRequest.class));
     }
 
     @Test
     void 사용자_사진을_수정한다() throws Exception {
         // given
         final MockMultipartFile file =
-                new MockMultipartFile("image", "image.png", "multipart/form-data", "file content".getBytes());
+                new MockMultipartFile("image", "image.png",
+                        "multipart/form-data", "file content".getBytes());
 
         // when
         final ResultActions resultActions = mockMvc.perform(
@@ -136,23 +154,24 @@ public class UserCommandApiTest extends ApiTest {
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("user/update/image",
+                .andDo(document("user/updateImage",
                         preprocessResponse(prettyPrint()),
                         requestHeaders(headerWithName("Authorization").description("UserId 헤더")),
                         requestParts(partWithName("image").description("사진 파일")))
                 );
-        then(updateUserImageService).should().invoke(anyLong(), any(MultipartFile.class));
+        then(updateUserImageService).should().invoke(eq(로그인_ID), any(MultipartFile.class));
     }
 
     @Test
     void 사용자_사진을_삭제한다() throws Exception {
         // given & when
-        final ResultActions resultActions = 인증_상태로_DELETE_요청을_보낸다("/profile/image");
+        final ResultActions resultActions = mockMvc.perform(delete("/profile/image")
+                .header("Authorization", "UserId 1"));
 
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(인증_상태로_문서화한다("user/delete/image"));
+                .andDo(인증_상태로_문서화한다("user/deleteImage"));
         then(deleteUserImageService).should().invoke(anyLong());
     }
 
