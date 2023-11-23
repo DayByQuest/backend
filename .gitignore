@@ -7,6 +7,7 @@ build/
 .http
 docker/volume
 docker/db
+src/main/resources/static/docs
 ### STS ###
 .apt_generated
 .classpath

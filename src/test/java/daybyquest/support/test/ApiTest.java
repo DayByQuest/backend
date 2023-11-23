@@ -43,13 +43,14 @@ public abstract class ApiTest {
 
     protected ResultHandler 문서화한다(final String identifier) {
         return document(identifier, preprocessRequest(
-                        prettyPrint(), modifyHeaders().remove("Host").remove("Content-Length")),
+                        modifyHeaders().remove("Host").remove("Content-Length"), prettyPrint()),
                 preprocessResponse(prettyPrint()));
     }
 
     protected ResultHandler 인증_상태로_문서화한다(final String identifier) {
-        return document(identifier, preprocessRequest(prettyPrint(),
-                        modifyHeaders().remove("Host").remove("Content-Length")), preprocessResponse(prettyPrint()),
+        return document(identifier, preprocessRequest(modifyHeaders().remove("Host").remove("Content-Length")
+                        , prettyPrint()),
+                preprocessResponse(prettyPrint()),
                 requestHeaders(headerWithName("Authorization").description("UserId 헤더")));
     }
 }
