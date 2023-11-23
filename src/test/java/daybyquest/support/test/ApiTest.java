@@ -7,6 +7,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyHeaders;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -15,11 +16,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import com.fasterxml.jackson.databind.ObjectMapper;
 import daybyquest.global.config.WebMvcConfig;
 import daybyquest.user.domain.Users;
-import daybyquest.user.presentation.UserCommandApi;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -27,10 +26,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 
-@WebMvcTest({UserCommandApi.class})
 @Import({WebMvcConfig.class})
 @AutoConfigureRestDocs
 public abstract class ApiTest {
+
+    @MockBean
+    private Users users;
 
     @Autowired
     protected MockMvc mockMvc;
@@ -38,11 +39,8 @@ public abstract class ApiTest {
     @Autowired
     protected ObjectMapper objectMapper;
 
-    @MockBean
-    private Users users;
-
     @BeforeEach
-    void setUp() {
+    void setUpAuthentication() {
         given(users.getById(1L)).willReturn(ALICE.생성(1L));
     }
 
@@ -74,11 +72,14 @@ public abstract class ApiTest {
     }
 
     protected ResultHandler 문서화한다(final String identifier) {
-        return document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()));
+        return document(identifier, preprocessRequest(
+                        prettyPrint(), modifyHeaders().remove("Host").remove("Content-Length")),
+                preprocessResponse(prettyPrint()));
     }
 
     protected ResultHandler 인증_상태로_문서화한다(final String identifier) {
-        return document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+        return document(identifier, preprocessRequest(prettyPrint(),
+                        modifyHeaders().remove("Host").remove("Content-Length")), preprocessResponse(prettyPrint()),
                 requestHeaders(headerWithName("Authorization").description("UserId 헤더")));
     }
 }

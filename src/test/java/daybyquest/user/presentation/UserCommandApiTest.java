@@ -31,6 +31,7 @@ import daybyquest.user.dto.request.UpdateUserRequest;
 import daybyquest.user.dto.request.UpdateUserVisibilityRequest;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -39,6 +40,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.multipart.MultipartFile;
 
+@WebMvcTest({UserCommandApi.class})
 public class UserCommandApiTest extends ApiTest {
 
     @MockBean
@@ -101,7 +103,7 @@ public class UserCommandApiTest extends ApiTest {
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(인증_상태로_문서화한다("user/update/visibility"));
+                .andDo(인증_상태로_문서화한다("user/updateVisibility"));
         then(updateVisibilityService).should().invoke(anyLong(), any(UpdateUserVisibilityRequest.class));
     }
 
@@ -116,7 +118,7 @@ public class UserCommandApiTest extends ApiTest {
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(인증_상태로_문서화한다("user/update/interest"));
+                .andDo(인증_상태로_문서화한다("user/updateInterest"));
         then(updateUserInterestService).should().invoke(anyLong(), any(UpdateUserInterestRequest.class));
     }
 
@@ -136,7 +138,7 @@ public class UserCommandApiTest extends ApiTest {
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("user/update/image",
+                .andDo(document("user/updateImage",
                         preprocessResponse(prettyPrint()),
                         requestHeaders(headerWithName("Authorization").description("UserId 헤더")),
                         requestParts(partWithName("image").description("사진 파일")))
@@ -152,7 +154,7 @@ public class UserCommandApiTest extends ApiTest {
         // then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(인증_상태로_문서화한다("user/delete/image"));
+                .andDo(인증_상태로_문서화한다("user/deleteImage"));
         then(deleteUserImageService).should().invoke(anyLong());
     }
 
