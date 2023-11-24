@@ -70,6 +70,30 @@ public class GroupDaoQuerydslImplTest extends QuerydslTest {
     }
 
     @Test
+    void 그룹에_속했는지_여부가_함께_조회된다() {
+        // given
+        final User bob = 저장한다(BOB.생성());
+        final User alice = 저장한다(ALICE.생성());
+        final User charile = 저장한다(CHARLIE.생성());
+        final Group group = 저장한다(GROUP_1.생성());
+
+        저장한다(GroupUser.createGroupMember(bob.getId(), group));
+        저장한다(GroupUser.createGroupManager(alice.getId(), group));
+
+        // when
+        final GroupData bobActual = groupDao.getById(bob.getId(), group.getId());
+        final GroupData aliceAtual = groupDao.getById(alice.getId(), group.getId());
+        final GroupData charlieActual = groupDao.getById(charile.getId(), group.getId());
+
+        // then
+        assertAll(() -> {
+            assertThat(bobActual.isGroupMember()).isTrue();
+            assertThat(aliceAtual.isGroupMember()).isTrue();
+            assertThat(charlieActual.isGroupMember()).isFalse();
+        });
+    }
+
+    @Test
     void 그룹_관리자_여부가_함께_조회된다() {
         // given
         final User bob = 저장한다(BOB.생성());

@@ -175,24 +175,26 @@ public class QuestDaoQuerydslImplTest extends QuerydslTest {
     }
 
     @Test
-    void 그룹_ID로_퀘스트를_조회한다() {
+    void 그룹_ID로_활성화_상태인_퀘스트를_조회한다() {
         // given
         final Long userId = 1L;
         final Group group1 = 저장한다(GROUP_1.생성());
         final Group group2 = 저장한다(GROUP_2.생성());
         final Quest quest1 = 저장한다(QUEST_1.그룹_퀘스트_생성(group1));
         final Quest quest2 = 저장한다(QUEST_2.그룹_퀘스트_생성(group1));
-        final Quest quest3 = 저장한다(QUEST_1.그룹_퀘스트_생성(group1));
+        저장한다(QUEST_1.그룹_퀘스트_생성(group1));
         저장한다(QUEST_3.그룹_퀘스트_생성(group2));
-        final List<Long> expected = List.of(quest1.getId(), quest2.getId(), quest3.getId());
+        QUEST_1.보상_없이_세부사항을_설정한다(quest1);
+        QUEST_2.보상_없이_세부사항을_설정한다(quest2);
+        final List<Long> expected = List.of(quest1.getId(), quest2.getId());
 
         // when
-        final List<QuestData> questData = questDao.findAllByGroupId(userId, group1.getId());
+        final List<QuestData> questData = questDao.findAllByGroupIdAndActive(userId, group1.getId());
         final List<Long> actual = questData.stream().map(QuestData::getId).toList();
 
         // then
         assertAll(() -> {
-            assertThat(questData).hasSize(3);
+            assertThat(questData).hasSize(2);
             assertThat(actual).containsExactlyElementsOf(expected);
         });
     }
@@ -206,7 +208,7 @@ public class QuestDaoQuerydslImplTest extends QuerydslTest {
         final Quest quest1 = 저장한다(QUEST_1.일반_퀘스트_생성());
         final Quest quest2 = 저장한다(QUEST_2.일반_퀘스트_생성(badge));
         final Quest quest3 = 저장한다(QUEST_3.그룹_퀘스트_생성(group));
-        final Quest quest4 = 저장한다(QUEST_1.일반_퀘스트_생성());
+        저장한다(QUEST_1.일반_퀘스트_생성());
         final List<Long> expected = List.of(quest1.getId(), quest2.getId(), quest3.getId());
 
         // when

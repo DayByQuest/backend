@@ -1,7 +1,5 @@
 package daybyquest.quest.query;
 
-import daybyquest.badge.domain.Badge;
-import daybyquest.group.domain.Group;
 import daybyquest.image.domain.Image;
 import daybyquest.participant.domain.ParticipantState;
 import daybyquest.quest.domain.QuestCategory;
@@ -29,13 +27,13 @@ public class QuestData {
 
     private final LocalDateTime expiredAt;
 
-    private Image image;
+    private final Image image;
 
     private final Long rewardCount;
 
     private final Long currentCount;
 
-    private String groupName;
+    private final String groupName;
 
     public QuestData(final Long id, final Long groupId, final Long badgeId, final String title,
             final String content, final String interestName, final QuestCategory category,
@@ -66,18 +64,5 @@ public class QuestData {
 
     public void setState(final ParticipantState state) {
         this.state = state;
-    }
-
-    public boolean isGroupQuest() {
-        return category == QuestCategory.GROUP;
-    }
-
-    public void setNormalDetail(final Badge badge) {
-        this.image = badge.getImage();
-    }
-
-    public void setGroupDetail(final Group group) {
-        this.image = group.getImage();
-        this.groupName = group.getName();
     }
 }

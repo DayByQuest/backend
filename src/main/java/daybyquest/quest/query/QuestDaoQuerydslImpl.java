@@ -65,10 +65,11 @@ public class QuestDaoQuerydslImpl implements QuestDao {
     }
 
     @Override
-    public List<QuestData> findAllByGroupId(final Long userId, final Long groupId) {
+    public List<QuestData> findAllByGroupIdAndActive(final Long userId, final Long groupId) {
         return factory.select(projectQuestData(userId, quest.id))
                 .from(quest)
                 .join(group).on(group.id.eq(groupId), group.id.eq(quest.groupId))
+                .where(quest.state.eq(ACTIVE))
                 .fetch();
     }
 
