@@ -101,6 +101,8 @@ public enum ExceptionCode {
     NOT_BLOCKING_USER("REL-01", BAD_REQUEST, "차단하지 않은 사용자는 취소할 수 없습니다"),
     ALREADY_FOLLOWING_USER("REL-02", BAD_REQUEST, "이미 팔로우한 사용자입니다"),
     ALREADY_BLOCKING_USER("REL-03", BAD_REQUEST, "이미 차단한 사용자입니다"),
+    FOLLOW_MYSELF("REL-05", BAD_REQUEST, "자기 자신을 팔로우할 수 없습니다"),
+    BLOCK_MYSELF("REL-06", BAD_REQUEST, "자기 자신을 차단할 수 없습니다"),
 
     ;
 
