@@ -11,7 +11,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import daybyquest.global.error.exception.NotExistGroupException;
 import daybyquest.global.query.LongIdList;
 import daybyquest.global.query.NoOffsetIdPage;
-import daybyquest.group.domain.GroupUserRole;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -46,10 +45,9 @@ public class GroupDaoQuerydslImpl implements GroupDao {
                 JPAExpressions.select(groupUser.count())
                         .from(groupUser)
                         .where(groupUser.group.id.eq(group.id)),
-                JPAExpressions.selectFrom(groupUser)
-                        .where(groupUser.userId.eq(userId), groupUser.group.id.eq(group.id),
-                                groupUser.role.eq(GroupUserRole.MANAGER))
-                        .exists()
+                JPAExpressions.select(groupUser.role)
+                        .from(groupUser)
+                        .where(groupUser.userId.eq(userId), groupUser.group.id.eq(group.id))
         );
     }
 
