@@ -1,6 +1,7 @@
 package daybyquest.relation.domain;
 
 import static daybyquest.global.error.ExceptionCode.ALREADY_FOLLOWING_USER;
+import static daybyquest.global.error.ExceptionCode.FOLLOW_MYSELF;
 import static daybyquest.global.error.ExceptionCode.NOT_FOLLOWING_USER;
 
 import daybyquest.global.error.exception.InvalidDomainException;
@@ -23,7 +24,14 @@ public class Follows {
         users.validateExistentById(follow.getUserId());
         users.validateExistentById(follow.getTargetId());
         validateNonExistent(follow);
+        validateNotMyself(follow);
         followRepository.save(follow);
+    }
+
+    private void validateNotMyself(final Follow follow) {
+        if (follow.getUserId().equals(follow.getTargetId())) {
+            throw new InvalidDomainException(FOLLOW_MYSELF);
+        }
     }
 
     private void validateNonExistent(final Follow follow) {

@@ -1,5 +1,8 @@
 package daybyquest.relation.domain;
 
+import static daybyquest.global.error.ExceptionCode.ALREADY_FOLLOWING_USER;
+import static daybyquest.global.error.ExceptionCode.FOLLOW_MYSELF;
+import static daybyquest.global.error.ExceptionCode.NOT_FOLLOWING_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -54,7 +57,19 @@ public class FollowsTest {
 
         // when & then
         assertThatThrownBy(() -> follows.save(new Follow(aliceId, targetId)))
-                .isInstanceOf(InvalidDomainException.class);
+                .isInstanceOf(InvalidDomainException.class)
+                .hasMessageContaining(ALREADY_FOLLOWING_USER.getMessage());
+    }
+
+    @Test
+    void 저장_시_자기_자신을_대상으로_한다면_에외를_던진다() {
+        // given
+        final Long aliceId = 1L;
+
+        // when & then
+        assertThatThrownBy(() -> follows.save(new Follow(aliceId, aliceId)))
+                .isInstanceOf(InvalidDomainException.class)
+                .hasMessageContaining(FOLLOW_MYSELF.getMessage());
     }
 
     @Test
@@ -80,7 +95,8 @@ public class FollowsTest {
 
         // when & then
         assertThatThrownBy(() -> follows.getByUserIdAndTargetId(aliceId, targetId))
-                .isInstanceOf(InvalidDomainException.class);
+                .isInstanceOf(InvalidDomainException.class)
+                .hasMessageContaining(NOT_FOLLOWING_USER.getMessage());
     }
 
     @Test
