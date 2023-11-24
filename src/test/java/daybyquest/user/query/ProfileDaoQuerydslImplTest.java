@@ -19,6 +19,7 @@ import daybyquest.support.test.QuerydslTest;
 import daybyquest.user.domain.User;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -29,101 +30,224 @@ public class ProfileDaoQuerydslImplTest extends QuerydslTest {
     @Autowired
     private ProfileDaoQuerydslImpl profileDao;
 
-    @Test
-    void 사용자_이름으로_프로필을_조회한다() {
-        // given
-        final User user = 저장한다(BOB.생성());
+    @Nested
+    class 사용자_이름으로_프로필_조회 {
 
-        // when
-        final Profile profile = profileDao.getByUsername(user.getId(), BOB.username);
+        @Test
+        void 사용자_이름으로_프로필을_조회한다() {
+            // given
+            final User user = 저장한다(BOB.생성());
 
-        // then
-        assertAll(() -> {
-            assertThat(profile.getUsername()).isEqualTo(BOB.username);
-            assertThat(profile.getName()).isEqualTo(BOB.name);
-            assertThat(profile.getImageIdentifier()).isEqualTo(BOB.imageIdentifier);
-        });
+            // when
+            final Profile profile = profileDao.getByUsername(user.getId(), BOB.username);
+
+            // then
+            assertAll(() -> {
+                assertThat(profile.getUsername()).isEqualTo(BOB.username);
+                assertThat(profile.getName()).isEqualTo(BOB.name);
+                assertThat(profile.getImageIdentifier()).isEqualTo(BOB.imageIdentifier);
+            });
+        }
+
+        @Test
+        void 사용자_이름이_없으면_예외를_던진다() {
+            assertThatThrownBy(() -> profileDao.getByUsername(1L, BOB.username))
+                    .isInstanceOf(NotExistUserException.class);
+        }
+
+        @Test
+        void 게시물_수를_포함한다() {
+            // given
+            final User user = 저장한다(BOB.생성());
+            저장한다(POST_1.생성(user));
+            저장한다(POST_2.생성(user));
+
+            // when
+            final Profile profile = profileDao.getByUsername(user.getId(), user.getUsername());
+
+            // then
+            assertThat(profile.getPostCount()).isEqualTo(2);
+        }
+
+        @Test
+        void 나와의_관계를_포함한다() {
+            // given
+            final User bob = 저장한다(BOB.생성());
+            final User alice = 저장한다(ALICE.생성());
+            final User charlie = 저장한다(CHARLIE.생성());
+            저장한다(new Follow(bob.getId(), alice.getId()));
+            저장한다(new Block(bob.getId(), charlie.getId()));
+
+            // when
+            final Profile aliceProfile = profileDao.getByUsername(bob.getId(), alice.getUsername());
+            final Profile charlieProfile = profileDao.getByUsername(bob.getId(), charlie.getUsername());
+
+            // then
+            assertAll(() -> {
+                assertThat(aliceProfile.isFollowing()).isTrue();
+                assertThat(aliceProfile.isBlocking()).isFalse();
+
+                assertThat(charlieProfile.isFollowing()).isFalse();
+                assertThat(charlieProfile.isBlocking()).isTrue();
+            });
+        }
+
+        @Test
+        void 팔로잉과_팔로워_수를_포함하지_않는다() {
+            // given
+            final User bob = 저장한다(BOB.생성());
+            final User alice = 저장한다(ALICE.생성());
+            저장한다(new Follow(bob.getId(), alice.getId()));
+            저장한다(new Follow(alice.getId(), bob.getId()));
+
+            // when
+            final Profile profile = profileDao.getById(bob.getId(), bob.getId());
+
+            // then
+            assertAll(() -> {
+                assertThat(profile.getFollowingCount()).isEqualTo(0);
+                assertThat(profile.getFollowerCount()).isEqualTo(0);
+            });
+        }
     }
 
-    @Test
-    void 사용자_이름이_없으면_예외를_던진다() {
-        assertThatThrownBy(() -> profileDao.getByUsername(1L, BOB.username))
-                .isInstanceOf(NotExistUserException.class);
+    @Nested
+    class 사용자_ID로_프로필_조회 {
+
+        @Test
+        void 사용자_ID로_프로필을_조회한다() {
+            // given
+            final User user = 저장한다(BOB.생성());
+
+            // when
+            final Profile profile = profileDao.getById(user.getId(), user.getId());
+
+            // then
+            assertAll(() -> {
+                assertThat(profile.getUsername()).isEqualTo(BOB.username);
+                assertThat(profile.getName()).isEqualTo(BOB.name);
+                assertThat(profile.getImageIdentifier()).isEqualTo(BOB.imageIdentifier);
+            });
+        }
+
+        @Test
+        void 사용자_ID가_없으면_예외를_던진다() {
+            assertThatThrownBy(() -> profileDao.getById(1L, 1L))
+                    .isInstanceOf(NotExistUserException.class);
+        }
+
+        @Test
+        void 게시물_수를_포함한다() {
+            // given
+            final User user = 저장한다(BOB.생성());
+            저장한다(POST_1.생성(user));
+            저장한다(POST_2.생성(user));
+
+            // when
+            final Profile profile = profileDao.getById(user.getId(), user.getId());
+
+            // then
+            assertThat(profile.getPostCount()).isEqualTo(2);
+        }
+
+        @Test
+        void 나와의_관계를_포함한다() {
+            // given
+            final User bob = 저장한다(BOB.생성());
+            final User alice = 저장한다(ALICE.생성());
+            final User charlie = 저장한다(CHARLIE.생성());
+            저장한다(new Follow(bob.getId(), alice.getId()));
+            저장한다(new Block(bob.getId(), charlie.getId()));
+
+            // when
+            final Profile aliceProfile = profileDao.getById(bob.getId(), alice.getId());
+            final Profile charlieProfile = profileDao.getById(bob.getId(), charlie.getId());
+
+            // then
+            assertAll(() -> {
+                assertThat(aliceProfile.isFollowing()).isTrue();
+                assertThat(aliceProfile.isBlocking()).isFalse();
+
+                assertThat(charlieProfile.isFollowing()).isFalse();
+                assertThat(charlieProfile.isBlocking()).isTrue();
+            });
+        }
+
+        @Test
+        void 팔로잉과_팔로워_수를_포함하지_않는다() {
+            // given
+            final User bob = 저장한다(BOB.생성());
+            final User alice = 저장한다(ALICE.생성());
+            저장한다(new Follow(bob.getId(), alice.getId()));
+            저장한다(new Follow(alice.getId(), bob.getId()));
+
+            // when
+            final Profile profile = profileDao.getByUsername(bob.getId(), bob.getUsername());
+
+            // then
+            assertAll(() -> {
+                assertThat(profile.getFollowingCount()).isEqualTo(0);
+                assertThat(profile.getFollowerCount()).isEqualTo(0);
+            });
+        }
     }
 
-    @Test
-    void 사용자_ID로_프로필을_조회한다() {
-        // given
-        final User user = 저장한다(BOB.생성());
+    @Nested
+    class 내_프로필_조회 {
 
-        // when
-        final Profile profile = profileDao.getById(user.getId(), user.getId());
+        @Test
+        void 내_프로필을_조회한다() {
+            // given
+            final User user = 저장한다(BOB.생성());
 
-        // then
-        assertAll(() -> {
-            assertThat(profile.getUsername()).isEqualTo(BOB.username);
-            assertThat(profile.getName()).isEqualTo(BOB.name);
-            assertThat(profile.getImageIdentifier()).isEqualTo(BOB.imageIdentifier);
-        });
-    }
+            // when
+            final Profile profile = profileDao.getMine(user.getId());
 
-    @Test
-    void 사용자_ID가_없으면_예외를_던진다() {
-        assertThatThrownBy(() -> profileDao.getById(1L, 1L))
-                .isInstanceOf(NotExistUserException.class);
-    }
+            // then
+            assertAll(() -> {
+                assertThat(profile.getUsername()).isEqualTo(BOB.username);
+                assertThat(profile.getName()).isEqualTo(BOB.name);
+                assertThat(profile.getImageIdentifier()).isEqualTo(BOB.imageIdentifier);
+            });
+        }
 
-    @Test
-    void 내_프로필을_조회한다() {
-        // given
-        final User user = 저장한다(BOB.생성());
+        @Test
+        void 팔로잉_수를_포함한다() {
+            // given
+            final User bob = 저장한다(BOB.생성());
+            final User alice = 저장한다(ALICE.생성());
+            final User charlie = 저장한다(CHARLIE.생성());
+            저장한다(new Follow(bob.getId(), alice.getId()));
+            저장한다(new Follow(bob.getId(), charlie.getId()));
 
-        // when
-        final Profile profile = profileDao.getMine(user.getId());
+            // when
+            final Profile profile = profileDao.getMine(bob.getId());
 
-        // then
-        assertAll(() -> {
-            assertThat(profile.getUsername()).isEqualTo(BOB.username);
-            assertThat(profile.getName()).isEqualTo(BOB.name);
-            assertThat(profile.getImageIdentifier()).isEqualTo(BOB.imageIdentifier);
-        });
-    }
+            // then
+            assertAll(() -> {
+                assertThat(profile.getFollowingCount()).isEqualTo(2);
+                assertThat(profile.getFollowerCount()).isEqualTo(0);
+            });
+        }
 
-    @Test
-    void 프로필_조회_시_게시물_수를_포함한다() {
-        // given
-        final User user = 저장한다(BOB.생성());
-        저장한다(POST_1.생성(user));
-        저장한다(POST_2.생성(user));
+        @Test
+        void 팔로워_수를_포함한다() {
+            // given
+            final User bob = 저장한다(BOB.생성());
+            final User alice = 저장한다(ALICE.생성());
+            final User charlie = 저장한다(CHARLIE.생성());
+            저장한다(new Follow(alice.getId(), bob.getId()));
+            저장한다(new Follow(charlie.getId(), bob.getId()));
 
-        // when
-        final Profile profile = profileDao.getById(user.getId(), user.getId());
+            // when
+            final Profile profile = profileDao.getMine(bob.getId());
 
-        // then
-        assertThat(profile.getPostCount()).isEqualTo(2);
-    }
-
-    @Test
-    void 프로필_조회_시_나와의_관계를_포함한다() {
-        // given
-        final User bob = 저장한다(BOB.생성());
-        final User alice = 저장한다(ALICE.생성());
-        final User charlie = 저장한다(CHARLIE.생성());
-        저장한다(new Follow(bob.getId(), alice.getId()));
-        저장한다(new Block(bob.getId(), charlie.getId()));
-
-        // when
-        final Profile aliceProfile = profileDao.getById(bob.getId(), alice.getId());
-        final Profile charlieProfile = profileDao.getById(bob.getId(), charlie.getId());
-
-        // then
-        assertAll(() -> {
-            assertThat(aliceProfile.isFollowing()).isTrue();
-            assertThat(aliceProfile.isBlocking()).isFalse();
-
-            assertThat(charlieProfile.isFollowing()).isFalse();
-            assertThat(charlieProfile.isBlocking()).isTrue();
-        });
+            // then
+            assertAll(() -> {
+                assertThat(profile.getFollowingCount()).isEqualTo(0);
+                assertThat(profile.getFollowerCount()).isEqualTo(2);
+            });
+        }
     }
 
     @Test
