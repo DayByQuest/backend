@@ -19,7 +19,7 @@ public class GetGroupQuestsService {
 
     @Transactional(readOnly = true)
     public MultipleQuestsResponse invoke(final Long loginId, final Long groupId) {
-        final List<QuestData> questData = questDao.findAllByGroupId(loginId, groupId);
+        final List<QuestData> questData = questDao.findAllByGroupIdAndActive(loginId, groupId);
         final List<QuestResponse> responses = questData.stream().map(QuestResponse::of).toList();
         return new MultipleQuestsResponse(responses);
     }
