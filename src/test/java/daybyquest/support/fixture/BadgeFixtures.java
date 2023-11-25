@@ -37,6 +37,6 @@ public enum BadgeFixtures {
     }
 
     public BadgeResponse 응답(final Long id) {
-        return new BadgeResponse(name, imageIdentifier, id, LocalDateTime.now());
+        return new BadgeResponse(name, imageIdentifier, id, LocalDateTime.MIN);
     }
 }
