@@ -28,3 +28,24 @@ operation::user/updateImage[snippets='http-request,http-response,request-parts']
 
 operation::user/deleteImage[snippets='http-request,http-response']
 
+== Query
+
+=== 프로필 조회
+
+operation::user/read[snippets='http-request,http-response']
+
+=== 내 프로필 조회
+
+operation::user/readMyself[snippets='http-request,http-response']
+
+=== 사용자 이름 중복 조회
+
+operation::user/checkUsername[snippets='http-request,http-response']
+
+=== 계정 공개 범위 조회
+
+operation::user/readVisibility[snippets='http-request,http-response']
+
+=== 사용자 검색
+
+operation::user/search[snippets='http-request,http-response']

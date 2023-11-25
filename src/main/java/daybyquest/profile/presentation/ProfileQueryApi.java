@@ -22,7 +22,7 @@ public class ProfileQueryApi {
     @Authorization
     public ResponseEntity<MultipleBadgesResponse> getBadges(final AccessUser user,
             @PathVariable final String username) {
-        final MultipleBadgesResponse response = getPresetBadgeService.invoke(user.getId(), username);
+        final MultipleBadgesResponse response = getPresetBadgeService.invoke(username);
         return ResponseEntity.ok(response);
     }
 }

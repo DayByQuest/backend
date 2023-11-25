@@ -1,7 +1,9 @@
 package daybyquest.support.fixture;
 
 import daybyquest.badge.domain.Badge;
+import daybyquest.badge.dto.response.BadgeResponse;
 import daybyquest.image.domain.Image;
+import java.time.LocalDateTime;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public enum BadgeFixtures {
@@ -32,5 +34,9 @@ public enum BadgeFixtures {
 
     public Image 사진() {
         return new Image(imageIdentifier);
+    }
+
+    public BadgeResponse 응답(final Long id) {
+        return new BadgeResponse(name, imageIdentifier, id, LocalDateTime.MIN);
     }
 }

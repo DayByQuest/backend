@@ -2,10 +2,6 @@
 
 == 사용자 API
 
-* link:user-command.html[사용자 변경 API]
-* link:user-query.html[사용자 조회 API]
-
-== 관계 API
-
-* link:relation-command.html[사용자 간 관계 변경 API]
-* link:relation-query.html[사용자 간 관계 조회 API]
+* link:user[사용자 API]
+* link:relation[사용자 간 관계 API]
+* link:profile-setting[프로필 설정 API]
