@@ -41,6 +41,7 @@ public class FollowQueryApiTest extends ApiTest {
         // when
         final ResultActions resultActions = mockMvc.perform(get("/followings")
                 .param("limit", "5")
+                .param("lastId", "0")
                 .header("Authorization", "UserId 1"));
 
         // then
@@ -61,6 +62,7 @@ public class FollowQueryApiTest extends ApiTest {
         // when
         final ResultActions resultActions = mockMvc.perform(get("/followers")
                 .param("limit", "5")
+                .param("lastId", "0")
                 .header("Authorization", "UserId 1"));
 
         // then

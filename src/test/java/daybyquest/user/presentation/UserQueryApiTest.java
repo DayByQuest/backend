@@ -111,8 +111,9 @@ public class UserQueryApiTest extends ApiTest {
 
         // given & when
         final ResultActions resultActions = mockMvc.perform(get("/search/user")
-                .param("keyword", "user")
+                .param("keyword", "dlwlrma")
                 .param("limit", "5")
+                .param("lastId", "0")
                 .header("Authorization", "UserId 1"));
 
         // then
