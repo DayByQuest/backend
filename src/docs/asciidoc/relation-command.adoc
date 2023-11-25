@@ -1,0 +1,17 @@
+= 사용자 API
+:operation-http-request-title: HTTP 요청
+:operation-http-response-title: HTTP 응답
+
+== Query
+
+=== 팔로우
+
+operation::relation/saveFollow[snippets='http-request,http-response']
+
+=== 언팔로우
+
+operation::relation/deleteFollow[snippets='http-request,http-response']
+
+=== 팔로워 삭제
+
+operation::relation/deleteFollower[snippets='http-request,http-response']

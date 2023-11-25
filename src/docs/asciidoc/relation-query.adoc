@@ -1,0 +1,13 @@
+= 사용자 API
+:operation-http-request-title: HTTP 요청
+:operation-http-response-title: HTTP 응답
+
+== Query
+
+=== 팔로잉 목록 조회
+
+operation::relation/readFollowings[snippets='http-request,http-response']
+
+=== 팔로워 목록 조회
+
+operation::relation/readFollowers[snippets='http-request,http-response']
