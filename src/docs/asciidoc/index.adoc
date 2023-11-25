@@ -1,6 +1,11 @@
-= DBQ Api Docs
+= Dbq API Docs
 
-== User API
+== 사용자 API
 
-* link:user-command.html[사용자 변경 관련 API]
-* link:user-query.html[사용자 조회 관련 API]
+* link:user-command.html[사용자 변경 API]
+* link:user-query.html[사용자 조회 API]
+
+== 관계 API
+
+* link:relation-command.html[사용자 간 관계 변경 API]
+* link:relation-query.html[사용자 간 관계 조회 API]
