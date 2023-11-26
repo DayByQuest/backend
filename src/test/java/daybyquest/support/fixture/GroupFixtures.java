@@ -1,6 +1,8 @@
 package daybyquest.support.fixture;
 
 import daybyquest.group.domain.Group;
+import daybyquest.group.dto.response.GroupResponse;
+import daybyquest.group.query.GroupData;
 import daybyquest.image.domain.Image;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -39,5 +41,11 @@ public enum GroupFixtures {
 
     public Image 대표_사진() {
         return new Image(this.imageIdentifier);
+    }
+
+    public GroupResponse 응답(final Long id) {
+        final GroupData groupData = new GroupData(id, name, description, interest, 대표_사진(),
+                0L, null);
+        return GroupResponse.of(groupData);
     }
 }
