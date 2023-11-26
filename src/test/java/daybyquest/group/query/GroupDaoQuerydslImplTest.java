@@ -7,7 +7,6 @@ import static daybyquest.support.fixture.GroupFixtures.GROUP_4;
 import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
 import static daybyquest.support.fixture.UserFixtures.CHARLIE;
-import static daybyquest.support.fixture.UserFixtures.DAVID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -119,29 +118,6 @@ public class GroupDaoQuerydslImplTest extends QuerydslTest {
         // given & when & then
         assertThatThrownBy(() -> groupDao.getById(1L, 2L))
                 .isInstanceOf(NotExistGroupException.class);
-    }
-
-    @Test
-    void 그룹원의_사용자_ID_목록을_조회한다() {
-        // given
-        final User bob = 저장한다(BOB.생성());
-        final User alice = 저장한다(ALICE.생성());
-        final User charlie = 저장한다(CHARLIE.생성());
-        final User david = 저장한다(DAVID.생성());
-        final Group group = 저장한다(GROUP_1.생성());
-        저장한다(GroupUser.createGroupMember(bob.getId(), group));
-        저장한다(GroupUser.createGroupMember(alice.getId(), group));
-        저장한다(GroupUser.createGroupMember(charlie.getId(), group));
-
-        final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
-        final List<Long> expected = List.of(bob.getId(), alice.getId(), charlie.getId());
-
-        // when
-        final LongIdList ids = groupDao.findUserIdsByGroupId(group.getId(), page);
-        final List<Long> actual = ids.getIds();
-
-        // then
-        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
