@@ -52,23 +52,6 @@ public class GroupDaoQuerydslImpl implements GroupDao {
     }
 
     @Override
-    public LongIdList findUserIdsByGroupId(final Long id, final NoOffsetIdPage page) {
-        return new LongIdList(factory.select(groupUser.userId)
-                .from(groupUser)
-                .where(groupUser.group.id.eq(id), greaterThanUserId(page.lastId()))
-                .orderBy(groupUser.userId.asc())
-                .limit(page.limit())
-                .fetch());
-    }
-
-    private BooleanExpression greaterThanUserId(final Long userId) {
-        if (userId == null) {
-            return null;
-        }
-        return groupUser.userId.gt(userId);
-    }
-
-    @Override
     public List<GroupData> findAllByUserId(final Long userId) {
         return factory.select(projectGroupData(userId))
                 .from(groupUser)
@@ -96,5 +79,15 @@ public class GroupDaoQuerydslImpl implements GroupDao {
 
     private BooleanExpression gtGroupId(final Long groupId) {
         return groupId == null ? null : group.id.gt(groupId);
+    }
+
+    @Override
+    public LongIdList findIdsByInterest(final String interest, final NoOffsetIdPage page) {
+        return new LongIdList(factory.select(group.id)
+                .from(group)
+                .where(group.interest.eq(interest), gtGroupId(page.lastId()))
+                .limit(page.limit())
+                .orderBy(group.id.asc())
+                .fetch());
     }
 }

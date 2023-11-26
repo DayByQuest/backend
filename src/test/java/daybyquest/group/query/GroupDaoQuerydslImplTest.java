@@ -7,7 +7,6 @@ import static daybyquest.support.fixture.GroupFixtures.GROUP_4;
 import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
 import static daybyquest.support.fixture.UserFixtures.CHARLIE;
-import static daybyquest.support.fixture.UserFixtures.DAVID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -122,29 +121,6 @@ public class GroupDaoQuerydslImplTest extends QuerydslTest {
     }
 
     @Test
-    void 그룹원의_사용자_ID_목록을_조회한다() {
-        // given
-        final User bob = 저장한다(BOB.생성());
-        final User alice = 저장한다(ALICE.생성());
-        final User charlie = 저장한다(CHARLIE.생성());
-        final User david = 저장한다(DAVID.생성());
-        final Group group = 저장한다(GROUP_1.생성());
-        저장한다(GroupUser.createGroupMember(bob.getId(), group));
-        저장한다(GroupUser.createGroupMember(alice.getId(), group));
-        저장한다(GroupUser.createGroupMember(charlie.getId(), group));
-
-        final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
-        final List<Long> expected = List.of(bob.getId(), alice.getId(), charlie.getId());
-
-        // when
-        final LongIdList ids = groupDao.findUserIdsByGroupId(group.getId(), page);
-        final List<Long> actual = ids.getIds();
-
-        // then
-        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
-    }
-
-    @Test
     void 사용자_ID로_가입한_그룹_목록을_조회한다() {
         // given
         final User user = 저장한다(BOB.생성());
@@ -198,6 +174,25 @@ public class GroupDaoQuerydslImplTest extends QuerydslTest {
 
         // when
         final LongIdList ids = groupDao.findIdsByNameLike("1", page);
+        final List<Long> actual = ids.getIds();
+
+        // then
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    void 그룹_관심사로_목록을_조회한다() {
+        // given
+        final String interest = "관심사1";
+        final Group group1 = 저장한다(new Group(interest, GROUP_1.name, GROUP_1.description, GROUP_1.대표_사진()));
+        final Group group2 = 저장한다(new Group(interest, GROUP_2.name, GROUP_2.description, GROUP_2.대표_사진()));
+        저장한다(new Group("관심사2", GROUP_3.name, GROUP_3.description, GROUP_3.대표_사진()));
+
+        final List<Long> expected = List.of(group1.getId(), group2.getId());
+        final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
+
+        // when
+        final LongIdList ids = groupDao.findIdsByInterest(interest, page);
         final List<Long> actual = ids.getIds();
 
         // then
