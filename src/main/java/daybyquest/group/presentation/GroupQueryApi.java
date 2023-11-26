@@ -12,8 +12,8 @@ import daybyquest.group.application.RecommendGroupsService;
 import daybyquest.group.application.SearchGroupService;
 import daybyquest.group.dto.response.GroupResponse;
 import daybyquest.group.dto.response.MultipleGroupsResponse;
+import daybyquest.group.dto.response.PageGroupUsersResponse;
 import daybyquest.group.dto.response.PageGroupsResponse;
-import daybyquest.user.dto.response.PageProfilesResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,9 +68,10 @@ public class GroupQueryApi {
 
     @GetMapping("/group/{groupId}/user")
     @Authorization
-    public ResponseEntity<PageProfilesResponse> getGroupUsers(final AccessUser accessUser,
+    public ResponseEntity<PageGroupUsersResponse> getGroupUsers(final AccessUser accessUser,
             @PathVariable final Long groupId, final NoOffsetIdPage page) {
-        final PageProfilesResponse response = getGroupUsersService.invoke(accessUser.getId(), groupId, page);
+        final PageGroupUsersResponse response = getGroupUsersService.invoke(accessUser.getId(), groupId,
+                page);
         return ResponseEntity.ok(response);
     }
 
