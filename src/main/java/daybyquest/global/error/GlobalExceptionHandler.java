@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -24,11 +25,11 @@ import org.springframework.web.server.MissingRequestValueException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({
-        MissingServletRequestPartException.class,
-        MissingRequestValueException.class,
-        MethodArgumentTypeMismatchException.class,
-        HttpMessageNotReadableException.class,
-        HttpRequestMethodNotSupportedException.class
+            MissingServletRequestPartException.class,
+            MissingRequestValueException.class,
+            MethodArgumentTypeMismatchException.class,
+            HttpMessageNotReadableException.class,
+            HttpRequestMethodNotSupportedException.class
     })
     public ResponseEntity<ExceptionResponse> handleHttpRequestException(Exception e) {
         log.warn(e.getMessage(), e);
@@ -37,11 +38,18 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    protected ResponseEntity<ExceptionResponse> handleMissingServletRequestParameterException(
+            MissingServletRequestParameterException e) {
+        final ExceptionResponse response = ExceptionResponse.of(INVALID_INPUT, e.getParameterName());
+        return new ResponseEntity<>(response, INVALID_INPUT.getHttpStatus());
+    }
+
+    @ExceptionHandler
     protected ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(
-        MethodArgumentNotValidException e) {
+            MethodArgumentNotValidException e) {
         log.debug(e.getMessage(), e);
         final ExceptionResponse response = ExceptionResponse.of(INVALID_INPUT,
-            convertBindingResult(e.getBindingResult())
+                convertBindingResult(e.getBindingResult())
         );
         return new ResponseEntity<>(response, INVALID_INPUT.getHttpStatus());
     }
@@ -62,7 +70,7 @@ public class GlobalExceptionHandler {
 
     private List<String> convertBindingResult(BindingResult bindingResult) {
         return bindingResult.getFieldErrors().stream()
-            .map(FieldError::getField)
-            .toList();
+                .map(FieldError::getField)
+                .toList();
     }
 }
