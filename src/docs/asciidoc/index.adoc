@@ -5,3 +5,4 @@
 * link:user[사용자 API]
 * link:relation[사용자 간 관계 API]
 * link:profile-setting[프로필 설정 API]
+* link:group[그룹 API]

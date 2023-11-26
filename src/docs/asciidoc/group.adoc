@@ -1,0 +1,49 @@
+= 관계 API
+:operation-http-request-title: HTTP 요청
+:operation-http-response-title: HTTP 응답
+
+== Command
+
+=== 그룹 생성
+
+operation::group/saveGroup[snippets='http-request,http-response,request-parts']
+
+=== 그룹 가입
+
+operation::group/saveMember[snippets='http-request,http-response']
+
+=== 그룹 탈퇴
+
+operation::group/deleteMember[snippets='http-request,http-response']
+
+== Query
+
+=== 그룹 이름 중복 검사
+
+operation::group/checkName[snippets='http-request,http-response']
+
+=== 그룹 프로필 조회
+
+operation::group/getGroup[snippets='http-request,http-response']
+
+=== 그룹원 목록 조회
+
+operation::group/getGroupUsers[snippets='http-request,http-response']
+
+=== 가입한 그룹 목록 조회
+
+operation::group/getGroups[snippets='http-request,http-response']
+
+=== 그룹 추천 받기
+
+operation::group/recommendGroups[snippets='http-request,http-response']
+
+=== 그룹 검색
+
+operation::group/searchGroups[snippets='http-request,http-response']
+
+=== 관심사로 그룹 목록 조회
+
+operation::group/getGroupsByInterest[snippets='http-request,http-response']
+
+

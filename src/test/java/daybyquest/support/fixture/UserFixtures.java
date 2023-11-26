@@ -1,5 +1,9 @@
 package daybyquest.support.fixture;
 
+import static daybyquest.group.domain.GroupUserRole.MEMBER;
+
+import daybyquest.group.dto.response.GroupUserResponse;
+import daybyquest.group.query.GroupUserData;
 import daybyquest.image.domain.Image;
 import daybyquest.user.domain.User;
 import daybyquest.user.query.Profile;
@@ -43,5 +47,11 @@ public enum UserFixtures {
 
     public Profile 프로필(final Long id) {
         return new Profile(id, username, name, imageIdentifier, 0L, false, false);
+    }
+
+    public GroupUserResponse 그룹원_응답(final Long id) {
+        final GroupUserData groupUserData = new GroupUserData(id, username, name, imageIdentifier,
+                0L, false, false, MEMBER);
+        return GroupUserResponse.of(groupUserData);
     }
 }
