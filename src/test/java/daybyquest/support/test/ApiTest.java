@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.restdocs.request.RequestPartsSnippet;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultHandler;
 
@@ -52,5 +53,13 @@ public abstract class ApiTest {
                         , prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestHeaders(headerWithName("Authorization").description("UserId 헤더")));
+    }
+
+    protected ResultHandler 인증_상태로_문서화한다(final String identifier, final RequestPartsSnippet snippet) {
+        return document(identifier, preprocessRequest(modifyHeaders().remove("Host").remove("Content-Length")
+                        , prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestHeaders(headerWithName("Authorization").description("UserId 헤더")),
+                snippet);
     }
 }
