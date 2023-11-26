@@ -22,7 +22,8 @@ public class GetGroupUsersService {
     @Transactional(readOnly = true)
     public PageGroupUsersResponse invoke(final Long loginId, final Long groupId, final NoOffsetIdPage page) {
         final LongIdList targetIds = groupUserDao.findUserIdsByGroupId(groupId, page);
-        final List<GroupUserData> groupUsers = groupUserDao.findAllByUserIdsIn(loginId, targetIds.getIds());
+        final List<GroupUserData> groupUsers = groupUserDao.findAllByUserIdsIn(loginId, groupId,
+                targetIds.getIds());
         final List<GroupUserResponse> responses = groupUsers.stream().map(GroupUserResponse::of).toList();
         return new PageGroupUsersResponse(responses, targetIds.getLastId());
     }

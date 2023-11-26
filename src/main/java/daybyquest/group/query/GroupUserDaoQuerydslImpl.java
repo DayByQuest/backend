@@ -44,11 +44,13 @@ public class GroupUserDaoQuerydslImpl implements GroupUserDao {
     }
 
     @Override
-    public List<GroupUserData> findAllByUserIdsIn(final Long userId, final Collection<Long> ids) {
+    public List<GroupUserData> findAllByUserIdsIn(final Long userId, final Long groupId,
+            final Collection<Long> ids) {
         return factory
                 .select(groupUserProjection(userId))
                 .from(groupUser)
-                .join(user).on(groupUser.userId.eq(user.id), user.id.in(ids))
+                .innerJoin(user)
+                .on(groupUser.userId.eq(user.id), groupUser.group.id.eq(groupId), user.id.in(ids))
                 .orderBy(user.id.asc())
                 .fetch();
     }

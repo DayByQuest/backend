@@ -1,6 +1,7 @@
 package daybyquest.group.query;
 
 import static daybyquest.support.fixture.GroupFixtures.GROUP_1;
+import static daybyquest.support.fixture.GroupFixtures.GROUP_2;
 import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
 import static daybyquest.support.fixture.UserFixtures.CHARLIE;
@@ -56,15 +57,19 @@ public class GroupUserDaoQuerydslImplTest extends QuerydslTest {
         final User charlie = 저장한다(CHARLIE.생성());
         final User david = 저장한다(DAVID.생성());
         final Group group = 저장한다(GROUP_1.생성());
+        final Group group2 = 저장한다(GROUP_2.생성());
         저장한다(GroupUser.createGroupManager(bob.getId(), group));
         저장한다(GroupUser.createGroupMember(alice.getId(), group));
         저장한다(GroupUser.createGroupMember(charlie.getId(), group));
+        저장한다(GroupUser.createGroupMember(bob.getId(), group2));
+        저장한다(GroupUser.createGroupMember(david.getId(), group2));
 
         final List<Long> expectedIds = List.of(bob.getId(), alice.getId(), charlie.getId());
         final List<String> expectedRoles = List.of("MANAGER", "MEMBER", "MEMBER");
 
         // when
-        final List<GroupUserData> groupUserData = groupUserDao.findAllByUserIdsIn(group.getId(), expectedIds);
+        final List<GroupUserData> groupUserData = groupUserDao.findAllByUserIdsIn(group.getId(),
+                group.getId(), expectedIds);
         final List<Long> actualIds = groupUserData.stream().map(GroupUserData::getId).toList();
         final List<String> actualRoles = groupUserData.stream().map(GroupUserData::getRole).toList();
 
