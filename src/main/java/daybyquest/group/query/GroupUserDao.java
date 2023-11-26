@@ -9,5 +9,5 @@ public interface GroupUserDao {
 
     LongIdList findUserIdsByGroupId(final Long id, final NoOffsetIdPage page);
 
-    List<GroupUserData> findAllByUserIdsIn(final Long userId, final Collection<Long> ids);
+    List<GroupUserData> findAllByUserIdsIn(final Long userId, final Long groupId, final Collection<Long> ids);
 }
