@@ -16,4 +16,6 @@ public interface GroupDao {
     List<GroupData> findAllByIdsIn(final Long userId, final Collection<Long> ids);
 
     LongIdList findIdsByNameLike(final String keyword, final NoOffsetIdPage page);
+
+    LongIdList findIdsByInterest(final String interest, final NoOffsetIdPage page);
 }

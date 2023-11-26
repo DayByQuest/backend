@@ -97,4 +97,14 @@ public class GroupDaoQuerydslImpl implements GroupDao {
     private BooleanExpression gtGroupId(final Long groupId) {
         return groupId == null ? null : group.id.gt(groupId);
     }
+
+    @Override
+    public LongIdList findIdsByInterest(final String interest, final NoOffsetIdPage page) {
+        return new LongIdList(factory.select(group.id)
+                .from(group)
+                .where(group.interest.eq(interest), gtGroupId(page.lastId()))
+                .limit(page.limit())
+                .orderBy(group.id.asc())
+                .fetch());
+    }
 }

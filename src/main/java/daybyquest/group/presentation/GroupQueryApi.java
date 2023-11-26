@@ -6,6 +6,7 @@ import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.group.application.CheckGroupNameService;
 import daybyquest.group.application.GetGroupProfileService;
 import daybyquest.group.application.GetGroupUsersService;
+import daybyquest.group.application.GetGroupsByInterestService;
 import daybyquest.group.application.GetGroupsService;
 import daybyquest.group.application.RecommendGroupsService;
 import daybyquest.group.application.SearchGroupService;
@@ -34,17 +35,21 @@ public class GroupQueryApi {
 
     private final SearchGroupService searchGroupService;
 
+    private final GetGroupsByInterestService getGroupsByInterestService;
+
     public GroupQueryApi(final CheckGroupNameService checkGroupNameService,
             final GetGroupProfileService getGroupProfileService,
             final GetGroupUsersService getGroupUsersService, final GetGroupsService getGroupsService,
             final RecommendGroupsService recommendGroupsService,
-            final SearchGroupService searchGroupService) {
+            final SearchGroupService searchGroupService,
+            final GetGroupsByInterestService getGroupsByInterestService) {
         this.checkGroupNameService = checkGroupNameService;
         this.getGroupProfileService = getGroupProfileService;
         this.getGroupUsersService = getGroupUsersService;
         this.getGroupsService = getGroupsService;
         this.recommendGroupsService = recommendGroupsService;
         this.searchGroupService = searchGroupService;
+        this.getGroupsByInterestService = getGroupsByInterestService;
     }
 
     @GetMapping("/group/{groupName}/check")
@@ -88,6 +93,15 @@ public class GroupQueryApi {
     public ResponseEntity<PageGroupsResponse> searchGroup(final AccessUser accessUser,
             @RequestParam final String keyword, final NoOffsetIdPage page) {
         final PageGroupsResponse response = searchGroupService.invoke(accessUser.getId(), keyword, page);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/groups")
+    @Authorization
+    public ResponseEntity<PageGroupsResponse> getGroupsByInterest(final AccessUser accessUser,
+            @RequestParam final String interest, final NoOffsetIdPage page) {
+        final PageGroupsResponse response = getGroupsByInterestService.invoke(accessUser.getId(), interest,
+                page);
         return ResponseEntity.ok(response);
     }
 }

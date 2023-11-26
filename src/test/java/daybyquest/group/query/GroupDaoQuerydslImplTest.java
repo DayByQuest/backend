@@ -203,4 +203,23 @@ public class GroupDaoQuerydslImplTest extends QuerydslTest {
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
+
+    @Test
+    void 그룹_관심사로_목록을_조회한다() {
+        // given
+        final String interest = "관심사1";
+        final Group group1 = 저장한다(new Group(interest, GROUP_1.name, GROUP_1.description, GROUP_1.대표_사진()));
+        final Group group2 = 저장한다(new Group(interest, GROUP_2.name, GROUP_2.description, GROUP_2.대표_사진()));
+        저장한다(new Group("관심사2", GROUP_3.name, GROUP_3.description, GROUP_3.대표_사진()));
+
+        final List<Long> expected = List.of(group1.getId(), group2.getId());
+        final NoOffsetIdPage page = new NoOffsetIdPage(null, 5);
+
+        // when
+        final LongIdList ids = groupDao.findIdsByInterest(interest, page);
+        final List<Long> actual = ids.getIds();
+
+        // then
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+    }
 }
