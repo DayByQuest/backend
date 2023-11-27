@@ -1,4 +1,4 @@
-= 관계 API
+= 그룹 API
 :operation-http-request-title: HTTP 요청
 :operation-http-response-title: HTTP 응답
 
