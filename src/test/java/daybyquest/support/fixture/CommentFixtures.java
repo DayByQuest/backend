@@ -1,8 +1,12 @@
 package daybyquest.support.fixture;
 
 import daybyquest.comment.domain.Comment;
+import daybyquest.comment.dto.response.CommentResponse;
+import daybyquest.comment.query.CommentData;
 import daybyquest.post.domain.Post;
 import daybyquest.user.domain.User;
+import daybyquest.user.query.Profile;
+import java.time.LocalDateTime;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public enum CommentFixtures {
@@ -33,5 +37,10 @@ public enum CommentFixtures {
 
     public Comment 생성(final Post post) {
         return 생성(null, post.getId(), post.getUserId());
+    }
+
+    public CommentResponse 응답(final Long id, final Profile profile) {
+        final CommentData commentData = new CommentData(profile.getId(), id, content, LocalDateTime.MIN);
+        return CommentResponse.of(commentData, profile);
     }
 }
