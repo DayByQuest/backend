@@ -4,7 +4,10 @@
 
 * link:user[사용자 API]
 * link:relation[사용자 간 관계 API]
-* link:profile-setting[프로필 설정 API]
+* link:badge[뱃지 API]
 * link:group[그룹 API]
 * link:quest[퀘스트 API]
 * link:post[게시물 API]
+* link:comment[댓글 API]
+* link:like[게시물 좋아요 API]
+* link:interest[관심사 API]

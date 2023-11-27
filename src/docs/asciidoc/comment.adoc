@@ -1,0 +1,15 @@
+= 댓글 API
+:operation-http-request-title: HTTP 요청
+:operation-http-response-title: HTTP 응답
+
+== Command
+
+=== 댓글 저장
+
+operation::comment/saveComment[snippets='http-request,http-response']
+
+== Query
+
+=== 팔로잉 목록 조회
+
+operation::comment/getComments[snippets='http-request,http-response']
