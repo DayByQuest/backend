@@ -32,7 +32,7 @@ public class ProfileQueryApiTest extends ApiTest {
 
         // when
         final ResultActions resultActions = mockMvc.perform(get("/badge/{username}", ALICE.username)
-                .header("Authorization", "UserId 1"));
+                .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())

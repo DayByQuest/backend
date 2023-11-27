@@ -44,12 +44,8 @@ public class GroupCommandApiTest extends ApiTest {
         // given
         given(saveGroupService.invoke(any(), any(), any())).willReturn(1L);
         final SaveGroupRequest saveGroupRequest = 그룹_생성_요청(GROUP_1.생성());
-        final MockMultipartFile file =
-                new MockMultipartFile("image", "image.png",
-                        MediaType.MULTIPART_FORM_DATA_VALUE, "file content".getBytes());
-        final MockMultipartFile request =
-                new MockMultipartFile("request", "request",
-                        MediaType.APPLICATION_JSON_VALUE, objectMapper.writeValueAsBytes(saveGroupRequest));
+        final MockMultipartFile file = 사진을_전송한다("image");
+        final MockMultipartFile request = 멀티파트_JSON을_전송한다("request", saveGroupRequest);
 
         // when
         final ResultActions resultActions = mockMvc.perform(
@@ -57,7 +53,7 @@ public class GroupCommandApiTest extends ApiTest {
                         .file(file)
                         .file(request)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -77,7 +73,7 @@ public class GroupCommandApiTest extends ApiTest {
         // when
         final ResultActions resultActions = mockMvc.perform(
                 post("/group/{groupId}/user", groupId)
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -94,7 +90,7 @@ public class GroupCommandApiTest extends ApiTest {
         // when
         final ResultActions resultActions = mockMvc.perform(
                 delete("/group/{groupId}/user", groupId)
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())

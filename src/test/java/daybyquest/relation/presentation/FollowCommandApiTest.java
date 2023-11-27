@@ -33,7 +33,7 @@ public class FollowCommandApiTest extends ApiTest {
         // given & when
         final ResultActions resultActions = mockMvc.perform(
                 post("/profile/{username}/follow", ALICE.username)
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -47,7 +47,7 @@ public class FollowCommandApiTest extends ApiTest {
         // given & when
         final ResultActions resultActions = mockMvc.perform(
                 delete("/profile/{username}/follow", ALICE.username)
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -61,7 +61,7 @@ public class FollowCommandApiTest extends ApiTest {
         // given & when
         final ResultActions resultActions = mockMvc.perform(
                 delete("/profile/{username}/follower", ALICE.username)
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
