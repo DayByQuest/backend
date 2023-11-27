@@ -32,6 +32,26 @@ operation::quest/saveGroupQuestDetail[snippets='http-request,http-response']
 
 operation::quest/subscribeGroupQuestLabel[snippets='http-request,http-response']
 
+=== 퀘스트 수락
+
+operation::participant/saveParticipant[snippets='http-request,http-response']
+
+=== 퀘스트 삭제
+
+operation::participant/deleteParticipant[snippets='http-request,http-response'
+
+=== 퀘스트 보상 받기
+
+operation::participant/takeReward[snippets='http-request,http-response']
+
+=== 퀘스트 완료
+
+operation::participant/finish[snippets='http-request,http-response']
+
+=== 퀘스트 계속 하기
+
+operation::participant/continue[snippets='http-request,http-response']
+
 == Query
 
 === 퀘스트 프로필 조회
@@ -53,3 +73,7 @@ operation::quest/searchQuest[snippets='http-request,http-response']
 === 그룹 퀘스트 목록 조회
 
 operation::quest/getGroupQuests[snippets='http-request,http-response']
+
+=== 내 퀘스트 목록 조회
+
+operation::participant/getMyQuests[snippets='http-request,http-response']
