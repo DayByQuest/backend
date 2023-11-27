@@ -1,0 +1,52 @@
+= 게시물 API
+:operation-http-request-title: HTTP 요청
+:operation-http-response-title: HTTP 응답
+
+== Command
+
+=== 게시물 생성
+
+operation::post/savePost[snippets='http-request,http-response,request-parts']
+
+=== 게시물 스와이프
+
+operation::post/swipePost[snippets='http-request,http-response']
+
+=== 게시물 판정
+
+operation::post/judgePost[snippets='http-request,http-response']
+
+=== 그룹장의 게시물 판정
+
+operation::post/checkGroupPost[snippets='http-request,http-response']
+
+== Query
+
+=== 게시물 조회
+
+operation::post/getPost[snippets='http-request,http-response']
+
+=== 피드 조회
+
+operation::post/getFeed[snippets='http-request,http-response']
+
+=== 사용자가 업로드한 게시물 조회
+
+operation::post/getPostsByUsername[snippets='http-request,http-response']
+
+=== 트래커 조회
+
+operation::post/getTracker[snippets='http-request,http-response']
+
+=== 퀘스트 게시물 조회
+
+operation::post/getPostsByQuest[snippets='http-request,http-response']
+
+=== 그룹 게시물 조회
+
+operation::post/getPostsByGroup[snippets='http-request,http-response']
+
+=== 판정이 필요한 그룹 게시물 조회
+
+operation::post/getNeedCheckPosts[snippets='http-request,http-response']
+
