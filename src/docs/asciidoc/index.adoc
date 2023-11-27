@@ -7,3 +7,4 @@
 * link:profile-setting[프로필 설정 API]
 * link:group[그룹 API]
 * link:quest[퀘스트 API]
+* link:post[게시물 API]
