@@ -1,0 +1,21 @@
+= 게시물 좋아요 API
+:operation-http-request-title: HTTP 요청
+:operation-http-response-title: HTTP 응답
+
+== Command
+
+=== 게시물 좋아요
+
+operation::like/saveLike[snippets='http-request,http-response']
+
+=== 게시물 좋아요 취소
+
+operation::like/deleteLike[snippets='http-request,http-response']
+
+=== 게시물 관심없음
+
+operation::dislike/saveDislike[snippets='http-request,http-response']
+
+=== 게시물 관심없음 취소
+
+operation::dislike/deleteDislike[snippets='http-request,http-response']
