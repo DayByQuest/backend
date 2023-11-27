@@ -11,5 +11,4 @@ public record SimplePostResponse(Long id, List<String> imageIdentifiers) {
                 post.getId(), post.getImages().stream().map(Image::getIdentifier).toList()
         );
     }
-
 }

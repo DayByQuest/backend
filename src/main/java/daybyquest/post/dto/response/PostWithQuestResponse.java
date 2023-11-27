@@ -13,7 +13,7 @@ import java.util.List;
 public record PostWithQuestResponse(ProfileResponse author, Long id, String content,
                                     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm") LocalDateTime updatedAt,
                                     boolean liked, List<String> imageIdentifiers,
-                                    daybyquest.post.dto.response.PostWithQuestResponse.SimpleQuestResponse quest) {
+                                    PostWithQuestResponse.SimpleQuestResponse quest) {
 
     public PostWithQuestResponse(final ProfileResponse author, final Long id, final String content,
             final LocalDateTime updatedAt, final boolean liked,
