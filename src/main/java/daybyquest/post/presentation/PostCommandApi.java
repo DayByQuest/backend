@@ -63,7 +63,7 @@ public class PostCommandApi {
 
     @PatchMapping("/post/{postId}/judge")
     @Authorization(admin = true)
-    public ResponseEntity<Void> swipePost(final AccessUser accessUser,
+    public ResponseEntity<Void> judgePost(final AccessUser accessUser,
             @PathVariable final Long postId, @RequestBody final JudgePostRequest request) {
         judgePostService.invoke(postId, request);
         return ResponseEntity.ok().build();
