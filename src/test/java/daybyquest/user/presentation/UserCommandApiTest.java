@@ -135,9 +135,7 @@ public class UserCommandApiTest extends ApiTest {
     @Test
     void 사용자_사진을_수정한다() throws Exception {
         // given
-        final MockMultipartFile file =
-                new MockMultipartFile("image", "image.png",
-                        "multipart/form-data", "file content".getBytes());
+        final MockMultipartFile file = 사진을_전송한다("image");
 
         // when
         final ResultActions resultActions = mockMvc.perform(
