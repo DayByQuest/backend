@@ -1,8 +1,8 @@
 package daybyquest.interest.domain;
 
-import static daybyquest.support.fixture.InterestFixtures.INTERST_1;
-import static daybyquest.support.fixture.InterestFixtures.INTERST_2;
-import static daybyquest.support.fixture.InterestFixtures.INTERST_3;
+import static daybyquest.support.fixture.InterestFixtures.INTEREST_1;
+import static daybyquest.support.fixture.InterestFixtures.INTEREST_2;
+import static daybyquest.support.fixture.InterestFixtures.INTEREST_3;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,11 +30,11 @@ public class InterestsTest {
     @Test
     void 이름_중복_검사를_하고_저장한다() {
         // given & when
-        interests.save(INTERST_1.생성());
+        interests.save(INTEREST_1.생성());
 
         // then
         assertAll(() -> {
-            then(interestRepository).should().existsByName(INTERST_1.name);
+            then(interestRepository).should().existsByName(INTEREST_1.name);
             then(interestRepository).should().save(any(Interest.class));
         });
     }
@@ -42,37 +42,37 @@ public class InterestsTest {
     @Test
     void 저장_시_이름이_이미_있다면_예외를_던진다() {
         // given
-        given(interestRepository.existsByName(INTERST_1.name)).willReturn(true);
+        given(interestRepository.existsByName(INTEREST_1.name)).willReturn(true);
 
         // then
-        assertThatThrownBy(() -> interests.save(INTERST_1.생성()))
+        assertThatThrownBy(() -> interests.save(INTEREST_1.생성()))
                 .isInstanceOf(InvalidDomainException.class);
     }
 
     @Test
     void 이름을_통해_존재_여부를_검증한다() {
         // given
-        given(interestRepository.existsByName(INTERST_1.name)).willReturn(true);
+        given(interestRepository.existsByName(INTEREST_1.name)).willReturn(true);
 
         // when
-        interests.validateInterest(INTERST_1.name);
+        interests.validateInterest(INTEREST_1.name);
 
         // then
-        then(interestRepository).should().existsByName(INTERST_1.name);
+        then(interestRepository).should().existsByName(INTEREST_1.name);
     }
 
     @Test
     void 이름을_통해_존재_여부를_검증_시_존재한다면_에외를_던진다() {
         // given & when & then
-        assertThatThrownBy(() -> interests.validateInterest(INTERST_1.name))
+        assertThatThrownBy(() -> interests.validateInterest(INTEREST_1.name))
                 .isInstanceOf(NotExistInterestException.class);
     }
 
     @Test
     void 여러_이름을_통해_존재_여부를_검증한다() {
         // given
-        final List<String> names = List.of(INTERST_1.name, INTERST_2.name, INTERST_3.name);
-        final List<Interest> expected = List.of(INTERST_1.생성(), INTERST_2.생성(), INTERST_3.생성());
+        final List<String> names = List.of(INTEREST_1.name, INTEREST_2.name, INTEREST_3.name);
+        final List<Interest> expected = List.of(INTEREST_1.생성(), INTEREST_2.생성(), INTEREST_3.생성());
         given(interestRepository.findAllByNameIn(names)).willReturn(expected);
 
         // when
@@ -86,8 +86,8 @@ public class InterestsTest {
     @Test
     void 여러_이름을_통해_존재_여부를_검증_시_하나라도_없다면_예외를_던진다() {
         // given
-        final List<String> names = List.of(INTERST_1.name, INTERST_2.name, INTERST_3.name);
-        final List<Interest> expected = List.of(INTERST_1.생성(), INTERST_2.생성());
+        final List<String> names = List.of(INTEREST_1.name, INTEREST_2.name, INTEREST_3.name);
+        final List<Interest> expected = List.of(INTEREST_1.생성(), INTEREST_2.생성());
         given(interestRepository.findAllByNameIn(names)).willReturn(expected);
 
         // when

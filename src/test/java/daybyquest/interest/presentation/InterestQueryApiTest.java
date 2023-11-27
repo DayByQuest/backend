@@ -1,7 +1,7 @@
 package daybyquest.interest.presentation;
 
-import static daybyquest.support.fixture.InterestFixtures.INTERST_1;
-import static daybyquest.support.fixture.InterestFixtures.INTERST_2;
+import static daybyquest.support.fixture.InterestFixtures.INTEREST_1;
+import static daybyquest.support.fixture.InterestFixtures.INTEREST_2;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -27,7 +27,7 @@ public class InterestQueryApiTest extends ApiTest {
     void 관심사_목록을_조회한다() throws Exception {
         // given
         given(getInterestsService.invoke()).willReturn(
-                new MultiInterestResponse(List.of(INTERST_1.응답(), INTERST_2.응답())));
+                new MultiInterestResponse(List.of(INTEREST_1.응답(), INTEREST_2.응답())));
 
         // when
         final ResultActions resultActions = mockMvc.perform(

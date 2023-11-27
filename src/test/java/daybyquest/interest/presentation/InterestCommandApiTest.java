@@ -1,6 +1,6 @@
 package daybyquest.interest.presentation;
 
-import static daybyquest.support.fixture.InterestFixtures.INTERST_1;
+import static daybyquest.support.fixture.InterestFixtures.INTEREST_1;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
@@ -30,7 +30,7 @@ public class InterestCommandApiTest extends ApiTest {
     @Test
     void 관심사를_생성한다() throws Exception {
         // given
-        final SaveInterestRequest saveInterestRequest = 관심사_생성_요청(INTERST_1.생성());
+        final SaveInterestRequest saveInterestRequest = 관심사_생성_요청(INTEREST_1.생성());
         final MockMultipartFile file = 사진을_전송한다("image");
         final MockMultipartFile request = 멀티파트_JSON을_전송한다("request", saveInterestRequest);
 

@@ -6,10 +6,10 @@ import daybyquest.interest.dto.response.InterestResponse;
 
 public enum InterestFixtures {
 
-    INTERST_1("관심사1", "관심사사진1"),
-    INTERST_2("관심사2", "관심사사진2"),
-    INTERST_3("관심사3", "관심사사진3"),
-    INTERST_4("관심사4", "관심사사진4");
+    INTEREST_1("관심사1", "관심사사진1"),
+    INTEREST_2("관심사2", "관심사사진2"),
+    INTEREST_3("관심사3", "관심사사진3"),
+    INTEREST_4("관심사4", "관심사사진4");
 
     public final String name;
 
