@@ -1,0 +1,23 @@
+= 뱃지 API
+:operation-http-request-title: HTTP 요청
+:operation-http-response-title: HTTP 응답
+
+== Command
+
+=== 뱃지 생성
+
+operation::badge/saveBadge[snippets='http-request,http-response,request-parts']
+
+=== 프로필 뱃지 목록 설정
+
+operation::profile/updateBadgeIds[snippets='http-request,http-response']
+
+== Query
+
+=== 내 뱃지 목록
+
+operation::badge/getMyBadges[snippets='http-request,http-response']
+
+=== 프로필 뱃지 목록 조회
+
+operation::profile/readBadges[snippets='http-request,http-response']

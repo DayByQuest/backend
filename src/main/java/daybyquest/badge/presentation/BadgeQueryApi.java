@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BadgeQueryApi {
 
-    private GetMyBadgesService getMyBadgesService;
+    private final GetMyBadgesService getMyBadgesService;
 
     public BadgeQueryApi(final GetMyBadgesService getMyBadgesService) {
         this.getMyBadgesService = getMyBadgesService;
