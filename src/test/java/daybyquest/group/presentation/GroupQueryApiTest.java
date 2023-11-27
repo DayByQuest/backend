@@ -75,7 +75,7 @@ public class GroupQueryApiTest extends ApiTest {
         // when
         final ResultActions resultActions = mockMvc.perform(
                 get("/group/{groupId}", groupId)
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -95,7 +95,7 @@ public class GroupQueryApiTest extends ApiTest {
         final ResultActions resultActions = mockMvc.perform(
                 get("/group/{groupId}/user", groupId)
                         .param("limit", "5")
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -113,7 +113,7 @@ public class GroupQueryApiTest extends ApiTest {
         // when
         final ResultActions resultActions = mockMvc.perform(
                 get("/group")
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -131,7 +131,7 @@ public class GroupQueryApiTest extends ApiTest {
         // when
         final ResultActions resultActions = mockMvc.perform(
                 get("/group/recommendation")
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -152,7 +152,7 @@ public class GroupQueryApiTest extends ApiTest {
                 get("/search/group")
                         .param("keyword", keyword)
                         .param("limit", "5")
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -173,7 +173,7 @@ public class GroupQueryApiTest extends ApiTest {
                 get("/groups")
                         .param("interest", interest)
                         .param("limit", "5")
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())

@@ -123,7 +123,7 @@ public class UserCommandApiTest extends ApiTest {
         final ResultActions resultActions = mockMvc.perform(patch("/profile/interest")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
-                .header("Authorization", "UserId 1"));
+                .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -144,7 +144,7 @@ public class UserCommandApiTest extends ApiTest {
                 multipart(HttpMethod.PATCH, "/profile/image")
                         .file(file)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
-                        .header("Authorization", "UserId 1"));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -159,7 +159,7 @@ public class UserCommandApiTest extends ApiTest {
     void 사용자_사진을_삭제한다() throws Exception {
         // given & when
         final ResultActions resultActions = mockMvc.perform(delete("/profile/image")
-                .header("Authorization", "UserId 1"));
+                .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())

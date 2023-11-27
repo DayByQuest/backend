@@ -51,7 +51,7 @@ public class UserQueryApiTest extends ApiTest {
 
         // when
         final ResultActions resultActions = mockMvc.perform(get("/profile/{username}", ALICE.username)
-                .header("Authorization", "UserId 1"));
+                .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -67,7 +67,7 @@ public class UserQueryApiTest extends ApiTest {
 
         // when
         final ResultActions resultActions = mockMvc.perform(get("/profile")
-                .header("Authorization", "UserId 1"));
+                .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -92,7 +92,7 @@ public class UserQueryApiTest extends ApiTest {
     void 계정_공개_범위를_조회한다() throws Exception {
         // given & when
         final ResultActions resultActions = mockMvc.perform(get("/profile/visibility")
-                .header("Authorization", "UserId 1"));
+                .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
@@ -114,7 +114,7 @@ public class UserQueryApiTest extends ApiTest {
                 .param("keyword", "dlwlrma")
                 .param("limit", "5")
                 .param("lastId", "0")
-                .header("Authorization", "UserId 1"));
+                .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())

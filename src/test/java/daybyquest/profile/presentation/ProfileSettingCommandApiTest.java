@@ -31,7 +31,7 @@ public class ProfileSettingCommandApiTest extends ApiTest {
 
         // when
         final ResultActions resultActions = mockMvc.perform(patch("/badge")
-                .header("Authorization", "UserId 1")
+                .header(인증_헤더_이름, 사용자_인증_헤더)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)));
 
