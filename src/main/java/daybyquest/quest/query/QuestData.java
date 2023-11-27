@@ -61,8 +61,4 @@ public class QuestData {
     public String getImageIdentifier() {
         return image.getIdentifier();
     }
-
-    public void setState(final ParticipantState state) {
-        this.state = state;
-    }
 }
