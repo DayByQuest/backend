@@ -2,6 +2,7 @@ package daybyquest.support.fixture;
 
 import daybyquest.image.domain.Image;
 import daybyquest.interest.domain.Interest;
+import daybyquest.interest.dto.response.InterestResponse;
 
 public enum InterestFixtures {
 
@@ -25,5 +26,9 @@ public enum InterestFixtures {
 
     public Image 사진() {
         return new Image(imageIdentifier);
+    }
+
+    public InterestResponse 응답() {
+        return InterestResponse.of(생성());
     }
 }

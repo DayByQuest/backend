@@ -1,0 +1,15 @@
+= 관심사 API
+:operation-http-request-title: HTTP 요청
+:operation-http-response-title: HTTP 응답
+
+== Command
+
+=== 관심사 생성
+
+operation::interest/saveInterest[snippets='http-request,http-response,request-parts']
+
+== Query
+
+=== 관심사 목록 조회
+
+operation::interest/getInterests[snippets='http-request,http-response']
