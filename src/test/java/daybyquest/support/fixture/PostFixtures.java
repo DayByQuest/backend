@@ -5,8 +5,13 @@ import static daybyquest.post.domain.PostState.SUCCESS;
 
 import daybyquest.image.domain.Image;
 import daybyquest.post.domain.Post;
+import daybyquest.post.dto.response.PostResponse;
+import daybyquest.post.dto.response.PostWithQuestResponse;
+import daybyquest.post.query.PostData;
 import daybyquest.quest.domain.Quest;
 import daybyquest.user.domain.User;
+import daybyquest.user.query.Profile;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -57,5 +62,19 @@ public enum PostFixtures {
 
     public List<Image> 사진_목록() {
         return imageIdentifiers.stream().map(Image::new).toList();
+    }
+
+    public PostResponse 응답(final Long id, final Profile profile) {
+        final PostData postData = new PostData(profile.getId(), id, content, LocalDateTime.MIN, false,
+                null, null, SUCCESS);
+        postData.setImages(사진_목록());
+        return PostResponse.of(postData, profile);
+    }
+
+    public PostWithQuestResponse 퀘스트와_함께_응답(final Long id, final Profile profile) {
+        final PostData postData = new PostData(profile.getId(), id, content, LocalDateTime.MIN, false,
+                null, null, SUCCESS);
+        postData.setImages(사진_목록());
+        return PostWithQuestResponse.of(postData, profile);
     }
 }
