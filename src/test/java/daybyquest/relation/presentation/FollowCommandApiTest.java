@@ -61,7 +61,7 @@ public class FollowCommandApiTest extends ApiTest {
         // given & when
         final ResultActions resultActions = mockMvc.perform(
                 delete("/profile/{username}/follower", ALICE.username)
-                        .header(인증_헤더_이름, 사용자_인증_헤더ㄴ));
+                        .header(인증_헤더_이름, 사용자_인증_헤더));
 
         // then
         resultActions.andExpect(status().isOk())
