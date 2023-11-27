@@ -1,9 +1,14 @@
 package daybyquest.support.fixture;
 
+import static daybyquest.participant.domain.ParticipantState.DOING;
+import static daybyquest.quest.domain.QuestCategory.NORMAL;
+
 import daybyquest.badge.domain.Badge;
 import daybyquest.group.domain.Group;
 import daybyquest.image.domain.Image;
 import daybyquest.quest.domain.Quest;
+import daybyquest.quest.dto.response.QuestResponse;
+import daybyquest.quest.query.QuestData;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -96,5 +101,17 @@ public enum QuestFixtures {
 
     public Image 사진() {
         return new Image(imageIdentifier);
+    }
+
+    public QuestResponse 응답(final Long id, final Long badgeId) {
+        final QuestData questData = new QuestData(id, null, badgeId, title, content, interest, NORMAL, DOING,
+                expiredAt, 사진(), rewardCount, 0L, null);
+        return QuestResponse.of(questData);
+    }
+
+    public QuestResponse 그룹_응답(final Long id, final Long groupId) {
+        final QuestData questData = new QuestData(id, groupId, null, title, content, interest, NORMAL, DOING,
+                expiredAt, 사진(), null, 0L, "GROUP_NAME");
+        return QuestResponse.of(questData);
     }
 }
