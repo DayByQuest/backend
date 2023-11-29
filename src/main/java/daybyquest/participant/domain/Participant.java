@@ -27,6 +27,8 @@ import lombok.NoArgsConstructor;
 @IdClass(ParticipantId.class)
 public class Participant {
 
+    private static final Long GROUP_QUEST_THRESHOLD = 1L;
+
     @Id
     private Long userId;
 
@@ -73,10 +75,15 @@ public class Participant {
     }
 
     public void finish() {
-        if (state != CONTINUE) {
-            throw new InvalidDomainException(NOT_FINISHABLE_QUEST);
+        if (quest.isGroupQuest() && linkedCount >= GROUP_QUEST_THRESHOLD) {
+            state = FINISHED;
+            return;
         }
-        state = FINISHED;
+        if (state == CONTINUE) {
+            state = FINISHED;
+            return;
+        }
+        throw new InvalidDomainException(NOT_FINISHABLE_QUEST);
     }
 
     public void doContinue() {
