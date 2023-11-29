@@ -179,6 +179,26 @@ public class ParticipantTest {
     }
 
     @Test
+    void 그룹_퀘스트면_1회_수행_후_끝낼_수_있다() {
+        // given
+        final Long questId = 1L;
+        final Long groupId = 2L;
+        final Long bobId = 3L;
+
+        final Quest quest = QUEST_1.그룹_퀘스트_생성(questId, groupId);
+        QUEST_1.보상_없이_세부사항을_설정한다(quest);
+
+        final Participant participant = new Participant(bobId, quest);
+        게시물_연결_횟수를_지정한다(participant, 1L);
+
+        // when
+        participant.finish();
+
+        // then
+        assertThat(participant.getState()).isEqualTo(FINISHED);
+    }
+
+    @Test
     void 퀘스트가_계속_상태가_아닐_때_끝내려하면_예외를_던진다() {
         // given
         final Long questId = 1L;
