@@ -19,6 +19,7 @@ import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
 import static daybyquest.support.fixture.UserFixtures.CHARLIE;
 import static daybyquest.support.fixture.UserFixtures.DAVID;
+import static daybyquest.support.util.ParticipantUtils.게시물_연결_횟수를_지정한다;
 import static daybyquest.support.util.ParticipantUtils.퀘스트를_계속한다;
 import static daybyquest.support.util.ParticipantUtils.퀘스트를_끝낸다;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -127,9 +128,12 @@ public class QuestDaoQuerydslImplTest extends QuerydslTest {
         // given
         final User user = 저장한다(ALICE.생성());
         final Quest quest = 저장한다(QUEST_1.일반_퀘스트_생성());
+        QUEST_1.보상_없이_세부사항을_설정한다(quest);
+        final Participant participant = 저장한다(new Participant(user.getId(), quest));
         저장한다(POST_1.링크_성공_상태로_생성(user, quest));
         저장한다(POST_2.링크_성공_상태로_생성(user, quest));
         저장한다(POST_3.생성(user, quest));
+        게시물_연결_횟수를_지정한다(participant, 2L);
 
         // when
         final QuestData questData = questDao.getById(user.getId(), quest.getId());
