@@ -4,6 +4,7 @@ import daybyquest.image.domain.Image;
 import daybyquest.participant.domain.ParticipantState;
 import daybyquest.quest.domain.QuestCategory;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.Getter;
 
 @Getter
@@ -49,13 +50,9 @@ public class QuestData {
         this.expiredAt = expiredAt;
         this.image = image;
         this.rewardCount = rewardCount;
-        this.currentCount = currentCount;
+        this.currentCount = Objects.requireNonNullElse(currentCount, 0L);
         this.groupName = groupName;
-        if (state == null) {
-            this.state = ParticipantState.NOT;
-            return;
-        }
-        this.state = state;
+        this.state = Objects.requireNonNullElse(state, ParticipantState.NOT);
     }
 
     public String getImageIdentifier() {

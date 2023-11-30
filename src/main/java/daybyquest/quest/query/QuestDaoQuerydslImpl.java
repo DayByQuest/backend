@@ -2,8 +2,6 @@ package daybyquest.quest.query;
 
 import static daybyquest.group.domain.QGroup.group;
 import static daybyquest.participant.domain.QParticipant.participant;
-import static daybyquest.post.domain.PostState.SUCCESS;
-import static daybyquest.post.domain.QPost.post;
 import static daybyquest.quest.domain.QQuest.quest;
 import static daybyquest.quest.domain.QuestState.ACTIVE;
 
@@ -57,9 +55,9 @@ public class QuestDaoQuerydslImpl implements QuestDao {
                 quest.expiredAt,
                 quest.image,
                 quest.rewardCount,
-                JPAExpressions.select(post.count())
-                        .from(post)
-                        .where(post.userId.eq(userId), post.questId.eq(id), post.state.eq(SUCCESS)),
+                JPAExpressions.select(participant.linkedCount)
+                        .from(participant)
+                        .where(participant.userId.eq(userId), participant.quest.id.eq(id)),
                 group.name
         );
     }
