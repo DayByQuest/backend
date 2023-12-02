@@ -20,8 +20,8 @@ public class QuestWebClient implements QuestClient {
     }
 
     @Override
-    public void requestLabels(final Long questId, final List<String> identifiers) {
-        final LabelQuestRequest request = new LabelQuestRequest(identifiers);
+    public void requestLabels(final Long questId, final List<String> identifiers, final String description) {
+        final LabelQuestRequest request = new LabelQuestRequest(identifiers, description);
         webClient.post()
                 .uri(uriBuilder -> uriBuilder.pathSegment("quest", questId.toString(), "shot").build())
                 .bodyValue(request)
