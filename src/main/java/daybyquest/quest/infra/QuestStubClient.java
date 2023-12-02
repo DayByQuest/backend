@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component;
 public class QuestStubClient implements QuestClient {
 
     @Override
-    public void requestLabels(final Long questId, final List<String> identifiers) {
+    public void requestLabels(final Long questId, final List<String> identifiers, final String description) {
     }
 }

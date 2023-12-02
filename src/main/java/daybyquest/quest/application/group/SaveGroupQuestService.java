@@ -44,7 +44,8 @@ public class SaveGroupQuestService {
         groupUsers.validateGroupManager(loginId, request.getGroupId());
         final Quest quest = toEntity(request, toImageList(files));
         final Long questId = quests.save(quest);
-        questClient.requestLabels(questId, quest.getImages().stream().map(Image::getIdentifier).toList());
+        questClient.requestLabels(questId, quest.getImages().stream().map(Image::getIdentifier).toList(),
+                quest.getImageDescription());
         return questId;
     }
 
