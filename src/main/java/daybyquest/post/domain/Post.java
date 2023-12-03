@@ -121,7 +121,7 @@ public class Post {
 
     public void fail() {
         validateQuestLink();
-        if (state != NEED_CHECK) {
+        if (state != NOT_DECIDED && state != NEED_CHECK) {
             throw new InvalidDomainException(ALREADY_JUDGED_POST);
         }
         state = FAIL;

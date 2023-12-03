@@ -138,7 +138,6 @@ public class PostTest {
     void 퀘스트_링크를_실패_처리_한다() {
         // given
         final Post post = POST_1.생성(1L, 2L);
-        post.needCheck();
 
         // when
         post.fail();
@@ -148,9 +147,10 @@ public class PostTest {
     }
 
     @Test
-    void 퀘스트_링크_실패_처리_시_확인_필요_상태가_아니라면_예외를_던진다() {
+    void 퀘스트_링크_실패_처리_시_미처리나_확인_필요_상태가_아니라면_예외를_던진다() {
         // given
         final Post post = POST_1.생성(1L, 2L);
+        post.success();
 
         // when & then
         assertThatThrownBy(post::fail)
