@@ -29,7 +29,7 @@ public class GetMyBadgesService {
 
     private LocalDateTime getLastTime(final List<BadgeData> badgeData) {
         if (badgeData.isEmpty()) {
-            return TimeConstant.MAX;
+            return TimeConstant.MIN;
         }
         return badgeData.get(badgeData.size() - 1).getAcquiredAt();
     }
