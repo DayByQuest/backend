@@ -4,6 +4,7 @@ import daybyquest.badge.dto.response.BadgeResponse;
 import daybyquest.badge.dto.response.PageBadgesResponse;
 import daybyquest.badge.query.BadgeDao;
 import daybyquest.badge.query.BadgeData;
+import daybyquest.global.constant.TimeConstant;
 import daybyquest.global.query.NoOffsetTimePage;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,7 +29,7 @@ public class GetMyBadgesService {
 
     private LocalDateTime getLastTime(final List<BadgeData> badgeData) {
         if (badgeData.isEmpty()) {
-            return LocalDateTime.MIN;
+            return TimeConstant.MIN;
         }
         return badgeData.get(badgeData.size() - 1).getAcquiredAt();
     }

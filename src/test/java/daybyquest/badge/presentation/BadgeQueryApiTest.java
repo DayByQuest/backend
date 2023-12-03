@@ -12,8 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import daybyquest.badge.application.GetMyBadgesService;
 import daybyquest.badge.dto.response.PageBadgesResponse;
+import daybyquest.global.constant.TimeConstant;
 import daybyquest.support.test.ApiTest;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -30,7 +30,7 @@ public class BadgeQueryApiTest extends ApiTest {
     void 내_뱃지_목록을_조회한다() throws Exception {
         // given
         given(getMyBadgesService.invoke(eq(로그인_ID), any())).willReturn(
-                new PageBadgesResponse(List.of(BADGE_1.응답(1L), BADGE_2.응답(2L)), LocalDateTime.MAX));
+                new PageBadgesResponse(List.of(BADGE_1.응답(1L), BADGE_2.응답(2L)), TimeConstant.EXAMPLE));
 
         // when
         final ResultActions resultActions = mockMvc.perform(
