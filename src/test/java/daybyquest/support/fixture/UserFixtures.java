@@ -11,7 +11,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 public enum UserFixtures {
 
-    ALICE("alice", "alice@email.com", "alice", "alice.png"),
+    ALICE("alice", "alice@email.com", "alice", "base.png"),
     BOB("bob", "bob@email.com", "bob", "bob.png"),
     CHARLIE("charlie", "charlie@email.com", "charlie", "charlie.png"),
     DAVID("david", "david@email.com", "david", "david.png");
