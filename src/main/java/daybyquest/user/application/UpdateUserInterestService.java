@@ -4,7 +4,6 @@ import daybyquest.interest.domain.Interests;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
 import daybyquest.user.dto.request.UpdateUserInterestRequest;
-import java.util.Collection;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +23,7 @@ public class UpdateUserInterestService {
     @Transactional
     public void invoke(final Long loginId, final UpdateUserInterestRequest request) {
         final User user = users.getById(loginId);
-        final Collection<String> interests = request.getInterests();
-        this.interests.validateInterests(interests);
-        user.updateInterests(interests);
+        interests.validateInterests(request.getInterests());
+        user.updateInterests(request.getInterests());
     }
 }
