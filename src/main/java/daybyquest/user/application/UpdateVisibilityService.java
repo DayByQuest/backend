@@ -19,7 +19,7 @@ public class UpdateVisibilityService {
     @Transactional
     public void invoke(final Long loginId, final UpdateUserVisibilityRequest visibility) {
         final User user = users.getById(loginId);
-        user.updateVisibility(UserVisibility.valueOf(visibility.getVisibility()));
+        user.updateVisibility(UserVisibility.fromString(visibility.getVisibility()));
     }
 }
 
