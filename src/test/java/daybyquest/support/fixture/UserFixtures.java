@@ -14,7 +14,8 @@ public enum UserFixtures {
     ALICE("alice", "alice@email.com", "alice", "base.png"),
     BOB("bob", "bob@email.com", "bob", "bob.png"),
     CHARLIE("charlie", "charlie@email.com", "charlie", "charlie.png"),
-    DAVID("david", "david@email.com", "david", "david.png");
+    DAVID("david", "david@email.com", "david", "david.png"),
+    DARTH("darth", "darth@email.com", "darth", "darth.png");
 
     public final String username;
 

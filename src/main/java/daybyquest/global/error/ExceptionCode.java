@@ -32,6 +32,7 @@ public enum ExceptionCode {
     INVALID_USER_EMAIL("USR-05", BAD_REQUEST, "이메일은 1~30자여야 하며, 형식을 지켜야합니다"),
     INVALID_USER_INTEREST("USR-06", BAD_REQUEST, "사용자의 관심사는 5개 이하여야 합니다"),
     NOT_UPDATABLE_USER("USR-07", BAD_REQUEST, "업데이트할 수 없는 사용자입니다"),
+    INVALID_VISIBILITY("USR-08", BAD_REQUEST, "올바르지 않은 가시성입니다"),
 
     // Post
     NOT_EXIST_POST("POT-00", BAD_REQUEST, "게시물이 존재하지 않습니다"),
