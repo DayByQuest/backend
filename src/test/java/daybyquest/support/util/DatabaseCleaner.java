@@ -23,6 +23,7 @@ public class DatabaseCleaner {
                 .filter(e -> e.getJavaType().getDeclaredAnnotation(Entity.class) != null)
                 .map(e -> convertToSnakeCase(e.getName()))
                 .collect(Collectors.toList());
+        this.tableNames.add("post_image");
     }
 
     private String convertToSnakeCase(final String original) {
