@@ -2,7 +2,11 @@ package daybyquest.support.test;
 
 import static daybyquest.support.fixture.UserFixtures.ALICE;
 import static daybyquest.support.fixture.UserFixtures.BOB;
+import static daybyquest.support.fixture.UserFixtures.CHARLIE;
+import static daybyquest.support.fixture.UserFixtures.DARTH;
+import static daybyquest.support.fixture.UserFixtures.DAVID;
 
+import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.support.config.StubInfraConfig;
 import daybyquest.support.util.DatabaseCleaner;
 import daybyquest.user.domain.Users;
@@ -33,6 +37,22 @@ public class ServiceTest {
 
     protected Long BOB을_저장한다() {
         return users.save(BOB.생성()).getId();
+    }
+
+    protected Long CHARLIE를_저장한다() {
+        return users.save(CHARLIE.생성()).getId();
+    }
+
+    protected Long DAVID를_저장한다() {
+        return users.save(DAVID.생성()).getId();
+    }
+
+    protected Long DARTH를_저장한다() {
+        return users.save(DARTH.생성()).getId();
+    }
+
+    protected NoOffsetIdPage 페이지() {
+        return new NoOffsetIdPage(null, 5);
     }
 
     protected MultipartFile 사진_파일() {
