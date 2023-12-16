@@ -11,8 +11,13 @@ import daybyquest.support.config.StubInfraConfig;
 import daybyquest.support.util.DatabaseCleaner;
 import daybyquest.user.domain.Users;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.auditing.AuditingHandler;
+import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +30,17 @@ public class ServiceTest {
 
     @Autowired
     protected Users users;
+
+    @MockBean
+    protected DateTimeProvider dataTimeProvider;
+
+    @SpyBean
+    private AuditingHandler handler;
+
+    @BeforeEach
+    void setUp() {
+        handler.setDateTimeProvider(dataTimeProvider);
+    }
 
     @AfterEach
     void cleanDatabase() {
