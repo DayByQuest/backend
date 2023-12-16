@@ -3,7 +3,6 @@ package daybyquest.post.application;
 import daybyquest.post.dto.response.PostWithQuestResponse;
 import daybyquest.post.query.PostDao;
 import daybyquest.post.query.PostData;
-import daybyquest.quest.domain.Quests;
 import daybyquest.user.query.Profile;
 import daybyquest.user.query.ProfileDao;
 import org.springframework.stereotype.Service;
@@ -16,12 +15,9 @@ public class GetPostService {
 
     private final ProfileDao profileDao;
 
-    private final Quests quests;
-
-    public GetPostService(final PostDao postDao, final ProfileDao profileDao, final Quests quests) {
+    public GetPostService(final PostDao postDao, final ProfileDao profileDao) {
         this.postDao = postDao;
         this.profileDao = profileDao;
-        this.quests = quests;
     }
 
     @Transactional(readOnly = true)
