@@ -36,7 +36,7 @@ public class SaveQuestService {
     @Transactional
     public Long invoke(final SaveQuestRequest request, final List<MultipartFile> files) {
         final Quest quest = toEntity(request, toImageList(files));
-        final Long questId = quests.save(quest);
+        final Long questId = quests.save(quest).getId();
         questClient.requestLabels(questId, quest.getImages().stream().map(Image::getIdentifier).toList(),
                 quest.getImageDescription());
         return questId;

@@ -27,7 +27,7 @@ public class SaveGroupService {
     public Long invoke(final Long loginId, final SaveGroupRequest request, final MultipartFile file) {
         final Image image = imageService.convertToImage(CATEGORY, file);
         final Group group = toEntity(request, image);
-        return groups.save(loginId, group);
+        return groups.save(loginId, group).getId();
     }
 
     public Group toEntity(final SaveGroupRequest request, final Image image) {

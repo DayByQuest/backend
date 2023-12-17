@@ -27,13 +27,13 @@ public class Quests {
         this.badges = badges;
     }
 
-    public Long save(final Quest quest) {
+    public Quest save(final Quest quest) {
         if (quest.getBadgeId() != null) {
             badges.validateExistentById(quest.getBadgeId());
             validateNotExistentByBadgeId(quest.getBadgeId());
         }
         validateGroupQuest(quest);
-        return questRepository.save(quest).getId();
+        return questRepository.save(quest);
     }
 
     private void validateGroupQuest(final Quest quest) {

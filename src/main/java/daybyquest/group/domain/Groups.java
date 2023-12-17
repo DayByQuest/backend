@@ -22,12 +22,12 @@ public class Groups {
         this.interests = interests;
     }
 
-    public Long save(final Long userId, final Group group) {
+    public Group save(final Long userId, final Group group) {
         interests.validateInterest(group.getInterest());
         validateNotExistentByName(group.getName());
         final Group savedGroup = groupRepository.save(group);
         groupUsers.addUser(GroupUser.createGroupManager(userId, savedGroup));
-        return savedGroup.getId();
+        return savedGroup;
     }
 
     public void validateNotExistentByName(final String name) {
