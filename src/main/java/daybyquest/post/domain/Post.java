@@ -136,4 +136,9 @@ public class Post {
             throw new InvalidDomainException(NOT_LINKED_POST);
         }
     }
+
+    public Long getQuestId() {
+        validateQuestLink();
+        return questId;
+    }
 }

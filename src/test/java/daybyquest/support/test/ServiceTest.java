@@ -14,6 +14,7 @@ import daybyquest.interest.domain.Interests;
 import daybyquest.participant.domain.Participants;
 import daybyquest.post.domain.Posts;
 import daybyquest.quest.domain.Quests;
+import daybyquest.relation.domain.Follows;
 import daybyquest.support.config.StubInfraConfig;
 import daybyquest.support.util.DatabaseCleaner;
 import daybyquest.user.domain.User;
@@ -60,6 +61,9 @@ public class ServiceTest {
     @Autowired
     protected Interests interests;
 
+    @Autowired
+    protected Follows follows;
+
     @MockBean
     protected DateTimeProvider dataTimeProvider;
 
@@ -78,6 +82,12 @@ public class ServiceTest {
 
     protected Long 중재자_권한으로_ALICE를_저장한다() {
         final User user = ALICE.생성();
+        user.promote();
+        return users.save(user).getId();
+    }
+
+    protected Long 중재자_권한으로_BOB을_저장한다() {
+        final User user = BOB.생성();
         user.promote();
         return users.save(user).getId();
     }
