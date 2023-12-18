@@ -75,7 +75,7 @@ public class GetPostServiceTest extends ServiceTest {
     void 퀘스트_정보가_함께_조회된다() {
         // given
         final Long id = ALICE를_저장한다();
-        final Long badgeId = badges.save(BADGE_1.생성());
+        final Long badgeId = badges.save(BADGE_1.생성()).getId();
         final Quest quest = QUEST_1.일반_퀘스트_생성(badgeId);
         QUEST_1.세부사항을_설정한다(quest);
         final Long questId = quests.save(quest).getId();

@@ -22,7 +22,7 @@ public class GetPostByQuestIdServiceTest extends ServiceTest {
         final Long aliceId = ALICE를_저장한다();
         final Long bobId = BOB을_저장한다();
 
-        final Long badgeId = badges.save(BadgeFixtures.BADGE_1.생성());
+        final Long badgeId = badges.save(BadgeFixtures.BADGE_1.생성()).getId();
         final Long questId = quests.save(QUEST_1.세부사항을_설정한다(QUEST_1.일반_퀘스트_생성(badgeId))).getId();
 
         participants.saveWithUserIdAndQuestId(aliceId, questId);
