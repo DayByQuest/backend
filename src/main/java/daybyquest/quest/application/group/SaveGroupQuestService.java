@@ -43,7 +43,7 @@ public class SaveGroupQuestService {
             final List<MultipartFile> files) {
         groupUsers.validateGroupManager(loginId, request.getGroupId());
         final Quest quest = toEntity(request, toImageList(files));
-        final Long questId = quests.save(quest);
+        final Long questId = quests.save(quest).getId();
         questClient.requestLabels(questId, quest.getImages().stream().map(Image::getIdentifier).toList(),
                 quest.getImageDescription());
         return questId;

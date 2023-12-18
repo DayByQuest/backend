@@ -12,8 +12,8 @@ public class Badges {
         this.badgeRepository = badgeRepository;
     }
 
-    public void save(final Badge badge) {
-        badgeRepository.save(badge);
+    public Badge save(final Badge badge) {
+        return badgeRepository.save(badge);
     }
 
     public void validateExistentById(final Long id) {

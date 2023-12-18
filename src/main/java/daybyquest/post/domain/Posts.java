@@ -25,7 +25,7 @@ public class Posts {
 
     public Post save(final Post post) {
         users.validateExistentById(post.getUserId());
-        if (post.getQuestId() != null) {
+        if (post.isQuestLinked()) {
             participants.validateExistent(post.getUserId(), post.getQuestId());
         }
         return postRepository.save(post);

@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CheckPostService {
 
-
     private final Quests quests;
 
     private final GroupUsers groupUsers;

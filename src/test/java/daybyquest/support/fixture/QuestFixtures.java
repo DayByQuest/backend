@@ -87,12 +87,14 @@ public enum QuestFixtures {
         return Quest.createGroupQuest(group.getId(), imageDescription, 사진_목록(), group.getImage());
     }
 
-    public void 세부사항을_설정한다(final Quest quest) {
+    public Quest 세부사항을_설정한다(final Quest quest) {
         quest.setDetail(title, content, interest, expiredAt, label, rewardCount);
+        return quest;
     }
 
-    public void 보상_없이_세부사항을_설정한다(final Quest quest) {
+    public Quest 보상_없이_세부사항을_설정한다(final Quest quest) {
         quest.setDetail(title, content, interest, expiredAt, label, null);
+        return quest;
     }
 
     public List<Image> 사진_목록() {

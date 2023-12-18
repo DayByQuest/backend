@@ -42,7 +42,7 @@ public class GroupsTest {
         given(groupRepository.save(any(Group.class))).willReturn(GROUP_1.생성(groupId));
 
         // when
-        final Long actualId = groups.save(userId, GROUP_1.생성());
+        final Long actualId = groups.save(userId, GROUP_1.생성()).getId();
 
         // then
         assertAll(() -> {

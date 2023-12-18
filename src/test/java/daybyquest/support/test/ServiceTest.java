@@ -6,13 +6,27 @@ import static daybyquest.support.fixture.UserFixtures.CHARLIE;
 import static daybyquest.support.fixture.UserFixtures.DARTH;
 import static daybyquest.support.fixture.UserFixtures.DAVID;
 
+import daybyquest.badge.domain.Badges;
 import daybyquest.global.query.NoOffsetIdPage;
+import daybyquest.group.domain.GroupUsers;
+import daybyquest.group.domain.Groups;
+import daybyquest.interest.domain.Interests;
+import daybyquest.participant.domain.Participants;
+import daybyquest.post.domain.Posts;
+import daybyquest.quest.domain.Quests;
+import daybyquest.relation.domain.Follows;
 import daybyquest.support.config.StubInfraConfig;
 import daybyquest.support.util.DatabaseCleaner;
+import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.auditing.AuditingHandler;
+import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,9 +40,56 @@ public class ServiceTest {
     @Autowired
     protected Users users;
 
+    @Autowired
+    protected Posts posts;
+
+    @Autowired
+    protected Groups groups;
+
+    @Autowired
+    protected GroupUsers groupUsers;
+
+    @Autowired
+    protected Quests quests;
+
+    @Autowired
+    protected Badges badges;
+
+    @Autowired
+    protected Participants participants;
+
+    @Autowired
+    protected Interests interests;
+
+    @Autowired
+    protected Follows follows;
+
+    @MockBean
+    protected DateTimeProvider dataTimeProvider;
+
+    @SpyBean
+    private AuditingHandler handler;
+
+    @BeforeEach
+    void setUp() {
+        handler.setDateTimeProvider(dataTimeProvider);
+    }
+
     @AfterEach
     void cleanDatabase() {
         cleaner.clean();
+    }
+
+    protected Long 중재자_권한으로_ALICE를_저장한다() {
+        final User user = ALICE.생성();
+        user.promote();
+        return users.save(user).getId();
+    }
+
+    protected Long 중재자_권한으로_BOB을_저장한다() {
+        final User user = BOB.생성();
+        user.promote();
+        return users.save(user).getId();
     }
 
     protected Long ALICE를_저장한다() {

@@ -36,4 +36,4 @@ image:
     user-identifier: base.png
 
 tracker:
-  days: 60
+  days: 5
