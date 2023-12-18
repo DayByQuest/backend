@@ -6,9 +6,17 @@ import static daybyquest.support.fixture.UserFixtures.CHARLIE;
 import static daybyquest.support.fixture.UserFixtures.DARTH;
 import static daybyquest.support.fixture.UserFixtures.DAVID;
 
+import daybyquest.badge.domain.Badges;
 import daybyquest.global.query.NoOffsetIdPage;
+import daybyquest.group.domain.GroupUsers;
+import daybyquest.group.domain.Groups;
+import daybyquest.interest.domain.Interests;
+import daybyquest.participant.domain.Participants;
+import daybyquest.post.domain.Posts;
+import daybyquest.quest.domain.Quests;
 import daybyquest.support.config.StubInfraConfig;
 import daybyquest.support.util.DatabaseCleaner;
+import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +39,27 @@ public class ServiceTest {
     @Autowired
     protected Users users;
 
+    @Autowired
+    protected Posts posts;
+
+    @Autowired
+    protected Groups groups;
+
+    @Autowired
+    protected GroupUsers groupUsers;
+
+    @Autowired
+    protected Quests quests;
+
+    @Autowired
+    protected Badges badges;
+
+    @Autowired
+    protected Participants participants;
+
+    @Autowired
+    protected Interests interests;
+
     @MockBean
     protected DateTimeProvider dataTimeProvider;
 
@@ -45,6 +74,12 @@ public class ServiceTest {
     @AfterEach
     void cleanDatabase() {
         cleaner.clean();
+    }
+
+    protected Long 중재자_권한으로_ALICE를_저장한다() {
+        final User user = ALICE.생성();
+        user.promote();
+        return users.save(user).getId();
     }
 
     protected Long ALICE를_저장한다() {
