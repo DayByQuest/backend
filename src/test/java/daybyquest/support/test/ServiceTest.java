@@ -12,6 +12,7 @@ import daybyquest.group.domain.GroupUsers;
 import daybyquest.group.domain.Groups;
 import daybyquest.interest.domain.Interests;
 import daybyquest.participant.domain.Participants;
+import daybyquest.post.application.PostClient;
 import daybyquest.post.domain.Posts;
 import daybyquest.quest.domain.Quests;
 import daybyquest.relation.domain.Follows;
@@ -19,6 +20,7 @@ import daybyquest.support.config.StubInfraConfig;
 import daybyquest.support.util.DatabaseCleaner;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,9 @@ public class ServiceTest {
 
     @MockBean
     protected DateTimeProvider dataTimeProvider;
+
+    @MockBean
+    protected PostClient postClient;
 
     @SpyBean
     private AuditingHandler handler;
@@ -116,8 +121,16 @@ public class ServiceTest {
         return new NoOffsetIdPage(null, 5);
     }
 
-    protected MultipartFile 사진_파일() {
-        return new MockMultipartFile("image", "image.png",
+    protected MultipartFile 사진_파일(final String name) {
+        return new MockMultipartFile("image", name,
                 MediaType.MULTIPART_FORM_DATA_VALUE, "file content".getBytes());
+    }
+
+    protected MultipartFile 사진_파일() {
+        return 사진_파일("image.png");
+    }
+
+    protected List<MultipartFile> 사진_파일(final List<String> names) {
+        return names.stream().map(this::사진_파일).toList();
     }
 }

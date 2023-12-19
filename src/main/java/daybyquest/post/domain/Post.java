@@ -20,6 +20,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -66,7 +67,7 @@ public class Post {
     @Column(length = MAX_CONTENT_SIZE)
     private String content;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "post_image", joinColumns = @JoinColumn(name = "post_id"))
     @OrderColumn(name = "order")
     private List<Image> images;
