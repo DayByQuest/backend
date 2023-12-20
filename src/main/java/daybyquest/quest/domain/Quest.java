@@ -26,6 +26,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -92,7 +93,7 @@ public class Quest {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "quest_image", joinColumns = @JoinColumn(name = "quest_id"))
     private List<Image> images;
 

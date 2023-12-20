@@ -24,6 +24,7 @@ public class DatabaseCleaner {
                 .map(e -> convertToSnakeCase(e.getName()))
                 .collect(Collectors.toList());
         this.tableNames.add("post_image");
+        this.tableNames.add("quest_image");
     }
 
     private String convertToSnakeCase(final String original) {
