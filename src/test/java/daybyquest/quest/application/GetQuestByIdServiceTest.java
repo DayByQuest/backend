@@ -38,7 +38,7 @@ public class GetQuestByIdServiceTest extends ServiceTest {
             assertThat(response.content()).isEqualTo(QUEST_1.content);
             assertThat(response.interest()).isEqualTo(QUEST_1.interest);
             assertThat(response.rewardCount()).isEqualTo(QUEST_1.rewardCount);
-            assertThat(response.imageIdentifier()).isEqualTo(BADGE_1.imageIdentifier);
+            assertThat(response.imageIdentifier()).isEqualTo(QUEST_1.imageIdentifier);
         });
     }
 }
