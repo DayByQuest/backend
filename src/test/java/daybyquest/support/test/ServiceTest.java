@@ -14,6 +14,7 @@ import daybyquest.interest.domain.Interests;
 import daybyquest.participant.domain.Participants;
 import daybyquest.post.application.PostClient;
 import daybyquest.post.domain.Posts;
+import daybyquest.quest.application.QuestClient;
 import daybyquest.quest.domain.Quests;
 import daybyquest.relation.domain.Follows;
 import daybyquest.support.config.StubInfraConfig;
@@ -69,8 +70,11 @@ public class ServiceTest {
     @MockBean
     protected DateTimeProvider dataTimeProvider;
 
-    @MockBean
+    @SpyBean
     protected PostClient postClient;
+
+    @SpyBean
+    protected QuestClient questClient;
 
     @SpyBean
     private AuditingHandler handler;
