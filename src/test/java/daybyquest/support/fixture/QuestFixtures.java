@@ -73,6 +73,12 @@ public enum QuestFixtures {
         return Quest.createNormalQuest(badge.getId(), imageDescription, 사진_목록(), badge.getImage());
     }
 
+    public Quest 세부사항이_설정된_일반_퀘스트_생성(final Long badgeId) {
+        final Quest quest = 일반_퀘스트_생성(null, badgeId);
+        세부사항을_설정한다(quest);
+        return quest;
+    }
+
     public Quest 그룹_퀘스트_생성(final Long id, final Long groupId) {
         final Quest quest = Quest.createGroupQuest(groupId, imageDescription, 사진_목록(), 사진());
         ReflectionTestUtils.setField(quest, "id", id);

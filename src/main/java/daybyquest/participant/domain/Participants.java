@@ -13,6 +13,7 @@ import daybyquest.quest.domain.Quests;
 import daybyquest.user.domain.User;
 import daybyquest.user.domain.Users;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class Participants {
@@ -85,6 +86,7 @@ public class Participants {
         }
     }
 
+    @Transactional
     public void increaseLinkedCount(final Long userId, final Long questId) {
         final Participant participant = getByUserIdAndQuestId(userId, questId);
         participant.increaseLinkedCount();

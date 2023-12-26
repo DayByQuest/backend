@@ -7,6 +7,7 @@ import static daybyquest.support.fixture.UserFixtures.DARTH;
 import static daybyquest.support.fixture.UserFixtures.DAVID;
 
 import daybyquest.badge.domain.Badges;
+import daybyquest.badge.domain.Ownings;
 import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.group.domain.GroupUsers;
 import daybyquest.group.domain.Groups;
@@ -67,6 +68,9 @@ public class ServiceTest {
     @Autowired
     protected Follows follows;
 
+    @Autowired
+    protected Ownings ownings;
+
     @MockBean
     protected DateTimeProvider dataTimeProvider;
 
@@ -119,6 +123,12 @@ public class ServiceTest {
 
     protected Long DARTH를_저장한다() {
         return users.save(DARTH.생성()).getId();
+    }
+
+    protected void 퀘스트를_수행한다(final Long userId, final Long qusetId, final Long count) {
+        for (int index = 1; index <= count; index++) {
+            participants.increaseLinkedCount(userId, qusetId);
+        }
     }
 
     protected NoOffsetIdPage 페이지() {
