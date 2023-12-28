@@ -10,7 +10,8 @@ public enum InterestFixtures {
     INTEREST_2("관심사2", "관심사사진2"),
     INTEREST_3("관심사3", "관심사사진3"),
     INTEREST_4("관심사4", "관심사사진4"),
-    INTEREST("관심사", "관심사사진");
+    INTEREST("관심사", "관심사사진"),
+    ANOTHER_INTEREST("다른관심사", "다른관심사사진");
 
     public final String name;
 
