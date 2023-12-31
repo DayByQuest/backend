@@ -2,6 +2,7 @@ package daybyquest.badge.application;
 
 import daybyquest.badge.domain.Badge;
 import daybyquest.badge.domain.Badges;
+import daybyquest.badge.dto.request.SaveBadgeRequest;
 import daybyquest.image.application.ImageService;
 import daybyquest.image.domain.Image;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,9 @@ public class SaveBadgeService {
     }
 
     @Transactional
-    public void invoke(final String name, final MultipartFile file) {
+    public Long invoke(final SaveBadgeRequest request, final MultipartFile file) {
         final Image image = imageService.convertToImage(CATEGORY, file);
-        final Badge badge = new Badge(name, image);
-        badges.save(badge);
+        final Badge badge = new Badge(request.getName(), image);
+        return badges.save(badge).getId();
     }
 }
