@@ -8,7 +8,9 @@ import static daybyquest.support.fixture.UserFixtures.DAVID;
 
 import daybyquest.badge.domain.Badges;
 import daybyquest.badge.domain.Ownings;
+import daybyquest.comment.domain.Comments;
 import daybyquest.global.query.NoOffsetIdPage;
+import daybyquest.global.query.NoOffsetTimePage;
 import daybyquest.group.domain.GroupUsers;
 import daybyquest.group.domain.Groups;
 import daybyquest.interest.domain.Interests;
@@ -70,6 +72,9 @@ public class ServiceTest {
 
     @Autowired
     protected Ownings ownings;
+
+    @Autowired
+    protected Comments comments;
 
     @MockBean
     protected DateTimeProvider dataTimeProvider;
@@ -133,6 +138,10 @@ public class ServiceTest {
 
     protected NoOffsetIdPage 페이지() {
         return new NoOffsetIdPage(null, 5);
+    }
+
+    protected NoOffsetTimePage 시간_페이지() {
+        return new NoOffsetTimePage(null, 5);
     }
 
     protected MultipartFile 사진_파일(final String name) {
