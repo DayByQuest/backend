@@ -1,5 +1,6 @@
 package daybyquest.comment.domain;
 
+import daybyquest.global.error.exception.NotExistCommentException;
 import daybyquest.post.domain.Posts;
 import daybyquest.user.domain.Users;
 import org.springframework.stereotype.Component;
@@ -19,9 +20,13 @@ public class Comments {
         this.posts = posts;
     }
 
-    public void save(final Comment comment) {
+    public Comment save(final Comment comment) {
         users.validateExistentById(comment.getUserId());
         posts.validateExistentById(comment.getPostId());
-        commentRepository.save(comment);
+        return commentRepository.save(comment);
+    }
+
+    public Comment getById(final Long id) {
+        return commentRepository.findById(id).orElseThrow(NotExistCommentException::new);
     }
 }
