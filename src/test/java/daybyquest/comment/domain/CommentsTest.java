@@ -35,7 +35,7 @@ public class CommentsTest {
         final Long postId = 2L;
 
         // when
-        comments.save(댓글_1.생성(userId, postId));
+        comments.save(댓글_1.생성(postId, userId));
 
         // then
         assertAll(() -> {
