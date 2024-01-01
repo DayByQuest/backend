@@ -8,13 +8,19 @@ import static daybyquest.support.fixture.UserFixtures.DAVID;
 
 import daybyquest.badge.domain.Badges;
 import daybyquest.badge.domain.Ownings;
+import daybyquest.comment.domain.Comments;
+import daybyquest.dislike.domain.PostDislikes;
 import daybyquest.global.query.NoOffsetIdPage;
+import daybyquest.global.query.NoOffsetTimePage;
 import daybyquest.group.domain.GroupUsers;
 import daybyquest.group.domain.Groups;
 import daybyquest.interest.domain.Interests;
+import daybyquest.like.domain.PostLikes;
 import daybyquest.participant.domain.Participants;
 import daybyquest.post.application.PostClient;
 import daybyquest.post.domain.Posts;
+import daybyquest.profile.domain.ProfileSetting;
+import daybyquest.profile.domain.ProfileSettings;
 import daybyquest.quest.application.QuestClient;
 import daybyquest.quest.domain.Quests;
 import daybyquest.relation.domain.Follows;
@@ -71,6 +77,18 @@ public class ServiceTest {
     @Autowired
     protected Ownings ownings;
 
+    @Autowired
+    protected Comments comments;
+
+    @Autowired
+    protected PostLikes postLikes;
+
+    @Autowired
+    protected PostDislikes postDislikes;
+
+    @Autowired
+    protected ProfileSettings profileSettings;
+
     @MockBean
     protected DateTimeProvider dataTimeProvider;
 
@@ -92,7 +110,7 @@ public class ServiceTest {
     void cleanDatabase() {
         cleaner.clean();
     }
-
+    
     protected Long 중재자_권한으로_ALICE를_저장한다() {
         final User user = ALICE.생성();
         user.promote();
@@ -106,7 +124,9 @@ public class ServiceTest {
     }
 
     protected Long ALICE를_저장한다() {
-        return users.save(ALICE.생성()).getId();
+        final Long id = users.save(ALICE.생성()).getId();
+        profileSettings.save(new ProfileSetting(id));
+        return id;
     }
 
     protected Long BOB을_저장한다() {
@@ -133,6 +153,10 @@ public class ServiceTest {
 
     protected NoOffsetIdPage 페이지() {
         return new NoOffsetIdPage(null, 5);
+    }
+
+    protected NoOffsetTimePage 시간_페이지() {
+        return new NoOffsetTimePage(null, 5);
     }
 
     protected MultipartFile 사진_파일(final String name) {

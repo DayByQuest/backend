@@ -22,7 +22,7 @@ public enum CommentFixtures {
     }
 
     public Comment 생성(final Long id, final Long postId, final Long userId) {
-        final Comment comment = new Comment(postId, userId, content);
+        final Comment comment = new Comment(userId, postId, content);
         ReflectionTestUtils.setField(comment, "id", id);
         return comment;
     }

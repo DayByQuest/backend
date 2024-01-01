@@ -25,7 +25,7 @@ public class BadgeCommandApi {
     public ResponseEntity<Void> saveBadge(final AccessUser user,
             @RequestPart("image") final MultipartFile image,
             @RequestPart("request") @Valid final SaveBadgeRequest request) {
-        saveBadgeService.invoke(request.getName(), image);
+        saveBadgeService.invoke(request, image);
         return ResponseEntity.ok().build();
     }
 }

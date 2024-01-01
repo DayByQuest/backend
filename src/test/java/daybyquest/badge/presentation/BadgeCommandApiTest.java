@@ -2,7 +2,6 @@ package daybyquest.badge.presentation;
 
 import static daybyquest.support.fixture.BadgeFixtures.BADGE_1;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
@@ -50,7 +49,7 @@ public class BadgeCommandApiTest extends ApiTest {
                         requestParts(partWithName("image").description("사진"),
                                 partWithName("request").description("요청")))
                 );
-        then(saveBadgeService).should().invoke(eq(BADGE_1.name), any());
+        then(saveBadgeService).should().invoke(any(), any());
     }
 
     private SaveBadgeRequest 뱃지_생성_요청(final Badge badge) {

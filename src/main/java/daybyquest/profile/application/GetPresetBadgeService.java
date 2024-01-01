@@ -28,8 +28,7 @@ public class GetPresetBadgeService {
     @Transactional(readOnly = true)
     public MultipleBadgesResponse invoke(final String username) {
         final Long userId = users.getUserIdByUsername(username);
-        final List<Long> badgeIds = profileSettings.getById(userId).getBadgeIds();
-        final List<BadgeResponse> responses = badgeDao.findAllByIdIn(badgeIds)
+        final List<BadgeResponse> responses = badgeDao.findAllByIdIn(profileSettings.getBadgeIdsById(userId))
                 .stream().map(BadgeResponse::of).toList();
         return new MultipleBadgesResponse(responses);
     }
