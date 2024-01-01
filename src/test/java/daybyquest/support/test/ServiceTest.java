@@ -9,11 +9,13 @@ import static daybyquest.support.fixture.UserFixtures.DAVID;
 import daybyquest.badge.domain.Badges;
 import daybyquest.badge.domain.Ownings;
 import daybyquest.comment.domain.Comments;
+import daybyquest.dislike.domain.PostDislikes;
 import daybyquest.global.query.NoOffsetIdPage;
 import daybyquest.global.query.NoOffsetTimePage;
 import daybyquest.group.domain.GroupUsers;
 import daybyquest.group.domain.Groups;
 import daybyquest.interest.domain.Interests;
+import daybyquest.like.domain.PostLikes;
 import daybyquest.participant.domain.Participants;
 import daybyquest.post.application.PostClient;
 import daybyquest.post.domain.Posts;
@@ -75,6 +77,12 @@ public class ServiceTest {
 
     @Autowired
     protected Comments comments;
+
+    @Autowired
+    protected PostLikes postLikes;
+
+    @Autowired
+    protected PostDislikes postDislikes;
 
     @MockBean
     protected DateTimeProvider dataTimeProvider;
