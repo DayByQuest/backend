@@ -1,7 +1,9 @@
 package daybyquest.profile.domain;
 
 import daybyquest.global.error.exception.NotExistUserException;
+import java.util.List;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class ProfileSettings {
@@ -18,5 +20,10 @@ public class ProfileSettings {
 
     public ProfileSetting getById(final Long userId) {
         return profileSettingRepository.findByUserId(userId).orElseThrow(NotExistUserException::new);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> getBadgeIdsById(final Long userId) {
+        return getById(userId).getBadgeIds();
     }
 }
